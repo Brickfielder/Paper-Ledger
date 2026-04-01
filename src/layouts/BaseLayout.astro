@@ -11,7 +11,9 @@ const {
   description = "A searchable archive of scientific paper summaries.",
 } = Astro.props;
 
-const baseUrl = import.meta.env.BASE_URL;
+const basePath = import.meta.env.BASE_URL.endsWith("/")
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
 ---
 
 <!doctype html>
@@ -25,15 +27,15 @@ const baseUrl = import.meta.env.BASE_URL;
   <body>
     <header class="site-header">
       <div class="shell site-header__row">
-        <a class="brand" href={baseUrl}>
+        <a class="brand" href={basePath}>
           <span class="brand__mark">Research</span>
           <span class="brand__name">Paper Ledger</span>
         </a>
 
         <nav class="site-nav" aria-label="Primary">
-          <a href={baseUrl}>Latest</a>
-          <a href={`${baseUrl}#workflow`}>Workflow</a>
-          <a href={`${baseUrl}#tags`}>Tags</a>
+          <a href={basePath}>Latest</a>
+          <a href={`${basePath}#workflow`}>Workflow</a>
+          <a href={`${basePath}#tags`}>Tags</a>
         </nav>
       </div>
     </header>
