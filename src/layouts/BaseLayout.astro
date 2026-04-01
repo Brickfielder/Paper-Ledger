@@ -1,0 +1,49 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Paper Ledger",
+  description = "A searchable archive of scientific paper summaries.",
+} = Astro.props;
+
+const baseUrl = import.meta.env.BASE_URL;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="shell site-header__row">
+        <a class="brand" href={baseUrl}>
+          <span class="brand__mark">Research</span>
+          <span class="brand__name">Paper Ledger</span>
+        </a>
+
+        <nav class="site-nav" aria-label="Primary">
+          <a href={baseUrl}>Latest</a>
+          <a href={`${baseUrl}#workflow`}>Workflow</a>
+          <a href={`${baseUrl}#tags`}>Tags</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="shell">
+      <slot />
+    </main>
+
+    <footer class="shell footer">
+      Built for low-friction capture: drop a DOI or article URL into `inbox/`, let automation do the rest.
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,53 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const papers = await getCollection("papers", ({ data }) => !data.draft);
+  const tags = [...new Set(papers.flatMap((paper) => paper.data.tags))];
+
+  return tags.map((tag) => ({ params: { tag } }));
+}
+
+const { tag } = Astro.params;
+const baseUrl = import.meta.env.BASE_URL;
+
+const papers = (await getCollection("papers", ({ data }) => !data.draft))
+  .filter((paper) => paper.data.tags.includes(tag!))
+  .sort((a, b) => b.data.capturedAt.getTime() - a.data.capturedAt.getTime());
+
+const formatDate = (date: Date) =>
+  new Intl.DateTimeFormat("en", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  }).format(date);
+---
+
+<BaseLayout title={`${tag} | Paper Ledger`} description={`Paper summaries tagged ${tag}.`}>
+  <section class="section">
+    <p class="eyebrow">Tag Archive</p>
+    <h1 class="page-title">{tag}</h1>
+    <p class="page-intro">
+      {papers.length} {papers.length === 1 ? "paper summary" : "paper summaries"} filed under this tag.
+    </p>
+  </section>
+
+  <section class="section">
+    <ol class="paper-list">
+      {papers.map((paper) => (
+        <li class="paper-item">
+          <a href={`${baseUrl}papers/${paper.slug}/`}>
+            <h3>{paper.data.title}</h3>
+          </a>
+          <p>{paper.data.summary}</p>
+          <div class="paper-meta">
+            <span>{formatDate(paper.data.capturedAt)}</span>
+            {paper.data.year && <span>{paper.data.year}</span>}
+            <span>{paper.data.sourceHost}</span>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+</BaseLayout>

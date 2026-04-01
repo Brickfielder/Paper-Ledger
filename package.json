@@ -1,0 +1,26 @@
+{
+  "name": "web-blog",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node ./node_modules/astro/astro.js dev",
+    "start": "node ./node_modules/astro/astro.js dev",
+    "build": "node ./node_modules/astro/astro.js build",
+    "preview": "node ./node_modules/astro/astro.js preview",
+    "process:inbox": "node ./scripts/process-inbox.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "description": "Portable scientific paper digest blog with scheduled inbox processing.",
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.2",
+    "@mozilla/readability": "^0.6.0",
+    "astro": "^5.18.1",
+    "gray-matter": "^4.0.3",
+    "jsdom": "^29.0.1",
+    "openai": "^6.33.0",
+    "slugify": "^1.6.8",
+    "zod": "^4.3.6"
+  }
+}

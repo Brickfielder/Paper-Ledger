@@ -1,0 +1,84 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const papers = await getCollection("papers", ({ data }) => !data.draft);
+
+  return papers.map((paper) => ({
+    params: { slug: paper.slug },
+    props: { paper },
+  }));
+}
+
+const { paper } = Astro.props;
+const { Content } = await render(paper);
+const baseUrl = import.meta.env.BASE_URL;
+
+const formatDate = (date: Date) =>
+  new Intl.DateTimeFormat("en", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).format(date);
+---
+
+<BaseLayout title={`${paper.data.title} | Paper Ledger`} description={paper.data.summary}>
+  <section class="section">
+    <div class="paper-grid">
+      <article class="paper-header">
+        <p class="eyebrow">Paper Summary</p>
+        <h1>{paper.data.title}</h1>
+        <p class="lede">{paper.data.summary}</p>
+
+        <div class="paper-meta">
+          <span>{formatDate(paper.data.capturedAt)}</span>
+          {paper.data.year && <span>{paper.data.year}</span>}
+          {paper.data.journal && <span>{paper.data.journal}</span>}
+        </div>
+
+        <div class="paper-meta">
+          {paper.data.tags.map((tag) => (
+            <a class="tag" href={`${baseUrl}tags/${tag}/`}>
+              {tag}
+            </a>
+          ))}
+        </div>
+
+        <div class="prose">
+          <Content />
+        </div>
+      </article>
+
+      <aside class="meta-panel">
+        <h2>Paper Details</h2>
+        <ul class="meta-list">
+          <li>
+            <span class="meta-label">Authors</span>
+            <span>{paper.data.authors.length > 0 ? paper.data.authors.join(", ") : "Not captured"}</span>
+          </li>
+          <li>
+            <span class="meta-label">Source</span>
+            <a href={paper.data.sourceUrl} target="_blank" rel="noreferrer">
+              {paper.data.sourceHost}
+            </a>
+          </li>
+          <li>
+            <span class="meta-label">DOI</span>
+            {paper.data.doi ? (
+              <a href={`https://doi.org/${paper.data.doi}`} target="_blank" rel="noreferrer">
+                {paper.data.doi}
+              </a>
+            ) : (
+              <span>Not available</span>
+            )}
+          </li>
+          <li>
+            <span class="meta-label">Why It Matters</span>
+            <span>{paper.data.whyItMatters}</span>
+          </li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
