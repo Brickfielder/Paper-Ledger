@@ -33,16 +33,10 @@ const client = process.env.OPENAI_API_KEY ? new OpenAI({ apiKey: process.env.OPE
 
 await fs.mkdir(ARCHIVE_DIR, { recursive: true });
 await fs.mkdir(PAPERS_DIR, { recursive: true });
-
-if (!client) {
-  console.error("OPENAI_API_KEY is not set. Inbox processing skipped.");
-  process.exit(0);
-}
-
-const existingEntries = await readExistingEntries();
 const inboxFiles = (await fs.readdir(INBOX_DIR, { withFileTypes: true }))
   .filter((entry) => entry.isFile())
   .filter((entry) => !entry.name.startsWith("."))
+  .filter((entry) => !/^readme\./i.test(entry.name))
   .filter((entry) => [".txt", ".md", ".url"].includes(path.extname(entry.name).toLowerCase()))
   .slice(0, MAX_ITEMS);
 
@@ -50,6 +44,14 @@ if (inboxFiles.length === 0) {
   console.log("Inbox is empty.");
   process.exit(0);
 }
+
+if (!client) {
+  console.error("OPENAI_API_KEY is not set. Cannot process inbox items.");
+  process.exit(1);
+}
+
+const existingEntries = await readExistingEntries();
+const failures = [];
 
 for (const entry of inboxFiles) {
   const absolutePath = path.join(INBOX_DIR, entry.name);
@@ -107,8 +109,20 @@ for (const entry of inboxFiles) {
 
     console.log(`Created ${path.relative(ROOT, outputPath)}.`);
   } catch (error) {
-    console.error(`Failed to process ${entry.name}:`, error instanceof Error ? error.message : error);
+    const message = formatError(error);
+    failures.push({ name: entry.name, message });
+    console.error(`Failed to process ${entry.name}:`, message);
   }
+}
+
+if (failures.length > 0) {
+  console.error(`Inbox processing failed for ${failures.length} item(s).`);
+
+  for (const failure of failures) {
+    console.error(`- ${failure.name}: ${failure.message}`);
+  }
+
+  process.exit(1);
 }
 
 async function readExistingEntries() {
@@ -470,4 +484,26 @@ function extractJson(value) {
   }
 
   return JSON.parse(value.slice(start, end + 1));
+}
+
+function formatError(error) {
+  if (!(error instanceof Error)) {
+    return String(error);
+  }
+
+  const details = [];
+
+  if ("status" in error && typeof error.status === "number") {
+    details.push(`status ${error.status}`);
+  }
+
+  if ("code" in error && typeof error.code === "string") {
+    details.push(`code ${error.code}`);
+  }
+
+  if ("request_id" in error && typeof error.request_id === "string") {
+    details.push(`request ${error.request_id}`);
+  }
+
+  return details.length > 0 ? `${error.message} (${details.join(", ")})` : error.message;
 }
