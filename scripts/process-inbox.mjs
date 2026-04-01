@@ -315,11 +315,11 @@ async function generateSummary({ capture, sourceProfile }) {
     "Return strict JSON only with these keys:",
     '{"title":"string","summary":"string","whyItMatters":"string","tags":["string"],"keyTakeaways":["string"],"authors":["string"],"year":2024,"doi":"string|null","sourceUrl":"https://...","journal":"string|null"}',
     "Rules:",
-    "- Summary should be 5-7 sentences, clear and non-hypey.",
+    "- Summary should be 12-14 sentences, clear and non-hypey.",
     "- Summary should explain the setup, the main finding, and the most important methodological detail or limitation when available.",
     "- whyItMatters should be 2-3 sentences in plain language.",
     "- tags should be short, lowercase, and specific.",
-    "- keyTakeaways should be 3-4 bullet-sized lines.",
+    "- keyTakeaways should be 4-5 bullet-sized lines.",
     "- Preserve the DOI if one is available.",
     "- Preserve the original source URL.",
     "- Prefer the supplied metadata over guessing.",
@@ -342,7 +342,7 @@ async function generateSummary({ capture, sourceProfile }) {
   const response = await client.responses.create({
     model: MODEL,
     reasoning: { effort: "low" },
-    max_output_tokens: 1600,
+    max_output_tokens: 2400,
     input: prompt,
   });
 
