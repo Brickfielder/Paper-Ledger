@@ -73,7 +73,7 @@ for (const entry of inboxFiles) {
     });
 
     const slug = await buildUniqueSlug(generated.title);
-    const frontmatter = {
+    const frontmatter = omitUndefined({
       title: generated.title,
       summary: generated.summary,
       whyItMatters: generated.whyItMatters,
@@ -86,7 +86,7 @@ for (const entry of inboxFiles) {
       journal: generated.journal || sourceProfile.journal || undefined,
       capturedAt: new Date().toISOString(),
       draft: !AUTO_PUBLISH,
-    };
+    });
 
     const body = buildMarkdownBody({
       summary: generated.summary,
@@ -484,6 +484,10 @@ function extractJson(value) {
   }
 
   return JSON.parse(value.slice(start, end + 1));
+}
+
+function omitUndefined(value) {
+  return Object.fromEntries(Object.entries(value).filter(([, entry]) => entry !== undefined));
 }
 
 function formatError(error) {
