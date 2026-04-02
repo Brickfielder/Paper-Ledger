@@ -37,6 +37,14 @@ npm run dev
 npm run process:inbox
 ```
 
+If you need to rerun extraction/summarization for a DOI or URL that already exists in `src/content/papers/`, add it to `inbox/` again and run:
+
+```bash
+npm run process:inbox:force
+```
+
+`process:inbox:force` removes the existing matching paper entry (same DOI or source URL) and regenerates it from the new extraction pass.
+
 ## Inbox usage
 
 Add a small text file to `inbox/`. The file can be as short as a DOI or a URL.
