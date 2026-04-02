@@ -11,12 +11,14 @@ import { z } from "zod";
 const ROOT = process.cwd();
 const INBOX_DIR = path.join(ROOT, "inbox");
 const ARCHIVE_DIR = path.join(INBOX_DIR, "archive");
+const REVIEW_DIR = path.join(INBOX_DIR, "review");
 const PAPERS_DIR = path.join(ROOT, "src", "content", "papers");
 const MODEL = process.env.OPENAI_MODEL || "gpt-5.4-mini";
 const AUTO_PUBLISH = process.env.AUTO_PUBLISH !== "false";
+const ALLOW_METADATA_ONLY = process.env.ALLOW_METADATA_ONLY === "true";
 const FORCE_REPROCESS = process.env.FORCE_REPROCESS === "true";
 const MAX_INPUT_CHARS = Number(process.env.MAX_INPUT_CHARS || 16000);
-const MAX_ITEMS = Number(process.env.MAX_INBOX_ITEMS || 5);
+const MAX_ITEMS = Number(process.env.MAX_INBOX_ITEMS || 20);
 
 const summarySchema = z.object({
   title: z.string().min(1),
@@ -34,6 +36,7 @@ const summarySchema = z.object({
 const client = process.env.OPENAI_API_KEY ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY }) : null;
 
 await fs.mkdir(ARCHIVE_DIR, { recursive: true });
+await fs.mkdir(REVIEW_DIR, { recursive: true });
 await fs.mkdir(PAPERS_DIR, { recursive: true });
 const inboxFiles = (await fs.readdir(INBOX_DIR, { withFileTypes: true }))
   .filter((entry) => entry.isFile())
@@ -54,6 +57,7 @@ if (!client) {
 
 const existingEntries = await readExistingEntries();
 const failures = [];
+const deferred = [];
 
 for (const entry of inboxFiles) {
   const absolutePath = path.join(INBOX_DIR, entry.name);
@@ -62,6 +66,19 @@ for (const entry of inboxFiles) {
   try {
     const capture = await parseCaptureFile(absolutePath);
     const sourceProfile = await buildSourceProfile(capture);
+
+    if (sourceProfile.sourceContext === "metadata-only" && !ALLOW_METADATA_ONLY) {
+      const reviewPath = await moveToReview(absolutePath, "metadata-only");
+      const message =
+        "Skipped publishing because no abstract or readable full text could be retrieved. Capture moved to review.";
+      deferred.push({
+        name: entry.name,
+        message,
+        reviewPath,
+      });
+      console.warn(`${message} (${path.relative(ROOT, reviewPath)})`);
+      continue;
+    }
 
     const duplicate = findDuplicateEntry(existingEntries, sourceProfile);
     if (duplicate) {
@@ -142,6 +159,14 @@ if (failures.length > 0) {
   }
 
   process.exit(1);
+}
+
+if (deferred.length > 0) {
+  console.warn(`Deferred ${deferred.length} item(s) to inbox/review for manual follow-up.`);
+
+  for (const item of deferred) {
+    console.warn(`- ${item.name}: ${item.message}`);
+  }
 }
 
 async function readExistingEntries() {
@@ -231,19 +256,26 @@ async function buildSourceProfile(capture) {
   const pageDoi = page?.doi ? normalizeDoi(page.doi) : null;
   const doi = crossref?.doi || pageDoi || initialDoi || null;
   const enrichedCrossref = !crossref && doi ? await fetchCrossref(doi) : crossref;
-  const sourceUrl = page?.sourceUrl || initialSourceUrl || (doi ? `https://doi.org/${doi}` : null);
-  const abstract = cleanAbstract(enrichedCrossref?.abstract || "");
-  const bodyText = page?.bodyText || "";
+  const openAlex = doi ? await fetchOpenAlex(doi) : null;
+  const fallbackPage =
+    needsFallbackFullText(page?.bodyText) && openAlex
+      ? await fetchOpenAccessFallbackPage(openAlex, [initialSourceUrl, page?.sourceUrl].filter(Boolean))
+      : null;
+  const bestPage = chooseBestPage(page, fallbackPage);
+  const sourceUrl =
+    page?.sourceUrl || initialSourceUrl || openAlex?.landingPageUrl || fallbackPage?.sourceUrl || (doi ? `https://doi.org/${doi}` : null);
+  const abstract = cleanAbstract(enrichedCrossref?.abstract || openAlex?.abstract || "");
+  const bodyText = collapseWhitespace(bestPage?.bodyText || "").slice(0, MAX_INPUT_CHARS);
 
   if (!sourceUrl) {
     throw new Error("Could not determine a source URL.");
   }
 
   return {
-    title: enrichedCrossref?.title || page?.title || "Untitled paper",
-    authors: dedupeTextArray(enrichedCrossref?.authors || []),
-    year: enrichedCrossref?.year || undefined,
-    journal: enrichedCrossref?.journal || undefined,
+    title: enrichedCrossref?.title || openAlex?.title || bestPage?.title || "Untitled paper",
+    authors: dedupeTextArray(enrichedCrossref?.authors || openAlex?.authors || []),
+    year: enrichedCrossref?.year || openAlex?.year || undefined,
+    journal: enrichedCrossref?.journal || openAlex?.journal || undefined,
     abstract,
     bodyText,
     sourceContext: classifySourceContext({ abstract, bodyText }),
@@ -284,6 +316,40 @@ async function fetchCrossref(doi) {
   }
 }
 
+async function fetchOpenAlex(doi) {
+  try {
+    const response = await fetch(`https://api.openalex.org/works/https://doi.org/${encodeURIComponent(doi)}`, {
+      headers: {
+        "user-agent": "Paper Ledger Bot/1.0 (mailto:no-reply@example.com)",
+      },
+    });
+
+    if (!response.ok) {
+      return null;
+    }
+
+    const work = await response.json();
+
+    return {
+      title: work.title || null,
+      abstract: reconstructOpenAlexAbstract(work.abstract_inverted_index || null),
+      journal: work.primary_location?.source?.display_name || null,
+      year: typeof work.publication_year === "number" ? work.publication_year : null,
+      authors: Array.isArray(work.authorships)
+        ? work.authorships.map((entry) => entry.author?.display_name).filter(Boolean)
+        : [],
+      landingPageUrl: work.best_oa_location?.landing_page_url || work.primary_location?.landing_page_url || null,
+      locations: dedupeLocations(
+        [work.best_oa_location, work.primary_location, ...(Array.isArray(work.locations) ? work.locations : [])]
+          .filter(Boolean)
+          .flatMap((location) => [location.pdf_url, location.landing_page_url].filter(Boolean)),
+      ),
+    };
+  } catch {
+    return null;
+  }
+}
+
 async function fetchReadablePage(url) {
   try {
     const response = await fetch(url, {
@@ -298,7 +364,7 @@ async function fetchReadablePage(url) {
     }
 
     const contentType = response.headers.get("content-type") || "";
-    if (contentType.includes("application/pdf")) {
+    if (contentType.includes("application/pdf") || response.url.toLowerCase().includes(".pdf")) {
       const pdfBuffer = Buffer.from(await response.arrayBuffer());
       const pdfText = collapseWhitespace(extractTextFromPdfBuffer(pdfBuffer)).slice(0, MAX_INPUT_CHARS);
 
@@ -349,6 +415,51 @@ async function fetchReadablePage(url) {
   } catch {
     return null;
   }
+}
+
+async function fetchOpenAccessFallbackPage(openAlex, ignoreUrls = []) {
+  const ignored = new Set(
+    ignoreUrls
+      .filter(Boolean)
+      .flatMap((url) => {
+        try {
+          return [normalizeUrl(url)];
+        } catch {
+          return [];
+        }
+      }),
+  );
+  let bestCandidate = null;
+
+  for (const candidateUrl of openAlex.locations || []) {
+    let normalized = null;
+
+    try {
+      normalized = normalizeUrl(candidateUrl);
+    } catch {
+      continue;
+    }
+
+    if (ignored.has(normalized)) {
+      continue;
+    }
+
+    const candidate = await fetchReadablePage(candidateUrl);
+
+    if (!candidate) {
+      continue;
+    }
+
+    if (!bestCandidate || scorePage(candidate) > scorePage(bestCandidate)) {
+      bestCandidate = candidate;
+    }
+
+    if (hasFullText(candidate.bodyText)) {
+      return candidate;
+    }
+  }
+
+  return bestCandidate;
 }
 
 function resolvePdfUrl(document, baseUrl) {
@@ -490,6 +601,7 @@ async function generateSummary({ capture, sourceProfile }) {
     "- Preserve the DOI if one is available.",
     "- Preserve the original source URL.",
     "- Prefer the supplied metadata over guessing.",
+    "- Do not invent quantitative results, datasets, or implementation details that are not supported by the supplied abstract or article text.",
     "",
     `Capture notes: ${capture.notes || "none"}`,
     `Known title: ${sourceProfile.title}`,
@@ -497,6 +609,7 @@ async function generateSummary({ capture, sourceProfile }) {
     `Known year: ${sourceProfile.year || "unknown"}`,
     `Known journal: ${sourceProfile.journal || "unknown"}`,
     `Known DOI: ${sourceProfile.doi || "none"}`,
+    `Source context: ${sourceProfile.sourceContext}`,
     `Source URL: ${sourceProfile.sourceUrl}`,
     "",
     "Abstract:",
@@ -544,7 +657,7 @@ function buildMarkdownBody({ summary, whyItMatters, keyTakeaways, sourceUrl, doi
     "",
     "## Key Takeaways",
     "",
-    ...keyTakeaways.map((item) => `- ${item}`),
+    ...keyTakeaways.map((item) => `- ${normalizeTakeaway(item)}`),
     "",
     "## Source",
     "",
@@ -560,7 +673,7 @@ function buildMarkdownBody({ summary, whyItMatters, keyTakeaways, sourceUrl, doi
 }
 
 function classifySourceContext({ abstract, bodyText }) {
-  if (bodyText) {
+  if (hasFullText(bodyText)) {
     return "fulltext";
   }
 
@@ -569,6 +682,26 @@ function classifySourceContext({ abstract, bodyText }) {
   }
 
   return "metadata-only";
+}
+
+function needsFallbackFullText(bodyText) {
+  return !hasFullText(bodyText);
+}
+
+function hasFullText(bodyText) {
+  if (!bodyText) {
+    return false;
+  }
+
+  return collapseWhitespace(bodyText).length >= 1500;
+}
+
+function chooseBestPage(...pages) {
+  return pages.filter(Boolean).sort((left, right) => scorePage(right) - scorePage(left))[0] || null;
+}
+
+function scorePage(page) {
+  return (collapseWhitespace(page?.bodyText || "").length || 0) + (page?.title ? 100 : 0);
 }
 
 function findDuplicateEntry(existingEntries, sourceProfile) {
@@ -596,6 +729,15 @@ async function archiveFile(originalPath) {
   const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
   const archivePath = path.join(ARCHIVE_DIR, `${parsed.name}-${timestamp}${parsed.ext}`);
   await fs.rename(originalPath, archivePath);
+}
+
+async function moveToReview(originalPath, reason) {
+  const parsed = path.parse(originalPath);
+  const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+  const suffix = slugify(reason, { lower: true, strict: true, trim: true }) || "review";
+  const reviewPath = path.join(REVIEW_DIR, `${parsed.name}-${suffix}-${timestamp}${parsed.ext}`);
+  await fs.rename(originalPath, reviewPath);
+  return reviewPath;
 }
 
 async function buildUniqueSlug(title) {
@@ -634,6 +776,10 @@ function dedupeTextArray(values) {
   return [...new Set(values.map((value) => collapseWhitespace(String(value))).filter(Boolean))];
 }
 
+function dedupeLocations(values) {
+  return [...new Set(values.map((value) => String(value).trim()).filter(Boolean))];
+}
+
 function normalizeUrl(value) {
   const url = new URL(value);
   url.hash = "";
@@ -669,8 +815,32 @@ function cleanAbstract(value) {
   return collapseWhitespace(value.replace(/<[^>]+>/g, " ")).slice(0, 5000);
 }
 
+function reconstructOpenAlexAbstract(index) {
+  if (!index || typeof index !== "object") {
+    return "";
+  }
+
+  const words = [];
+
+  for (const [word, positions] of Object.entries(index)) {
+    if (!Array.isArray(positions)) {
+      continue;
+    }
+
+    for (const position of positions) {
+      words[position] = word;
+    }
+  }
+
+  return collapseWhitespace(words.join(" ")).slice(0, 5000);
+}
+
 function collapseWhitespace(value) {
   return value.replace(/\s+/g, " ").trim();
+}
+
+function normalizeTakeaway(value) {
+  return collapseWhitespace(String(value)).replace(/^[-*•\s]+/, "");
 }
 
 function extractJson(value) {

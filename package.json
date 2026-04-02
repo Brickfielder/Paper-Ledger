@@ -8,7 +8,8 @@
     "build": "node ./node_modules/astro/astro.js build",
     "preview": "node ./node_modules/astro/astro.js preview",
     "process:inbox": "node ./scripts/process-inbox.mjs",
-    "process:inbox:force": "FORCE_REPROCESS=true node ./scripts/process-inbox.mjs"
+    "process:inbox:force": "FORCE_REPROCESS=true node ./scripts/process-inbox.mjs",
+    "queue:source": "node ./scripts/add-source.mjs"
   },
   "keywords": [],
   "author": "",

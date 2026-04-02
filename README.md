@@ -37,6 +37,12 @@ npm run dev
 npm run process:inbox
 ```
 
+To queue one or more DOI/URL captures locally without hand-creating inbox files:
+
+```bash
+npm run queue:source -- 10.1016/j.neuroimage.2026.121765 10.1016/j.dcn.2026.101704
+```
+
 If you need to rerun extraction/summarization for a DOI or URL that already exists in `src/content/papers/`, add it to `inbox/` again and run:
 
 ```bash
@@ -68,6 +74,7 @@ notes: Revisit the benchmark framing.
 ```
 
 Processed files are moved into `inbox/archive/`.
+If a capture has only title-level metadata and no abstract or readable full text, it is moved to `inbox/review/` instead of being published.
 
 ## GitHub Actions setup
 
@@ -78,10 +85,12 @@ Processed files are moved into `inbox/archive/`.
 4. Enable GitHub Pages with the workflow-based deployment option.
 
 The `process-inbox` workflow runs on manual dispatch and whenever files in `inbox/` change on `main`.
+The easiest GitHub-only path is manual dispatch: open the workflow, paste one DOI or URL per line into the `sources` field, and run it. The workflow creates the inbox files for you and can optionally force reprocessing of existing entries.
 The deploy workflow derives the correct GitHub Pages URL and base path automatically for either a project page or a `username.github.io` site.
 
 ## Notes on quality
 
-- Best results come from article pages with accessible abstracts or readable HTML.
-- Paywalled papers may be summarized from metadata and abstract only.
-- Imported papers are published automatically by default.
+- Best results come from article pages with accessible abstracts, readable HTML, or open-access PDFs discoverable from DOI metadata.
+- Open-access fallback also checks OpenAlex locations when the publisher landing page is bot-blocked.
+- Metadata-only captures are not published by default; they are moved to `inbox/review/` for follow-up instead.
+- Imported papers are published automatically by default once they clear the minimum source-context check.

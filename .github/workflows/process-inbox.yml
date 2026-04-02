@@ -2,6 +2,16 @@ name: Process paper inbox
 
 on:
   workflow_dispatch:
+    inputs:
+      sources:
+        description: "Paste one DOI or URL per line."
+        required: false
+        type: string
+      force_reprocess:
+        description: "Replace existing matching papers instead of skipping duplicates."
+        required: false
+        default: false
+        type: boolean
   push:
     branches:
       - main
@@ -29,11 +39,33 @@ jobs:
       - name: Install dependencies
         run: npm ci --no-bin-links
 
+      - name: Stage workflow input sources
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.sources != '' }}
+        env:
+          WORKFLOW_SOURCES: ${{ github.event.inputs.sources }}
+        run: |
+          node --input-type=module <<'EOF'
+          import fs from "node:fs/promises";
+
+          const sources = (process.env.WORKFLOW_SOURCES || "")
+            .split(/\r?\n/)
+            .map((value) => value.trim())
+            .filter(Boolean);
+
+          for (const [index, source] of sources.entries()) {
+            const fileName = `workflow-dispatch-${String(index + 1).padStart(2, "0")}.txt`;
+            await fs.writeFile(`inbox/${fileName}`, `${source}\n`, "utf8");
+          }
+
+          console.log(`Queued ${sources.length} source(s) from workflow inputs.`);
+          EOF
+
       - name: Process inbox
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_MODEL: gpt-5.4-mini
           AUTO_PUBLISH: "true"
+          FORCE_REPROCESS: ${{ github.event.inputs.force_reprocess == 'true' && 'true' || 'false' }}
         run: npm run process:inbox
 
       - name: Commit generated posts
