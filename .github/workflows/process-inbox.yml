@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       sources:
-        description: "Paste one DOI or URL per line."
+        description: "Paste DOI(s) or URL(s), one per line or separated by spaces."
         required: false
         type: string
       force_reprocess:
@@ -47,9 +47,11 @@ jobs:
           node --input-type=module <<'EOF'
           import fs from "node:fs/promises";
 
-          const sources = (process.env.WORKFLOW_SOURCES || "")
-            .split(/\r?\n/)
-            .map((value) => value.trim())
+          const raw = process.env.WORKFLOW_SOURCES || "";
+          const pattern = /https?:\/\/[^\s]+|10\.\d{4,9}\/[-._;()/:A-Z0-9]+/gi;
+          const sources = [...raw.matchAll(pattern)]
+            .map((match) => match[0].trim())
+            .map((value) => value.replace(/[)>.,;]+$/, ""))
             .filter(Boolean);
 
           for (const [index, source] of sources.entries()) {

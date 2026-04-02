@@ -9,9 +9,6 @@ const papers = (await getCollection("papers", ({ data }) => !data.draft)).sort(
 const allTags = [...new Set(papers.flatMap((paper) => paper.data.tags))].sort((a, b) =>
   a.localeCompare(b),
 );
-
-const totalPapers = papers.length;
-const totalTags = allTags.length;
 const basePath = import.meta.env.BASE_URL.endsWith("/")
   ? import.meta.env.BASE_URL
   : `${import.meta.env.BASE_URL}/`;
@@ -28,84 +25,30 @@ const formatDate = (date: Date) =>
   title="Paper Ledger"
   description="A portable scientific reading archive with automatic summaries and tagging."
 >
-  <section class="hero">
-    <div class="hero__grid">
-      <div class="hero__copy">
-        <p class="eyebrow">Personal Research Digest</p>
-        <h1>Build a memory for the papers you do not want to lose.</h1>
-        <p>
-          This site turns quick DOI or URL captures into tagged, readable paper notes. Each entry keeps
-          the source link, preserves the DOI when available, and stays easy to revisit months later.
-        </p>
-      </div>
-
-      <aside class="hero__aside">
-        <h2>Archive Snapshot</h2>
-        <p>
-          {totalPapers} published {totalPapers === 1 ? "summary" : "summaries"} across {totalTags}{" "}
-          {totalTags === 1 ? "tag" : "tags"}.
-        </p>
-        <p>
-          The inbox processor can run on demand or on a GitHub Actions schedule, so your article queue
-          keeps flowing even when you switch machines.
-        </p>
-      </aside>
-    </div>
-  </section>
-
-  <section class="section" id="workflow">
-    <div class="section-header">
-      <div>
-        <h2 class="section-title">Workflow</h2>
-        <p class="section-kicker">Capture with almost no ceremony.</p>
-      </div>
-    </div>
-
-    <ol class="paper-list">
-      <li class="paper-item">
-        <h3>1. Drop a tiny text file into `inbox/`</h3>
-        <p>A file can contain only a DOI or only a URL. Frontmatter tags and notes are optional.</p>
-      </li>
-      <li class="paper-item">
-        <h3>2. Let the processor fetch metadata and readable text</h3>
-        <p>
-          Crossref is used for DOI metadata when available, and article pages are parsed for the best
-          accessible summary context.
-        </p>
-      </li>
-      <li class="paper-item">
-        <h3>3. Publish the resulting paper note automatically</h3>
-        <p>
-          A Markdown post is created with title, authors, year, summary, tags, and the DOI or source URL.
-        </p>
-      </li>
-    </ol>
+  <section class="landing-intro">
+    <h1 class="page-title">Paper Ledger</h1>
   </section>
 
   <section class="section">
-    <div class="section-header">
-      <div>
-        <h2 class="section-title">Latest Papers</h2>
-        <p class="section-kicker">Newest first, readable in a glance.</p>
-      </div>
-    </div>
-
     {papers.length === 0 ? (
       <p class="page-intro">No paper summaries yet. Add a DOI or article URL to `inbox/` and run the processor.</p>
     ) : (
-      <ol class="paper-list">
+      <ol class="paper-list paper-list--landing">
         {papers.map((paper) => (
-          <li class="paper-item">
-            <a href={`${basePath}papers/${paper.slug}/`}>
-              <h3>{paper.data.title}</h3>
-            </a>
-            <p>{paper.data.summary}</p>
-            <div class="paper-meta">
-              <span>{formatDate(paper.data.capturedAt)}</span>
+          <li class="paper-item paper-item--landing">
+            <div class="paper-item__top">
+              <a href={`${basePath}papers/${paper.slug}/`}>
+                <h3>{paper.data.title}</h3>
+              </a>
+              <span class="paper-item__date">{formatDate(paper.data.capturedAt)}</span>
+            </div>
+            <p class="paper-summary">{paper.data.summary}</p>
+            <div class="paper-meta paper-meta--landing">
               {paper.data.year && <span>{paper.data.year}</span>}
               {paper.data.doi ? <span>DOI available</span> : <span>Web source only</span>}
+              <span>{paper.data.tags.length} {paper.data.tags.length === 1 ? "tag" : "tags"}</span>
             </div>
-            <div class="paper-meta">
+            <div class="paper-tags">
               {paper.data.tags.map((tag) => (
                 <a class="tag" href={`${basePath}tags/${tag}/`}>
                   {tag}
@@ -118,14 +61,8 @@ const formatDate = (date: Date) =>
     )}
   </section>
 
-  <section class="section" id="tags">
-    <div class="section-header">
-      <div>
-        <h2 class="section-title">Tag Index</h2>
-        <p class="section-kicker">A simple way back into the archive.</p>
-      </div>
-    </div>
-
+  <section class="section section--tags" id="tags">
+    <p class="section-kicker">Tag index</p>
     <div class="tag-list">
       {allTags.length === 0 ? (
         <p class="section-kicker">Tags will appear here once the first summaries are processed.</p>
