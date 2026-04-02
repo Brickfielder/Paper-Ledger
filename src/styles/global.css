@@ -116,7 +116,9 @@ main {
 }
 
 .landing-intro {
-  padding: 0.35rem 0 0.25rem;
+  padding: 0.35rem 0 1rem;
+  margin-bottom: 0.35rem;
+  border-bottom: 1px solid var(--line);
 }
 
 .page-title {
@@ -124,6 +126,14 @@ main {
   font: 600 clamp(2.2rem, 5vw, 3.8rem)/0.98 var(--serif);
   letter-spacing: -0.03em;
   text-wrap: balance;
+}
+
+.page-intro {
+  margin: 0.85rem 0 0;
+  max-width: 42rem;
+  color: var(--muted);
+  font-size: clamp(1.02rem, 1.9vw, 1.18rem);
+  line-height: 1.7;
 }
 
 .paper-list--landing {
@@ -183,7 +193,8 @@ main {
 }
 
 .paper-item--landing .paper-summary {
-  max-width: 68ch;
+  max-width: none;
+  width: 100%;
 }
 
 .paper-summary {
