@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import zlib from "node:zlib";
 import matter from "gray-matter";
 import { JSDOM } from "jsdom";
 import { Readability } from "@mozilla/readability";
@@ -71,6 +72,11 @@ for (const entry of inboxFiles) {
       capture,
       sourceProfile,
     });
+    if (sourceProfile.sourceContext !== "fulltext") {
+      console.warn(
+        `Limited source context for ${entry.name}: ${sourceProfile.sourceContext}. Summary may rely heavily on metadata.`,
+      );
+    }
 
     const slug = await buildUniqueSlug(generated.title);
     const frontmatter = omitUndefined({
@@ -84,6 +90,7 @@ for (const entry of inboxFiles) {
       doi: generated.doi || sourceProfile.doi || undefined,
       year: generated.year || sourceProfile.year || undefined,
       journal: generated.journal || sourceProfile.journal || undefined,
+      sourceContext: sourceProfile.sourceContext,
       capturedAt: new Date().toISOString(),
       draft: !AUTO_PUBLISH,
     });
@@ -95,6 +102,7 @@ for (const entry of inboxFiles) {
       sourceUrl: generated.sourceUrl,
       doi: frontmatter.doi,
       notes: capture.notes,
+      sourceContext: sourceProfile.sourceContext,
     });
 
     const fileContent = matter.stringify(body, frontmatter);
@@ -212,6 +220,8 @@ async function buildSourceProfile(capture) {
   const doi = crossref?.doi || pageDoi || initialDoi || null;
   const enrichedCrossref = !crossref && doi ? await fetchCrossref(doi) : crossref;
   const sourceUrl = page?.sourceUrl || initialSourceUrl || (doi ? `https://doi.org/${doi}` : null);
+  const abstract = cleanAbstract(enrichedCrossref?.abstract || "");
+  const bodyText = page?.bodyText || "";
 
   if (!sourceUrl) {
     throw new Error("Could not determine a source URL.");
@@ -222,8 +232,9 @@ async function buildSourceProfile(capture) {
     authors: dedupeTextArray(enrichedCrossref?.authors || []),
     year: enrichedCrossref?.year || undefined,
     journal: enrichedCrossref?.journal || undefined,
-    abstract: cleanAbstract(enrichedCrossref?.abstract || ""),
-    bodyText: page?.bodyText || "",
+    abstract,
+    bodyText,
+    sourceContext: classifySourceContext({ abstract, bodyText }),
     sourceUrl,
     doi,
   };
@@ -275,6 +286,18 @@ async function fetchReadablePage(url) {
     }
 
     const contentType = response.headers.get("content-type") || "";
+    if (contentType.includes("application/pdf")) {
+      const pdfBuffer = Buffer.from(await response.arrayBuffer());
+      const pdfText = collapseWhitespace(extractTextFromPdfBuffer(pdfBuffer)).slice(0, MAX_INPUT_CHARS);
+
+      return {
+        sourceUrl: response.url,
+        title: path.basename(new URL(response.url).pathname) || null,
+        bodyText: pdfText,
+        doi: null,
+      };
+    }
+
     if (!contentType.includes("text/html")) {
       return {
         sourceUrl: response.url,
@@ -288,6 +311,13 @@ async function fetchReadablePage(url) {
     const dom = new JSDOM(html, { url: response.url });
     const readability = new Readability(dom.window.document);
     const article = readability.parse();
+    const readableText = collapseWhitespace(article?.textContent || "");
+    const pdfUrl = resolvePdfUrl(dom.window.document, response.url);
+    let pdfText = "";
+
+    if (pdfUrl && readableText.length < 1200) {
+      pdfText = await fetchPdfText(pdfUrl);
+    }
     const metaDoi =
       dom.window.document.querySelector('meta[name="citation_doi"]')?.getAttribute("content") ||
       dom.window.document.querySelector('meta[property="og:doi"]')?.getAttribute("content") ||
@@ -301,12 +331,137 @@ async function fetchReadablePage(url) {
         article?.title ||
         dom.window.document.title ||
         null,
-      bodyText: collapseWhitespace(article?.textContent || "").slice(0, MAX_INPUT_CHARS),
+      bodyText: (pdfText || readableText).slice(0, MAX_INPUT_CHARS),
       doi: metaDoi || null,
     };
   } catch {
     return null;
   }
+}
+
+function resolvePdfUrl(document, baseUrl) {
+  const candidates = [
+    document.querySelector('meta[name="citation_pdf_url"]')?.getAttribute("content"),
+    document.querySelector('meta[name="dc.identifier"][content$=".pdf"]')?.getAttribute("content"),
+    document.querySelector('link[type="application/pdf"]')?.getAttribute("href"),
+    ...Array.from(document.querySelectorAll('a[href*=".pdf"]'))
+      .slice(0, 5)
+      .map((node) => node.getAttribute("href")),
+  ].filter(Boolean);
+
+  for (const candidate of candidates) {
+    try {
+      return new URL(candidate, baseUrl).toString();
+    } catch {
+      continue;
+    }
+  }
+
+  return null;
+}
+
+async function fetchPdfText(url) {
+  try {
+    const response = await fetch(url, {
+      redirect: "follow",
+      headers: {
+        "user-agent": "Mozilla/5.0 (compatible; PaperLedgerBot/1.0)",
+      },
+    });
+
+    if (!response.ok) {
+      return "";
+    }
+
+    const contentType = response.headers.get("content-type") || "";
+    if (!contentType.includes("application/pdf") && !response.url.toLowerCase().includes(".pdf")) {
+      return "";
+    }
+
+    const pdfBuffer = Buffer.from(await response.arrayBuffer());
+    return collapseWhitespace(extractTextFromPdfBuffer(pdfBuffer));
+  } catch {
+    return "";
+  }
+}
+
+function extractTextFromPdfBuffer(pdfBuffer) {
+  const source = pdfBuffer.toString("latin1");
+  const chunks = [];
+  const streamRegex = /stream\r?\n([\s\S]*?)\r?\nendstream/g;
+
+  for (const match of source.matchAll(streamRegex)) {
+    const raw = Buffer.from(match[1], "latin1");
+    const decoded = tryInflate(raw) || raw;
+    const text = extractPdfTextOperators(decoded.toString("latin1"));
+    if (text) {
+      chunks.push(text);
+    }
+  }
+
+  if (chunks.length === 0) {
+    return "";
+  }
+
+  return chunks.join(" ");
+}
+
+function tryInflate(buffer) {
+  try {
+    return zlib.inflateSync(buffer);
+  } catch {
+    return null;
+  }
+}
+
+function extractPdfTextOperators(content) {
+  const textBlocks = [];
+  const blockRegex = /BT[\s\S]*?ET/g;
+
+  for (const block of content.match(blockRegex) || []) {
+    const fragments = [];
+    const literalRegex = /\((?:\\.|[^\\)])*\)\s*Tj/g;
+    for (const token of block.match(literalRegex) || []) {
+      const literal = token.replace(/\s*Tj$/, "").trim();
+      const decoded = decodePdfStringLiteral(literal);
+      if (decoded) {
+        fragments.push(decoded);
+      }
+    }
+
+    const arrayRegex = /\[(.*?)\]\s*TJ/g;
+    for (const arrayMatch of block.matchAll(arrayRegex)) {
+      const pieces = arrayMatch[1].match(/\((?:\\.|[^\\)])*\)/g) || [];
+      for (const piece of pieces) {
+        const decoded = decodePdfStringLiteral(piece);
+        if (decoded) {
+          fragments.push(decoded);
+        }
+      }
+    }
+
+    if (fragments.length > 0) {
+      textBlocks.push(fragments.join(" "));
+    }
+  }
+
+  return collapseWhitespace(textBlocks.join(" "));
+}
+
+function decodePdfStringLiteral(value) {
+  if (!value.startsWith("(") || !value.endsWith(")")) {
+    return "";
+  }
+
+  const inner = value.slice(1, -1);
+  return inner
+    .replace(/\\\(/g, "(")
+    .replace(/\\\)/g, ")")
+    .replace(/\\\\/g, "\\")
+    .replace(/\\n/g, " ")
+    .replace(/\\r/g, " ")
+    .replace(/\\t/g, " ")
+    .replace(/\\[0-7]{1,3}/g, " ");
 }
 
 async function generateSummary({ capture, sourceProfile }) {
@@ -356,11 +511,20 @@ async function generateSummary({ capture, sourceProfile }) {
   };
 }
 
-function buildMarkdownBody({ summary, whyItMatters, keyTakeaways, sourceUrl, doi, notes }) {
+function buildMarkdownBody({ summary, whyItMatters, keyTakeaways, sourceUrl, doi, notes, sourceContext }) {
+  const contextNote =
+    sourceContext === "metadata-only"
+      ? "Note: this summary was generated from title-level metadata only because no abstract or readable full text could be retrieved."
+      : sourceContext === "abstract-only"
+        ? "Note: this summary was generated using metadata plus abstract text; readable full text was not available."
+        : null;
+
   const lines = [
     "## Summary",
     "",
     summary,
+    contextNote ? "" : null,
+    contextNote,
     "",
     "## Why This Matters",
     "",
@@ -381,6 +545,18 @@ function buildMarkdownBody({ summary, whyItMatters, keyTakeaways, sourceUrl, doi
   }
 
   return lines.join("\n");
+}
+
+function classifySourceContext({ abstract, bodyText }) {
+  if (bodyText) {
+    return "fulltext";
+  }
+
+  if (abstract) {
+    return "abstract-only";
+  }
+
+  return "metadata-only";
 }
 
 function isDuplicate(existingEntries, sourceProfile) {
