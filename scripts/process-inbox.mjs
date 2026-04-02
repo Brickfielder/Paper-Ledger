@@ -14,6 +14,7 @@ const ARCHIVE_DIR = path.join(INBOX_DIR, "archive");
 const PAPERS_DIR = path.join(ROOT, "src", "content", "papers");
 const MODEL = process.env.OPENAI_MODEL || "gpt-5.4-mini";
 const AUTO_PUBLISH = process.env.AUTO_PUBLISH !== "false";
+const FORCE_REPROCESS = process.env.FORCE_REPROCESS === "true";
 const MAX_INPUT_CHARS = Number(process.env.MAX_INPUT_CHARS || 16000);
 const MAX_ITEMS = Number(process.env.MAX_INBOX_ITEMS || 5);
 
@@ -62,10 +63,19 @@ for (const entry of inboxFiles) {
     const capture = await parseCaptureFile(absolutePath);
     const sourceProfile = await buildSourceProfile(capture);
 
-    if (isDuplicate(existingEntries, sourceProfile)) {
-      console.log(`Skipping duplicate source for ${entry.name}.`);
-      await archiveFile(absolutePath);
-      continue;
+    const duplicate = findDuplicateEntry(existingEntries, sourceProfile);
+    if (duplicate) {
+      if (!FORCE_REPROCESS) {
+        console.log(`Skipping duplicate source for ${entry.name}.`);
+        await archiveFile(absolutePath);
+        continue;
+      }
+
+      if (duplicate.filePath) {
+        await fs.unlink(duplicate.filePath);
+        console.log(`Removed existing entry ${path.relative(ROOT, duplicate.filePath)} before reprocessing.`);
+      }
+      removeEntry(existingEntries, duplicate);
     }
 
     const generated = await generateSummary({
@@ -112,6 +122,7 @@ for (const entry of inboxFiles) {
     existingEntries.push({
       doi: frontmatter.doi,
       sourceUrl: frontmatter.sourceUrl,
+      filePath: outputPath,
     });
     await archiveFile(absolutePath);
 
@@ -150,6 +161,7 @@ async function readExistingEntries() {
       results.push({
         doi: typeof parsed.data.doi === "string" ? normalizeDoi(parsed.data.doi) : null,
         sourceUrl: typeof parsed.data.sourceUrl === "string" ? normalizeUrl(parsed.data.sourceUrl) : null,
+        filePath: absolutePath,
       });
     }
 
@@ -559,15 +571,24 @@ function classifySourceContext({ abstract, bodyText }) {
   return "metadata-only";
 }
 
-function isDuplicate(existingEntries, sourceProfile) {
+function findDuplicateEntry(existingEntries, sourceProfile) {
   const normalizedUrl = normalizeUrl(sourceProfile.sourceUrl);
   const normalizedDoi = sourceProfile.doi ? normalizeDoi(sourceProfile.doi) : null;
 
-  return existingEntries.some(
-    (entry) =>
-      (normalizedDoi && entry.doi === normalizedDoi) ||
-      (normalizedUrl && entry.sourceUrl === normalizedUrl),
+  return (
+    existingEntries.find(
+      (entry) =>
+        (normalizedDoi && entry.doi === normalizedDoi) ||
+        (normalizedUrl && entry.sourceUrl === normalizedUrl),
+    ) || null
   );
+}
+
+function removeEntry(existingEntries, target) {
+  const index = existingEntries.indexOf(target);
+  if (index !== -1) {
+    existingEntries.splice(index, 1);
+  }
 }
 
 async function archiveFile(originalPath) {
