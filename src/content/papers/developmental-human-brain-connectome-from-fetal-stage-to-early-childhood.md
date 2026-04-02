@@ -1,35 +1,33 @@
 ---
 title: Developmental human brain connectome from fetal stage to early childhood
 summary: >-
-  This article examines how the human brain connectome develops from the fetal
-  period through early childhood. Based on the title and publication details,
-  the study focuses on developmental changes in how brain regions become
-  organized and connected across very early life stages. The work appears to
-  address a major gap in neuroscience, since this window includes rapid
-  structural and functional brain maturation. The main contribution is likely a
-  developmental map or characterization of connectome changes spanning prenatal
-  to early postnatal periods. Because no abstract or readable body text was
-  available, the exact cohort size, imaging approach, and statistical methods
-  cannot be confirmed from the provided material. Even so, the study likely
-  relies on neuroimaging-based connectivity analysis to compare stages of
-  development over time. A central methodological challenge in this area is that
-  fetal and infant brain imaging is difficult because of motion, changing
-  anatomy, and rapidly evolving tissue properties. The article therefore
-  probably emphasizes careful developmental staging and age-sensitive analysis
-  rather than a single static model of connectivity. Its main finding, at a high
-  level, is that the connectome is not fixed early in life but undergoes
-  substantial reorganization across fetal and early childhood periods. This kind
-  of work is important because it helps define when large-scale brain networks
-  emerge and stabilize. It may also provide a reference for identifying atypical
-  developmental trajectories in neurodevelopmental disorders. Given the limited
-  accessible text, the summary should be read as a cautious metadata-based
-  synopsis rather than a detailed content review. The paper was published in
-  Developmental Cognitive Neuroscience in 2026.
+  This review surveys how the human brain connectome develops from mid-gestation
+  through early childhood. It focuses on findings from diffusion MRI and
+  resting-state fMRI, two noninvasive methods that let researchers study
+  structural and functional connectivity in the developing brain. The authors
+  frame this period as the fastest phase of brain maturation across the
+  lifespan. Across the studies they review, short- and long-range connections
+  change in different ways as the brain grows. Early network organization
+  becomes highly efficient, with small-world structure appearing before birth
+  and adult-like hub patterns already detectable at birth. A central theme is
+  that early development moves from stronger segregation toward greater
+  integration. This shift is supported by rapid growth of short-range
+  connections first, followed later by strengthening of long-range connections.
+  The review also describes a hierarchical developmental pattern from primary
+  regions toward higher-order regions. On the structural side, connectome
+  maturation reflects both microstructural strengthening in some white matter
+  pathways and pruning of others. On the functional side, emerging networks are
+  linked to increases in cerebral blood flow. The article also notes that
+  disorders such as autism and schizophrenia show atypical hyperconnectivity or
+  hypoconnectivity and altered developmental trajectories. Because this is a
+  review rather than a primary study, its main contribution is to synthesize
+  existing evidence and highlight methodological challenges and open questions
+  in studying the baby brain connectome.
 whyItMatters: >-
-  Understanding how brain connections form before and shortly after birth helps
-  researchers study the earliest roots of cognition and behavior. It also gives
-  clinicians a baseline for spotting when brain development is diverging from
-  typical patterns.
+  This paper helps explain how brain wiring and communication normally unfold
+  before and just after birth, which is a key window for later development. It
+  also gives researchers a framework for comparing typical maturation with the
+  atypical connectivity patterns seen in neurodevelopmental disorders.
 authors:
   - Wentao Wu
   - Hao Huang
@@ -37,29 +35,33 @@ authors:
   - Shufang Tan
   - Minhui Ouyang
 tags:
-  - brain connectome
-  - fetal development
-  - early childhood
-  - neuroimaging
   - brain development
+  - connectome
+  - fetal brain
+  - infant brain
+  - dMRI
+  - rs-fMRI
+  - network neuroscience
+  - neurodevelopment
 sourceUrl: 'https://doi.org/10.1016/j.dcn.2026.101704'
 sourceHost: doi.org
 doi: 10.1016/j.dcn.2026.101704
 year: 2026
 journal: Developmental Cognitive Neuroscience
-capturedAt: '2026-04-02T07:32:40.196Z'
+sourceContext: fulltext
+capturedAt: '2026-04-02T16:21:40.763Z'
 draft: false
 ---
 ## Summary
-This article examines how the human brain connectome develops from the fetal period through early childhood. Based on the title and publication details, the study focuses on developmental changes in how brain regions become organized and connected across very early life stages. The work appears to address a major gap in neuroscience, since this window includes rapid structural and functional brain maturation. The main contribution is likely a developmental map or characterization of connectome changes spanning prenatal to early postnatal periods. Because no abstract or readable body text was available, the exact cohort size, imaging approach, and statistical methods cannot be confirmed from the provided material. Even so, the study likely relies on neuroimaging-based connectivity analysis to compare stages of development over time. A central methodological challenge in this area is that fetal and infant brain imaging is difficult because of motion, changing anatomy, and rapidly evolving tissue properties. The article therefore probably emphasizes careful developmental staging and age-sensitive analysis rather than a single static model of connectivity. Its main finding, at a high level, is that the connectome is not fixed early in life but undergoes substantial reorganization across fetal and early childhood periods. This kind of work is important because it helps define when large-scale brain networks emerge and stabilize. It may also provide a reference for identifying atypical developmental trajectories in neurodevelopmental disorders. Given the limited accessible text, the summary should be read as a cautious metadata-based synopsis rather than a detailed content review. The paper was published in Developmental Cognitive Neuroscience in 2026.
+This review surveys how the human brain connectome develops from mid-gestation through early childhood. It focuses on findings from diffusion MRI and resting-state fMRI, two noninvasive methods that let researchers study structural and functional connectivity in the developing brain. The authors frame this period as the fastest phase of brain maturation across the lifespan. Across the studies they review, short- and long-range connections change in different ways as the brain grows. Early network organization becomes highly efficient, with small-world structure appearing before birth and adult-like hub patterns already detectable at birth. A central theme is that early development moves from stronger segregation toward greater integration. This shift is supported by rapid growth of short-range connections first, followed later by strengthening of long-range connections. The review also describes a hierarchical developmental pattern from primary regions toward higher-order regions. On the structural side, connectome maturation reflects both microstructural strengthening in some white matter pathways and pruning of others. On the functional side, emerging networks are linked to increases in cerebral blood flow. The article also notes that disorders such as autism and schizophrenia show atypical hyperconnectivity or hypoconnectivity and altered developmental trajectories. Because this is a review rather than a primary study, its main contribution is to synthesize existing evidence and highlight methodological challenges and open questions in studying the baby brain connectome.
 ## Why This Matters
-Understanding how brain connections form before and shortly after birth helps researchers study the earliest roots of cognition and behavior. It also gives clinicians a baseline for spotting when brain development is diverging from typical patterns.
+This paper helps explain how brain wiring and communication normally unfold before and just after birth, which is a key window for later development. It also gives researchers a framework for comparing typical maturation with the atypical connectivity patterns seen in neurodevelopmental disorders.
 ## Key Takeaways
-- - Tracks connectome development from fetal stage to early childhood.
-- - Focuses on a period of rapid brain network reorganization.
-- - Likely uses developmental neuroimaging to compare stages across age.
-- - Important limitation: no abstract or body text was available for verification.
-- - Useful as a reference point for typical early brain network maturation.
+- Early brain networks become efficient very quickly, with small-world organization emerging prenatally.
+- Development generally shifts from local segregation to broader integration over time.
+- Short-range connections tend to grow first, followed later by long-range connections.
+- Structural changes involve both strengthening of some white matter fibers and pruning of others.
+- The review highlights methodological challenges in studying fetal and infant connectomes and the importance of a developmental lens for disorders.
 ## Source
 - DOI: [10.1016/j.dcn.2026.101704](https://doi.org/10.1016/j.dcn.2026.101704)
 - URL: [https://doi.org/10.1016/j.dcn.2026.101704](https://doi.org/10.1016/j.dcn.2026.101704)
