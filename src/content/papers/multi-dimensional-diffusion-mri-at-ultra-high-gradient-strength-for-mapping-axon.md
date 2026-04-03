@@ -21,6 +21,12 @@ whyItMatters: >-
   useful for method development, validation, and comparative neuroscience. It
   also hints at what future ultra-high-performance scanners may be able to
   recover noninvasively in living brains.
+limitations: >-
+  The dataset is post-mortem and collected with extremely long scan times on
+  ultra-high-gradient hardware, so its acquisition regime is not directly
+  representative of routine in vivo protocols. That makes it a powerful
+  benchmark, but claims about what can transfer to living-brain imaging still
+  need careful validation.
 authors:
   - Ting Gong
   - Chiara Maffei
@@ -60,6 +66,8 @@ This paper presents a large post-mortem diffusion MRI dataset spanning whole mac
 The authors argue that these measurements do more than improve tractography-style views of white matter. They show that the data can reveal cortical and subcortical cytoarchitectonic boundaries in addition to large-scale connectional structure, which is a more ambitious claim than simply mapping fiber bundles more sharply. In other words, the dataset appears designed to support both macro-connectivity questions and finer microstructural modeling. That matters because many diffusion MRI methods promise sensitivity to tissue compartments, axon geometry, or laminar organization, but are limited by weaker acquisition protocols and poorer validation resources. A dataset of this richness can therefore act as a stress test for modeling choices, reconstruction methods, denoising pipelines, and biologically informed interpretation. The paper is most convincing as a resource-and-capability paper: it demonstrates that with enough gradient strength, scan time, and parameter diversity, whole-brain diffusion MRI can begin to access structure that usually sits outside the reach of noninvasive imaging.
 ## Why This Matters
 The paper matters because it raises the ceiling on what diffusion MRI datasets can look like when acquisition constraints are pushed hard enough. For technical researchers, it offers a strong benchmark for testing models of tissue microstructure, axon architecture, and multi-contrast diffusion behavior. For neuroscientists, it suggests that the gap between whole-brain imaging and fine anatomical structure may be narrowing, especially when paired with next-generation scanner hardware.
+## Caveats and Limitations
+The dataset is post-mortem and collected with extremely long scan times on ultra-high-gradient hardware, so its acquisition regime is not directly representative of routine in vivo protocols. That makes it a powerful benchmark, but claims about what can transfer to living-brain imaging still need careful validation.
 ## Key Takeaways
 - The dataset spans both macaque brains and human hemispheres, giving it value for cross-species comparison as well as method development.
 - Each sample was scanned for about 250 hours, enabling unusually high spatial resolution and dense diffusion sampling.

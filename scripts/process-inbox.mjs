@@ -24,6 +24,7 @@ const summarySchema = z.object({
   title: z.string().min(1),
   summary: z.string().min(1),
   whyItMatters: z.string().min(1),
+  limitations: z.string().min(1),
   tags: z.array(z.string()).min(1).max(8),
   keyTakeaways: z.array(z.string()).min(2).max(5),
   authors: z.array(z.string()).optional(),
@@ -110,6 +111,7 @@ for (const entry of inboxFiles) {
       title: generated.title,
       summary: generated.summary,
       whyItMatters: generated.whyItMatters,
+      limitations: generated.limitations,
       authors: dedupeTextArray(generated.authors || sourceProfile.authors),
       tags: dedupeTextArray([...(capture.tags || []), ...generated.tags]).slice(0, 8),
       sourceUrl: generated.sourceUrl,
@@ -125,6 +127,7 @@ for (const entry of inboxFiles) {
     const body = buildMarkdownBody({
       summary: generated.summary,
       whyItMatters: generated.whyItMatters,
+      limitations: generated.limitations,
       keyTakeaways: generated.keyTakeaways,
       sourceUrl: generated.sourceUrl,
       doi: frontmatter.doi,
@@ -591,11 +594,12 @@ async function generateSummary({ capture, sourceProfile }) {
   const prompt = [
     "Summarize the following scientific article for a personal research blog.",
     "Return strict JSON only with these keys:",
-    '{"title":"string","summary":"string","whyItMatters":"string","tags":["string"],"keyTakeaways":["string"],"authors":["string"],"year":2024,"doi":"string|null","sourceUrl":"https://...","journal":"string|null"}',
+    '{"title":"string","summary":"string","whyItMatters":"string","limitations":"string","tags":["string"],"keyTakeaways":["string"],"authors":["string"],"year":2024,"doi":"string|null","sourceUrl":"https://...","journal":"string|null"}',
     "Rules:",
     "- Summary should be 12-14 sentences, clear and non-hypey.",
     "- Summary should explain the setup, the main finding, and the most important methodological detail or limitation when available.",
     "- whyItMatters should be 2-3 sentences in plain language.",
+    "- limitations should be 2-3 sentences with a brief critical evaluation of the paper's caveats, such as generalization, validation, confounds, or evidence strength.",
     "- tags should be short, lowercase, and specific.",
     "- keyTakeaways should be 4-5 bullet-sized lines.",
     "- Preserve the DOI if one is available.",
@@ -636,7 +640,7 @@ async function generateSummary({ capture, sourceProfile }) {
   };
 }
 
-function buildMarkdownBody({ summary, whyItMatters, keyTakeaways, sourceUrl, doi, notes, sourceContext }) {
+function buildMarkdownBody({ summary, whyItMatters, limitations, keyTakeaways, sourceUrl, doi, notes, sourceContext }) {
   const contextNote =
     sourceContext === "metadata-only"
       ? "Note: this summary was generated from title-level metadata only because no abstract or readable full text could be retrieved."
@@ -654,6 +658,10 @@ function buildMarkdownBody({ summary, whyItMatters, keyTakeaways, sourceUrl, doi
     "## Why This Matters",
     "",
     whyItMatters,
+    "",
+    "## Caveats and Limitations",
+    "",
+    limitations,
     "",
     "## Key Takeaways",
     "",

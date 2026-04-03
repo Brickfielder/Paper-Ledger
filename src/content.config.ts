@@ -5,6 +5,7 @@ const papers = defineCollection({
     title: z.string(),
     summary: z.string(),
     whyItMatters: z.string(),
+    limitations: z.string().optional(),
     authors: z.array(z.string()).default([]),
     tags: z.array(z.string()).default([]),
     sourceUrl: z.string().url(),

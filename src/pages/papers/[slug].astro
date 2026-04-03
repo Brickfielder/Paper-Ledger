@@ -31,7 +31,6 @@ const formatDate = (date: Date) =>
       <article class="paper-header">
         <p class="eyebrow">Paper Summary</p>
         <h1>{paper.data.title}</h1>
-        <p class="lede">{paper.data.summary}</p>
 
         <div class="paper-meta">
           <span>{formatDate(paper.data.capturedAt)}</span>
@@ -74,10 +73,6 @@ const formatDate = (date: Date) =>
             ) : (
               <span>Not available</span>
             )}
-          </li>
-          <li>
-            <span class="meta-label">Why It Matters</span>
-            <span>{paper.data.whyItMatters}</span>
           </li>
         </ul>
       </aside>
