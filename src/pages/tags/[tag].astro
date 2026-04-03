@@ -1,21 +1,27 @@
 ---
 import { getCollection } from "astro:content";
+import {
+  expandPaperTags,
+  formatTagPath,
+  normalizeTagName,
+  sortTagsByHierarchy,
+} from "../../lib/tag-taxonomy.mjs";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
   const papers = await getCollection("papers", ({ data }) => !data.draft);
-  const tags = [...new Set(papers.flatMap((paper) => paper.data.tags))];
+  const tags = sortTagsByHierarchy([...new Set(papers.flatMap((paper) => expandPaperTags(paper.data.tags)))]);
 
   return tags.map((tag) => ({ params: { tag } }));
 }
 
-const { tag } = Astro.params;
+const tag = normalizeTagName(Astro.params.tag!);
 const basePath = import.meta.env.BASE_URL.endsWith("/")
   ? import.meta.env.BASE_URL
   : `${import.meta.env.BASE_URL}/`;
 
 const papers = (await getCollection("papers", ({ data }) => !data.draft))
-  .filter((paper) => paper.data.tags.includes(tag!))
+  .filter((paper) => expandPaperTags(paper.data.tags).includes(tag))
   .sort((a, b) => b.data.capturedAt.getTime() - a.data.capturedAt.getTime());
 
 const formatDate = (date: Date) =>
@@ -32,6 +38,8 @@ const formatDate = (date: Date) =>
     <h1 class="page-title">{tag}</h1>
     <p class="page-intro">
       {papers.length} {papers.length === 1 ? "paper summary" : "paper summaries"} filed under this tag.
+      <br />
+      {formatTagPath(tag)}
     </p>
   </section>
 

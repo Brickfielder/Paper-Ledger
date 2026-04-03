@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from "astro:content";
+import { normalizePaperTags } from "../../lib/tag-taxonomy.mjs";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
@@ -39,7 +40,7 @@ const formatDate = (date: Date) =>
         </div>
 
         <div class="paper-meta">
-          {paper.data.tags.map((tag) => (
+          {normalizePaperTags(paper.data.tags).map((tag) => (
             <a class="tag" href={`${basePath}tags/${tag}/`}>
               {tag}
             </a>

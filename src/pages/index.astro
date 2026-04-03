@@ -1,14 +1,13 @@
 ---
 import { getCollection } from "astro:content";
+import { expandPaperTags, groupTagsByRoot, normalizePaperTags } from "../lib/tag-taxonomy.mjs";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const papers = (await getCollection("papers", ({ data }) => !data.draft)).sort(
   (a, b) => b.data.capturedAt.getTime() - a.data.capturedAt.getTime(),
 );
 
-const allTags = [...new Set(papers.flatMap((paper) => paper.data.tags))].sort((a, b) =>
-  a.localeCompare(b),
-);
+const tagGroups = groupTagsByRoot([...new Set(papers.flatMap((paper) => expandPaperTags(paper.data.tags)))]);
 const basePath = import.meta.env.BASE_URL.endsWith("/")
   ? import.meta.env.BASE_URL
   : `${import.meta.env.BASE_URL}/`;
@@ -59,7 +58,7 @@ const excerptSummary = (summary: string) => {
               <span>{paper.data.tags.length} {paper.data.tags.length === 1 ? "tag" : "tags"}</span>
             </div>
             <div class="paper-tags">
-              {paper.data.tags.map((tag) => (
+              {normalizePaperTags(paper.data.tags).map((tag) => (
                 <a class="tag" href={`${basePath}tags/${tag}/`}>
                   {tag}
                 </a>
@@ -73,14 +72,28 @@ const excerptSummary = (summary: string) => {
 
   <section class="section section--tags" id="tags">
     <p class="section-kicker">Tag index</p>
-    <div class="tag-list">
-      {allTags.length === 0 ? (
+    <div class="tag-taxonomy">
+      {tagGroups.length === 0 ? (
         <p class="section-kicker">Tags will appear here once the first summaries are processed.</p>
       ) : (
-        allTags.map((tag) => (
-          <a class="tag" href={`${basePath}tags/${tag}/`}>
-            {tag}
-          </a>
+        tagGroups.map((group) => (
+          <section class="tag-family">
+            <a class="tag-family__root" href={`${basePath}tags/${group.root}/`}>
+              {group.root}
+            </a>
+            <div class="tag-family__list">
+              {group.entries
+                .filter((entry) => entry.tag !== group.root)
+                .map((entry) => (
+                  <a
+                    class={`tag tag--depth-${Math.min(entry.depth, 3)}`}
+                    href={`${basePath}tags/${entry.tag}/`}
+                  >
+                    {entry.tag}
+                  </a>
+                ))}
+            </div>
+          </section>
         ))
       )}
     </div>

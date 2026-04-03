@@ -7,6 +7,7 @@ import { Readability } from "@mozilla/readability";
 import OpenAI from "openai";
 import slugify from "slugify";
 import { z } from "zod";
+import { canonicalTagPrompt, normalizePaperTags } from "../src/lib/tag-taxonomy.mjs";
 
 const ROOT = process.cwd();
 const INBOX_DIR = path.join(ROOT, "inbox");
@@ -113,7 +114,7 @@ for (const entry of inboxFiles) {
       whyItMatters: generated.whyItMatters,
       limitations: generated.limitations,
       authors: dedupeTextArray(generated.authors || sourceProfile.authors),
-      tags: dedupeTextArray([...(capture.tags || []), ...generated.tags]).slice(0, 8),
+      tags: normalizePaperTags([...(capture.tags || []), ...generated.tags]).slice(0, 8),
       sourceUrl: generated.sourceUrl,
       sourceHost: new URL(generated.sourceUrl).hostname.replace(/^www\./, ""),
       doi: generated.doi || sourceProfile.doi || undefined,
@@ -601,6 +602,7 @@ async function generateSummary({ capture, sourceProfile }) {
     "- whyItMatters should be 2-3 sentences in plain language.",
     "- limitations should be 2-3 sentences with a brief critical evaluation of the paper's caveats, such as generalization, validation, confounds, or evidence strength.",
     "- tags should be short, lowercase, and specific.",
+    `- Prefer these canonical tags when they fit: ${canonicalTagPrompt}.`,
     "- keyTakeaways should be 4-5 bullet-sized lines.",
     "- Preserve the DOI if one is available.",
     "- Preserve the original source URL.",
@@ -637,6 +639,7 @@ async function generateSummary({ capture, sourceProfile }) {
     doi: parsed.doi ? normalizeDoi(parsed.doi) : sourceProfile.doi || null,
     sourceUrl: normalizeUrl(parsed.sourceUrl || sourceProfile.sourceUrl),
     authors: dedupeTextArray(parsed.authors || sourceProfile.authors),
+    tags: normalizePaperTags(parsed.tags || []),
   };
 }
 

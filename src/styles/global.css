@@ -228,7 +228,8 @@ main {
 }
 
 .paper-meta,
-.tag-list {
+.tag-list,
+.tag-family__list {
   display: flex;
   flex-wrap: wrap;
   gap: 0.6rem;
@@ -251,6 +252,32 @@ main {
   border-radius: 999px;
   padding: 0.42rem 0.78rem;
   font-size: 0.88rem;
+}
+
+.tag-taxonomy {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.tag-family {
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+
+.tag-family__root {
+  display: inline-flex;
+  margin-bottom: 0.75rem;
+  color: var(--ink);
+  text-decoration: none;
+  font: 600 1.15rem/1.1 var(--serif);
+}
+
+.tag--depth-2 {
+  margin-left: 0.5rem;
+}
+
+.tag--depth-3 {
+  margin-left: 1rem;
 }
 
 .paper-grid {
