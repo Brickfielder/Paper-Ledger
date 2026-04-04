@@ -73,12 +73,12 @@ jobs:
 
       - name: Commit generated posts
         run: |
-          if git diff --quiet; then
+          git add -A src/content/papers inbox
+          if git diff --cached --quiet; then
             echo "No changes to commit."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A src/content/papers inbox
           git commit -m "Process paper inbox"
           git push
