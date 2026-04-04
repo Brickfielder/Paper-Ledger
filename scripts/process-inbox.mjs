@@ -15,6 +15,12 @@ const ARCHIVE_DIR = path.join(INBOX_DIR, "archive");
 const REVIEW_DIR = path.join(INBOX_DIR, "review");
 const PAPERS_DIR = path.join(ROOT, "src", "content", "papers");
 const MODEL = process.env.OPENAI_MODEL || "gpt-5.4-mini";
+const MODEL_FALLBACKS = (process.env.OPENAI_MODEL_FALLBACKS || "gpt-5-mini,gpt-4o-mini")
+  .split(",")
+  .map((item) => item.trim())
+  .filter(Boolean)
+  .filter((item, index, values) => values.indexOf(item) === index)
+  .filter((item) => item !== MODEL);
 const AUTO_PUBLISH = process.env.AUTO_PUBLISH !== "false";
 const ALLOW_METADATA_ONLY = process.env.ALLOW_METADATA_ONLY === "true";
 const FORCE_REPROCESS = process.env.FORCE_REPROCESS === "true";
@@ -26,7 +32,7 @@ const summarySchema = z.object({
   summary: z.string().min(1),
   whyItMatters: z.string().min(1),
   limitations: z.string().min(1),
-  tags: z.array(z.string()).min(1).max(8),
+  tags: z.array(z.string()).min(1).max(20),
   keyTakeaways: z.array(z.string()).min(2).max(5),
   authors: z.array(z.string()).optional(),
   year: z.number().int().optional(),
@@ -625,12 +631,7 @@ async function generateSummary({ capture, sourceProfile }) {
     sourceProfile.bodyText || "No readable body text available.",
   ].join("\n");
 
-  const response = await client.responses.create({
-    model: MODEL,
-    reasoning: { effort: "low" },
-    max_output_tokens: 2400,
-    input: prompt,
-  });
+  const response = await createSummaryResponse(prompt);
 
   const parsed = summarySchema.parse(extractJson(response.output_text));
 
@@ -641,6 +642,50 @@ async function generateSummary({ capture, sourceProfile }) {
     authors: dedupeTextArray(parsed.authors || sourceProfile.authors),
     tags: normalizePaperTags(parsed.tags || []),
   };
+}
+
+async function createSummaryResponse(prompt) {
+  const modelsToTry = [MODEL, ...MODEL_FALLBACKS];
+  let lastError = null;
+
+  for (const model of modelsToTry) {
+    try {
+      if (model !== MODEL) {
+        console.warn(`Primary model failed; retrying with fallback model: ${model}`);
+      }
+
+      return await client.responses.create({
+        model,
+        reasoning: { effort: "low" },
+        max_output_tokens: 2400,
+        input: prompt,
+      });
+    } catch (error) {
+      lastError = error;
+      if (!isRetryableModelError(error)) {
+        throw error;
+      }
+    }
+  }
+
+  throw lastError;
+}
+
+function isRetryableModelError(error) {
+  const status = typeof error?.status === "number" ? error.status : null;
+  const code = typeof error?.code === "string" ? error.code : "";
+  const message = typeof error?.message === "string" ? error.message : "";
+  const loweredMessage = message.toLowerCase();
+
+  if (status === 404 || status === 400) {
+    return true;
+  }
+
+  return (
+    code.toLowerCase().includes("model") ||
+    loweredMessage.includes("model") ||
+    loweredMessage.includes("does not exist")
+  );
 }
 
 function buildMarkdownBody({ summary, whyItMatters, limitations, keyTakeaways, sourceUrl, doi, notes, sourceContext }) {

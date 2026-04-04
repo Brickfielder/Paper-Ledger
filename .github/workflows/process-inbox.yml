@@ -66,6 +66,7 @@ jobs:
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_MODEL: gpt-5.4-mini
+          OPENAI_MODEL_FALLBACKS: gpt-4o-mini
           AUTO_PUBLISH: "true"
           FORCE_REPROCESS: ${{ github.event.inputs.force_reprocess == 'true' && 'true' || 'false' }}
         run: npm run process:inbox
