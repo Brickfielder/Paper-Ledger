@@ -7,7 +7,6 @@ import { Readability } from "@mozilla/readability";
 import OpenAI from "openai";
 import slugify from "slugify";
 import { z } from "zod";
-import { canonicalTagPrompt, normalizePaperTags } from "../src/lib/tag-taxonomy.mjs";
 
 const ROOT = process.cwd();
 const INBOX_DIR = path.join(ROOT, "inbox");
@@ -32,7 +31,6 @@ const summarySchema = z.object({
   summary: z.string().min(1),
   whyItMatters: z.string().min(1),
   limitations: z.string().min(1),
-  tags: z.array(z.string()).min(1).max(20),
   keyTakeaways: z.array(z.string()).min(2).max(5),
   authors: z.array(z.string()).optional(),
   year: z.number().int().optional(),
@@ -120,7 +118,6 @@ for (const entry of inboxFiles) {
       whyItMatters: generated.whyItMatters,
       limitations: generated.limitations,
       authors: dedupeTextArray(generated.authors || sourceProfile.authors),
-      tags: normalizePaperTags([...(capture.tags || []), ...generated.tags]).slice(0, 8),
       sourceUrl: generated.sourceUrl,
       sourceHost: new URL(generated.sourceUrl).hostname.replace(/^www\./, ""),
       doi: generated.doi || sourceProfile.doi || undefined,
@@ -218,7 +215,6 @@ async function parseCaptureFile(filePath) {
 
     return {
       source: urlMatch[1].trim(),
-      tags: [],
       notes: "",
     };
   }
@@ -226,12 +222,6 @@ async function parseCaptureFile(filePath) {
   const parsed = matter(raw);
   const explicitSource =
     parsed.data.source || parsed.data.url || parsed.data.doi || extractFirstSource(parsed.content) || raw.trim();
-
-  const tags = Array.isArray(parsed.data.tags)
-    ? parsed.data.tags.map((tag) => String(tag))
-    : typeof parsed.data.tags === "string"
-      ? parsed.data.tags.split(",").map((tag) => tag.trim())
-      : [];
 
   const notes =
     typeof parsed.data.notes === "string"
@@ -244,7 +234,6 @@ async function parseCaptureFile(filePath) {
 
   return {
     source: String(explicitSource).trim(),
-    tags: dedupeTextArray(tags),
     notes,
   };
 }
@@ -601,14 +590,12 @@ async function generateSummary({ capture, sourceProfile }) {
   const prompt = [
     "Summarize the following scientific article for a personal research blog.",
     "Return strict JSON only with these keys:",
-    '{"title":"string","summary":"string","whyItMatters":"string","limitations":"string","tags":["string"],"keyTakeaways":["string"],"authors":["string"],"year":2024,"doi":"string|null","sourceUrl":"https://...","journal":"string|null"}',
+    '{"title":"string","summary":"string","whyItMatters":"string","limitations":"string","keyTakeaways":["string"],"authors":["string"],"year":2024,"doi":"string|null","sourceUrl":"https://...","journal":"string|null"}',
     "Rules:",
     "- Summary should be 12-14 sentences, clear and non-hypey.",
     "- Summary should explain the setup, the main finding, and the most important methodological detail or limitation when available.",
     "- whyItMatters should be 2-3 sentences in plain language.",
     "- limitations should be 2-3 sentences with a brief critical evaluation of the paper's caveats, such as generalization, validation, confounds, or evidence strength.",
-    "- tags should be short, lowercase, and specific.",
-    `- Prefer these canonical tags when they fit: ${canonicalTagPrompt}.`,
     "- keyTakeaways should be 4-5 bullet-sized lines.",
     "- Preserve the DOI if one is available.",
     "- Preserve the original source URL.",
@@ -640,7 +627,6 @@ async function generateSummary({ capture, sourceProfile }) {
     doi: parsed.doi ? normalizeDoi(parsed.doi) : sourceProfile.doi || null,
     sourceUrl: normalizeUrl(parsed.sourceUrl || sourceProfile.sourceUrl),
     authors: dedupeTextArray(parsed.authors || sourceProfile.authors),
-    tags: normalizePaperTags(parsed.tags || []),
   };
 }
 

@@ -4,8 +4,6 @@ summary: Placeholder draft entry used to keep the content collection initialized
 whyItMatters: This stays hidden from the public site and prevents empty-collection warnings on a fresh checkout.
 authors:
   - Paper Ledger
-tags:
-  - setup
 sourceUrl: https://example.com
 sourceHost: example.com
 capturedAt: 2026-04-01T00:00:00.000Z

@@ -66,9 +66,6 @@ Optional frontmatter is supported:
 ```md
 ---
 source: https://arxiv.org/abs/2303.08774
-tags:
-  - llms
-  - evaluation
 notes: Revisit the benchmark framing.
 ---
 ```

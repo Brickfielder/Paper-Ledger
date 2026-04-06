@@ -46,13 +46,6 @@ authors:
   - Susie Y Huang
   - Suzanne N Haber
   - Anastasia Yendiki
-tags:
-  - diffusion mri
-  - primate brain
-  - connectome 2.0
-  - ultra-high gradient
-  - microstructure
-  - post-mortem imaging
 sourceUrl: 'https://doi.org/10.64898/2026.02.18.705310'
 sourceHost: doi.org
 doi: 10.64898/2026.02.18.705310

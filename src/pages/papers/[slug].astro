@@ -1,6 +1,5 @@
 ---
 import { getCollection, render } from "astro:content";
-import { normalizePaperTags } from "../../lib/tag-taxonomy.mjs";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
@@ -14,9 +13,6 @@ export async function getStaticPaths() {
 
 const { paper } = Astro.props;
 const { Content } = await render(paper);
-const basePath = import.meta.env.BASE_URL.endsWith("/")
-  ? import.meta.env.BASE_URL
-  : `${import.meta.env.BASE_URL}/`;
 
 const formatDate = (date: Date) =>
   new Intl.DateTimeFormat("en", {
@@ -37,14 +33,6 @@ const formatDate = (date: Date) =>
           <span>{formatDate(paper.data.capturedAt)}</span>
           {paper.data.year && <span>{paper.data.year}</span>}
           {paper.data.journal && <span>{paper.data.journal}</span>}
-        </div>
-
-        <div class="paper-meta">
-          {normalizePaperTags(paper.data.tags).map((tag) => (
-            <a class="tag" href={`${basePath}tags/${tag}/`}>
-              {tag}
-            </a>
-          ))}
         </div>
 
         <div class="prose">

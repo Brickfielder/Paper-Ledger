@@ -51,15 +51,6 @@ authors:
   - Matthew A. Howard
   - Aaron D. Boes
   - Jing Jiang
-tags:
-  - neuroscience
-  - functional mri
-  - connectomics
-  - brain network
-  - hippocampus
-  - intracranial eeg
-  - memory
-  - theta oscillations
 sourceUrl: 'https://www.nature.com/articles/s41467-026-70346-x'
 sourceHost: nature.com
 doi: 10.1038/s41467-026-70346-x

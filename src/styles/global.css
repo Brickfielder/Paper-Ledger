@@ -96,9 +96,7 @@ img {
 }
 
 .site-nav a:hover,
-.site-nav a:focus-visible,
-.tag:hover,
-.tag:focus-visible {
+.site-nav a:focus-visible {
   color: var(--accent);
 }
 
@@ -136,6 +134,54 @@ main {
   line-height: 1.7;
 }
 
+.search-panel {
+  margin-top: 1.5rem;
+  max-width: 42rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.search-label {
+  display: block;
+  margin-bottom: 0.55rem;
+  font: 600 0.98rem/1.2 var(--sans);
+}
+
+.search-input {
+  width: 100%;
+  border: 1px solid rgba(23, 22, 23, 0.16);
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--ink);
+  padding: 0.9rem 1rem;
+  font: inherit;
+}
+
+.search-input:focus {
+  outline: 2px solid rgba(29, 92, 99, 0.2);
+  outline-offset: 2px;
+  border-color: rgba(29, 92, 99, 0.4);
+}
+
+.search-hint,
+.search-status,
+.search-empty {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.search-hint {
+  margin: 0.65rem 0 0;
+  font-size: 0.94rem;
+}
+
+.search-status,
+.search-empty {
+  margin: 0.8rem 0 0;
+  font-size: 0.95rem;
+}
+
 .paper-list--landing {
   gap: 0.25rem;
 }
@@ -153,7 +199,6 @@ main {
 }
 
 .paper-list,
-.tag-list,
 .meta-list {
   list-style: none;
   margin: 0;
@@ -172,6 +217,10 @@ main {
 
 .paper-item:first-child {
   border-top: none;
+}
+
+.paper-item[hidden] {
+  display: none;
 }
 
 .paper-item__top {
@@ -212,13 +261,6 @@ main {
   max-width: 42rem;
 }
 
-.paper-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-  margin-top: 0.85rem;
-}
-
 .paper-item p,
 .lede,
 .prose p,
@@ -227,9 +269,7 @@ main {
   line-height: 1.75;
 }
 
-.paper-meta,
-.tag-list,
-.tag-family__list {
+.paper-meta {
   display: flex;
   flex-wrap: wrap;
   gap: 0.6rem;
@@ -240,44 +280,6 @@ main {
   margin-top: 0.85rem;
   color: var(--muted);
   font-size: 0.95rem;
-}
-
-.tag {
-  display: inline-flex;
-  align-items: center;
-  text-decoration: none;
-  border: 1px solid rgba(29, 92, 99, 0.22);
-  background: var(--accent-soft);
-  color: var(--accent);
-  border-radius: 999px;
-  padding: 0.42rem 0.78rem;
-  font-size: 0.88rem;
-}
-
-.tag-taxonomy {
-  display: grid;
-  gap: 1.25rem;
-}
-
-.tag-family {
-  padding-top: 1rem;
-  border-top: 1px solid var(--line);
-}
-
-.tag-family__root {
-  display: inline-flex;
-  margin-bottom: 0.75rem;
-  color: var(--ink);
-  text-decoration: none;
-  font: 600 1.15rem/1.1 var(--serif);
-}
-
-.tag--depth-2 {
-  margin-left: 0.5rem;
-}
-
-.tag--depth-3 {
-  margin-left: 1rem;
 }
 
 .paper-grid {

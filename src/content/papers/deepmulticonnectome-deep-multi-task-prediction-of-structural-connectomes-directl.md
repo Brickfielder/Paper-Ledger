@@ -48,13 +48,6 @@ authors:
   - Fan Zhang
   - Josien P.W. Pluim
   - Lauren J. O'Donnell
-tags:
-  - diffusion mri
-  - tractography
-  - connectome
-  - deep learning
-  - brain network
-  - multi-task learning
 sourceUrl: 'https://doi.org/10.1016/j.neuroimage.2026.121765'
 sourceHost: doi.org
 doi: 10.1016/j.neuroimage.2026.121765

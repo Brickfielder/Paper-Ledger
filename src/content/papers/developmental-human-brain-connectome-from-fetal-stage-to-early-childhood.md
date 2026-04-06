@@ -40,15 +40,6 @@ authors:
   - Tianjia Zhu
   - Shufang Tan
   - Minhui Ouyang
-tags:
-  - brain development
-  - connectome
-  - fetal brain
-  - infant brain
-  - dMRI
-  - rs-fMRI
-  - network neuroscience
-  - neurodevelopment
 sourceUrl: 'https://doi.org/10.1016/j.dcn.2026.101704'
 sourceHost: doi.org
 doi: 10.1016/j.dcn.2026.101704
