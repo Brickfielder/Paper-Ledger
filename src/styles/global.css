@@ -136,7 +136,7 @@ main {
 
 .search-panel {
   margin-top: 1.5rem;
-  max-width: 42rem;
+  width: 100%;
   padding: 1rem;
   border: 1px solid var(--line);
   background: var(--surface);
@@ -257,8 +257,7 @@ main {
 }
 
 .paper-meta--landing {
-  justify-content: space-between;
-  max-width: 42rem;
+  justify-content: flex-start;
 }
 
 .paper-item p,
