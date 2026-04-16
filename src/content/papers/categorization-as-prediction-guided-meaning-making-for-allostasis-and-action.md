@@ -50,5 +50,7 @@ This is a theory/review paper rather than a new empirical dataset, so most claim
 - Categories are treated as context-sensitive, future-oriented distributions of prototypes rather than fixed representations.
 - Extensions to psychopathology are hypothesis-generating and currently stronger as conceptual proposals than validated disorder models.
 
+![Categorization is “baked” into the brain infographic](/images/categorization-is-baked-into-the-brain.png)
+
 ## Source
 - DOI: [10.31234/osf.io/bu4sn_v1](https://doi.org/10.31234/osf.io/bu4sn_v1)
