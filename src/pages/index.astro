@@ -41,6 +41,8 @@ const searchablePapers = papers.map((paper) => ({
     .join(" ")
     .toLowerCase(),
 }));
+
+const memorySurvey = papers.find((paper) => paper.slug === "memory-for-llm-agents-a-survey");
 ---
 
 <BaseLayout
@@ -50,6 +52,15 @@ const searchablePapers = papers.map((paper) => ({
   <section class="landing-intro">
     <h1 class="page-title">Paper Ledger</h1>
     <p class="page-intro">A reading archive for papers worth keeping.</p>
+    {memorySurvey && (
+      <p class="page-intro">
+        New:{" "}
+        <a href={`${basePath}papers/${memorySurvey.slug}/`}>
+          {memorySurvey.data.title}
+        </a>{" "}
+        frames agent memory as a write-manage-read loop and argues memory design is now central to long-horizon performance.
+      </p>
+    )}
 
     {papers.length > 0 && (
       <div class="search-panel" role="search">
