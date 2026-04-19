@@ -42,7 +42,7 @@ const searchablePapers = papers.map((paper) => ({
     .toLowerCase(),
 }));
 
-const memorySurvey = papers.find((paper) => paper.slug === "memory-for-llm-agents-a-survey");
+const featuredHingePaper = papers.find((paper) => paper.slug === "autogenesis-protocol-for-self-evolving-agents");
 ---
 
 <BaseLayout
@@ -52,13 +52,13 @@ const memorySurvey = papers.find((paper) => paper.slug === "memory-for-llm-agent
   <section class="landing-intro">
     <h1 class="page-title">Paper Ledger</h1>
     <p class="page-intro">A reading archive for papers worth keeping.</p>
-    {memorySurvey && (
+    {featuredHingePaper && (
       <p class="page-intro">
         New:{" "}
-        <a href={`${basePath}papers/${memorySurvey.slug}/`}>
-          {memorySurvey.data.title}
+        <a href={`${basePath}papers/${featuredHingePaper.slug}/`}>
+          {featuredHingePaper.data.title}
         </a>{" "}
-        frames agent memory as a write-manage-read loop and argues memory design is now central to long-horizon performance.
+        argues self-evolving agents need lifecycle-managed resources and auditable commit loops, separating what can evolve from how evolution is controlled.
       </p>
     )}
 
