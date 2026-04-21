@@ -1,0 +1,53 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const papers = await getCollection("papers", ({ data }) => !data.draft);
+
+const hingeSlug = "embodied-cognition-is-a-matter-of-grip-humanistic-cognitive-science-and-the-phenomenology-of-attunement";
+const hingePaper = papers.find((paper) => paper.slug === hingeSlug);
+
+const basePath = import.meta.env.BASE_URL.endsWith("/")
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout
+  title="Hinges | Paper Ledger"
+  description="Conceptual hinge papers that change how we frame a field."
+>
+  <section class="landing-intro">
+    <p class="eyebrow">Hinges</p>
+    <h1 class="page-title">Hinge Papers</h1>
+    <p class="page-intro">
+      Papers that act as conceptual pivots: not just new data points, but new
+      organizing lenses.
+    </p>
+  </section>
+
+  <section class="section">
+    {hingePaper ? (
+      <article class="paper-item">
+        <div class="paper-item__top">
+          <a href={`${basePath}papers/${hingePaper.slug}/`}>
+            <h3>{hingePaper.data.title}</h3>
+          </a>
+        </div>
+
+        <p class="paper-summary">
+          Hovhannisyan reframes cognition as embodied world-attunement aimed at
+          improving "optimal grip," then connects that frame to personality and
+          emerging clinical assessment tools (EB5T, FFPAS, LOGS).
+        </p>
+
+        <div class="paper-meta paper-meta--landing">
+          {hingePaper.data.year && <span>{hingePaper.data.year}</span>}
+          {hingePaper.data.journal && <span>{hingePaper.data.journal}</span>}
+          <span>{hingePaper.data.sourceHost}</span>
+        </div>
+      </article>
+    ) : (
+      <p class="page-intro">No hinge papers have been pinned yet.</p>
+    )}
+  </section>
+</BaseLayout>
