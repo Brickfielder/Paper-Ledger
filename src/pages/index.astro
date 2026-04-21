@@ -42,7 +42,7 @@ const searchablePapers = papers.map((paper) => ({
     .toLowerCase(),
 }));
 
-const featuredHingePaper = papers.find((paper) => paper.slug === "asi-evolve-ai-accelerates-ai");
+const featuredHingePaper = papers.find((paper) => paper.slug === "embodied-cognition-is-a-matter-of-grip-humanistic-cognitive-science-and-the-phenomenology-of-attunement");
 ---
 
 <BaseLayout
@@ -55,10 +55,8 @@ const featuredHingePaper = papers.find((paper) => paper.slug === "asi-evolve-ai-
     {featuredHingePaper && (
       <p class="page-intro">
         New:{" "}
-        <a href={`${basePath}papers/${featuredHingePaper.slug}/`}>
-          {featuredHingePaper.data.title}
-        </a>{" "}
-        argues AI-for-AI progress is most credible when literature priors, experimental search, and structured analysis memory are integrated into one long-horizon loop.
+        <a href={`${basePath}hinges/`}>Hinges</a>{" "}
+        now features <a href={`${basePath}papers/${featuredHingePaper.slug}/`}>{featuredHingePaper.data.title}</a>, a conceptual bridge from phenomenology and embodied cognition to personality and clinical person–world fit.
       </p>
     )}
 
