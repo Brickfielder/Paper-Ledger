@@ -4,7 +4,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 const papers = await getCollection("papers", ({ data }) => !data.draft);
 
-const hingeSlug = "embodied-cognition-is-a-matter-of-grip-humanistic-cognitive-science-and-the-phenomenology-of-attunement";
+const hingeSlug = "spiking-the-mind-rethinking-the-role-of-cortical-feedback-in-visual-mental-imagery";
 const hingePaper = papers.find((paper) => paper.slug === hingeSlug);
 
 const basePath = import.meta.env.BASE_URL.endsWith("/")
@@ -35,9 +35,10 @@ const basePath = import.meta.env.BASE_URL.endsWith("/")
         </div>
 
         <p class="paper-summary">
-          Hovhannisyan reframes cognition as embodied world-attunement aimed at
-          improving "optimal grip," then connects that frame to personality and
-          emerging clinical assessment tools (EB5T, FFPAS, LOGS).
+          This hinge paper reframes visual imagery as spontaneous-activity
+          reshaping in early visual cortex, arguing that top-down feedback is
+          usually modulatory rather than spike-driving and explaining why
+          imagery is weaker, slower, and more priming-like than perception.
         </p>
 
         <div class="paper-meta paper-meta--landing">
