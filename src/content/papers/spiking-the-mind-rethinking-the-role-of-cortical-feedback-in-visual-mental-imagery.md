@@ -54,7 +54,7 @@ The article reframes imagery from a “faint internal picture” metaphor to a c
 - The model explains why imagery is usually weaker, coarser, and slower than direct perception.
 - Imagery-related aftereffects are expected to skew toward priming over adaptation.
 - The proposal is deliberately testable and motivates direct neural measurements during imagery tasks.
-![Spiking the Mind infographic](https://brickfielder.github.io/Paper-Ledger/images/spiking-the-mind-infographic.png)
+![Spiking the Mind infographic](/images/spiking-the-mind-infographic.svg)
 
 ## Source
 - DOI: [10.1037/rev0000621](https://doi.org/10.1037/rev0000621)
