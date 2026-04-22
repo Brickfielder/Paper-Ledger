@@ -55,6 +55,8 @@ The article reframes imagery from a “faint internal picture” metaphor to a c
 - Imagery-related aftereffects are expected to skew toward priming over adaptation.
 - The proposal is deliberately testable and motivates direct neural measurements during imagery tasks.
 
+![Spiking the Mind conceptual summary infographic](/images/spiking-the-mind-infographic.png)
+
 ## Source
 - DOI: [10.1037/rev0000621](https://doi.org/10.1037/rev0000621)
 - URL: [https://doi.org/10.1037/rev0000621](https://doi.org/10.1037/rev0000621)
