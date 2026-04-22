@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900" role="img" aria-labelledby="title desc">
+  <title id="title">Spiking the Mind infographic</title>
+  <desc id="desc">Conceptual summary card for Spiking the Mind: Rethinking the Role of Cortical Feedback in Visual Mental Imagery.</desc>
+  <rect width="1400" height="900" fill="#f4f7fb"/>
+  <rect x="40" y="40" width="1320" height="820" rx="24" fill="#ffffff" stroke="#123f7a" stroke-width="4"/>
+  <text x="700" y="140" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="84" font-weight="700" fill="#123f7a">Spiking the Mind</text>
+  <text x="700" y="200" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="40" font-style="italic" fill="#0a7e8c">How does visual imagery affect early visual cortex?</text>
+  <rect x="90" y="260" width="580" height="470" rx="16" fill="#eef3fb" stroke="#6f8fbe" stroke-width="2"/>
+  <text x="380" y="310" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="700" fill="#1c4384">Common assumption</text>
+  <text x="380" y="350" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="34" font-style="italic" fill="#1f2d4d">Imagery = perception in reverse</text>
+  <rect x="730" y="260" width="580" height="470" rx="16" fill="#e8f6f8" stroke="#3d9aa6" stroke-width="2"/>
+  <text x="1020" y="310" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="700" fill="#0f7d8b">Authors’ proposal</text>
+  <text x="1020" y="350" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="34" font-style="italic" fill="#0f5861">Spontaneous-activity reshaping</text>
+  <text x="120" y="430" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#1f2d4d">• Feedback drives spikes in early visual cortex</text>
+  <text x="120" y="480" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#1f2d4d">• Imagined features activated like seen features</text>
+  <text x="120" y="530" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#1f2d4d">• Similar mechanism to perception, top-down</text>
+  <text x="760" y="430" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#123f7a">• Feedback strongly drives higher-level areas</text>
+  <text x="760" y="480" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#123f7a">• In V1/V2, feedback is mostly modulatory</text>
+  <text x="760" y="530" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#123f7a">• Imagery reshapes ongoing spontaneous activity</text>
+  <text x="760" y="580" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#123f7a">• Often acts via selective suppression</text>
+  <rect x="90" y="760" width="1220" height="70" rx="10" fill="#fff3e6" stroke="#e67e22" stroke-width="2"/>
+  <text x="700" y="805" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" fill="#c85f00">Take-home: imagery may sculpt spontaneous activity rather than recreate perception-like spikes in V1/V2.</text>
+</svg>
