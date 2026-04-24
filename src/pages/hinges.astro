@@ -4,8 +4,25 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 const papers = await getCollection("papers", ({ data }) => !data.draft);
 
-const hingeSlug = "spiking-the-mind-rethinking-the-role-of-cortical-feedback-in-visual-mental-imagery";
-const hingePaper = papers.find((paper) => paper.slug === hingeSlug);
+const hingeEntries = [
+  {
+    slug: "spiking-the-mind-rethinking-the-role-of-cortical-feedback-in-visual-mental-imagery",
+    summary:
+      "This hinge paper reframes visual imagery as spontaneous-activity reshaping in early visual cortex, arguing that top-down feedback is usually modulatory rather than spike-driving and explaining why imagery is weaker, slower, and more priming-like than perception.",
+  },
+  {
+    slug: "backpropagation-and-the-brain",
+    summary:
+      "This hinge paper reframes the backprop debate from a literal yes/no question to a functional one, arguing that cortical feedback may encode activity differences (NGRAD) that approximate gradient-like credit assignment without requiring textbook backprop in cortex.",
+  },
+];
+
+const hingePapers = hingeEntries
+  .map((entry) => {
+    const paper = papers.find((item) => item.slug === entry.slug);
+    return paper ? { paper, summary: entry.summary } : null;
+  })
+  .filter((entry): entry is { paper: (typeof papers)[number]; summary: string } => Boolean(entry));
 
 const basePath = import.meta.env.BASE_URL.endsWith("/")
   ? import.meta.env.BASE_URL
@@ -26,27 +43,24 @@ const basePath = import.meta.env.BASE_URL.endsWith("/")
   </section>
 
   <section class="section">
-    {hingePaper ? (
-      <article class="paper-item">
-        <div class="paper-item__top">
-          <a href={`${basePath}papers/${hingePaper.slug}/`}>
-            <h3>{hingePaper.data.title}</h3>
-          </a>
-        </div>
+    {hingePapers.length > 0 ? (
+      hingePapers.map(({ paper, summary }) => (
+        <article class="paper-item">
+          <div class="paper-item__top">
+            <a href={`${basePath}papers/${paper.slug}/`}>
+              <h3>{paper.data.title}</h3>
+            </a>
+          </div>
 
-        <p class="paper-summary">
-          This hinge paper reframes visual imagery as spontaneous-activity
-          reshaping in early visual cortex, arguing that top-down feedback is
-          usually modulatory rather than spike-driving and explaining why
-          imagery is weaker, slower, and more priming-like than perception.
-        </p>
+          <p class="paper-summary">{summary}</p>
 
-        <div class="paper-meta paper-meta--landing">
-          {hingePaper.data.year && <span>{hingePaper.data.year}</span>}
-          {hingePaper.data.journal && <span>{hingePaper.data.journal}</span>}
-          <span>{hingePaper.data.sourceHost}</span>
-        </div>
-      </article>
+          <div class="paper-meta paper-meta--landing">
+            {paper.data.year && <span>{paper.data.year}</span>}
+            {paper.data.journal && <span>{paper.data.journal}</span>}
+            <span>{paper.data.sourceHost}</span>
+          </div>
+        </article>
+      ))
     ) : (
       <p class="page-intro">No hinge papers have been pinned yet.</p>
     )}
