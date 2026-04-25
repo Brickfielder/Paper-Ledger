@@ -1,0 +1,16 @@
+How does the cerebellum contribute to cognitive functions?
+DOI: 10.1371/journal.pbio.3003688.
+Neuron–astrocyte associative memory
+DOI: 10.1073/pnas.2417788122.
+Lifespan Development of EEG Alpha and Aperiodic Component Sources is Shaped by the Connectome and Axonal Delays
+DOI: 10.1093/nsr/nwag076.
+Visualizing cortical laminar architecture in the living human brain using next-generation ultra-high-gradient diffusion MRI
+DOI: https://doi.org/10.1038/s42003-026-09887-2
+Title: Convolutional architectures are cortex-aligned de novo 
+DOI: https://pmc.ncbi.nlm.nih.gov/articles/PMC12324244/
+Title: Leave No Context Behind: Efficient Infinite Context Transformers with Infini-attention 
+DOI: https://arxiv.org/html/2404.07143v2
+Title: Nested Learning: Illusion of Deep Learning Architectures
+DOI: https://arxiv.org/pdf/2512.24695
+Title: Towards Reasoning Era: A Survey of Long Chain-of-Thought for Reasoning Large Language Models 
+DOI: https://arxiv.org/html/2503.09567v5
