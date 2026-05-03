@@ -24,6 +24,7 @@ authors:
   - Yuhang Zhou
   - Te Gao
   - Wanxiang Che
+theme: "AI Agents, Reasoning & Machine Cognition"
 sourceUrl: https://arxiv.org/html/2503.09567v5
 sourceHost: arxiv.org
 doi: 10.48550/arXiv.2503.09567

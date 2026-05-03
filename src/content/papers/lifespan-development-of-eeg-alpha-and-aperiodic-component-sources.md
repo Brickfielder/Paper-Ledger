@@ -28,6 +28,7 @@ authors:
   - Viktor Jirsa
   - Dezhong Yao
   - Ludovico Minati
+theme: "Brain Maps & Connectomes"
 sourceUrl: https://doi.org/10.1093/nsr/nwag076
 sourceHost: doi.org
 doi: 10.1093/nsr/nwag076

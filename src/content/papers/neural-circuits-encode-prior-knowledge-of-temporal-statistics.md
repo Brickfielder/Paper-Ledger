@@ -51,6 +51,7 @@ authors:
   - Marit Runge
   - Lucas Bayones
   - Devika Narain
+theme: "Cognition, Prediction & Mental Experience"
 sourceUrl: 'https://www.nature.com/articles/s41593-026-02255-7'
 sourceHost: nature.com
 doi: 10.1038/s41593-026-02255-7

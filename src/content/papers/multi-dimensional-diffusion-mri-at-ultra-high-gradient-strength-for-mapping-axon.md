@@ -46,6 +46,7 @@ authors:
   - Susie Y Huang
   - Suzanne N Haber
   - Anastasia Yendiki
+theme: "Brain Maps & Connectomes"
 sourceUrl: 'https://doi.org/10.64898/2026.02.18.705310'
 sourceHost: doi.org
 doi: 10.64898/2026.02.18.705310

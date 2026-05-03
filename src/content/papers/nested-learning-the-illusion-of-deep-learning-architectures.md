@@ -19,6 +19,7 @@ authors:
   - Meisam Razaviyayn
   - Peilin Zhong
   - Vahab Mirrokni
+theme: "AI Agents, Reasoning & Machine Cognition"
 sourceUrl: https://arxiv.org/pdf/2512.24695
 sourceHost: arxiv.org
 doi: 10.48550/arXiv.2512.24695

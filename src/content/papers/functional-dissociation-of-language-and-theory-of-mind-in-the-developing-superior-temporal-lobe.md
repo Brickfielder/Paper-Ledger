@@ -24,6 +24,7 @@ authors:
   - Kelly J. Hiersche
   - David E. Osher
   - Zeynep M. Saygin
+theme: "Cognition, Prediction & Mental Experience"
 sourceUrl: https://www.nature.com/articles/s42003-026-10040-2
 sourceHost: nature.com
 doi: 10.1038/s42003-026-10040-2

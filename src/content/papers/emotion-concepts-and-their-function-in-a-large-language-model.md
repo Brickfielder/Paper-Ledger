@@ -49,6 +49,7 @@ tags:
   - emotion concepts
   - llms
   - mechanistic interpretability
+theme: "AI Agents, Reasoning & Machine Cognition"
 sourceUrl: 'https://transformer-circuits.pub/2026/emotions/index.html'
 sourceHost: transformer-circuits.pub
 year: 2024

@@ -30,6 +30,7 @@ limitations: >-
   forgetting, trustworthy reflection, and causally grounded retrieval remain open
   research problems rather than settled solutions.
 authors: []
+theme: "AI Agents, Reasoning & Machine Cognition"
 sourceUrl: 'https://arxiv.org/abs/2603.07670'
 sourceHost: arxiv.org
 doi: 10.48550/arXiv.2603.07670

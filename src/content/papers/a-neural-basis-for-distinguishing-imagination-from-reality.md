@@ -33,6 +33,7 @@ authors:
   - Thomas von Rein
   - Peter Kok
   - Stephen M. Fleming
+theme: "Cognition, Prediction & Mental Experience"
 sourceUrl: 'https://doi.org/10.1016/j.neuron.2025.05.015'
 sourceHost: doi.org
 doi: 10.1016/j.neuron.2025.05.015

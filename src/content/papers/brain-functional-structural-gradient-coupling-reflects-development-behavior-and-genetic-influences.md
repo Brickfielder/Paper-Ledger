@@ -31,6 +31,7 @@ authors:
   - Zhengwu Zhang
   - Hongyu Zhao
   - Yize Zhao
+theme: "Brain Maps & Connectomes"
 sourceUrl: https://doi.org/10.1038/s41467-026-71719-y
 sourceHost: doi.org
 doi: 10.1038/s41467-026-71719-y

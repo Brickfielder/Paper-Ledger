@@ -29,6 +29,7 @@ tags:
   - sensory systems
   - developmental biology
   - spatial transcriptomics
+theme: "Brain Maps & Connectomes"
 sourceUrl: 'https://www.cell.com/cell/fulltext/S0092-8674(26)00387-9'
 sourceHost: cell.com
 year: 2026

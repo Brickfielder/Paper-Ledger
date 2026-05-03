@@ -40,6 +40,7 @@ authors:
   - Heping Zhang
   - Zhengwu Zhang
   - Hongtu Zhu
+theme: "Brain Maps & Connectomes"
 sourceUrl: https://www.biorxiv.org/content/10.64898/2026.04.09.717492v1.full
 sourceHost: www.biorxiv.org
 doi: 10.64898/2026.04.09.717492

@@ -33,6 +33,7 @@ authors:
   - Zi Jing Wong
   - Yongmin Liu
   - Shoufeng Lan
+theme: "Frontier Physical Systems & Enabling Technologies"
 sourceUrl: 'https://doi.org/10.1016/j.newton.2026.100471'
 sourceHost: doi.org
 doi: 10.1016/j.newton.2026.100471

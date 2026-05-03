@@ -18,6 +18,7 @@ authors:
   - Atlas Kazemian
   - Eric Elmoznino
   - Michael F. Bonner
+theme: "Biological Learning & Neural Computation"
 sourceUrl: https://pmc.ncbi.nlm.nih.gov/articles/PMC12324244/
 sourceHost: pmc.ncbi.nlm.nih.gov
 doi: 10.1101/2024.05.10.593623

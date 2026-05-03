@@ -58,6 +58,7 @@ tags:
   - medial temporal lobe
   - memory
   - neurophysiology
+theme: "Cognition, Prediction & Mental Experience"
 sourceUrl: 'https://www.nature.com/articles/s41586-025-09910-2'
 sourceHost: nature.com
 doi: 10.1038/s41586-025-09910-2

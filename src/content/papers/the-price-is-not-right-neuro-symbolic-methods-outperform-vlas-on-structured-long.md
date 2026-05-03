@@ -45,6 +45,7 @@ tags:
   - robotics
   - simulation
   - vision-language-action
+theme: "AI Agents, Reasoning & Machine Cognition"
 sourceUrl: 'https://arxiv.org/abs/2602.19260'
 sourceHost: arxiv.org
 doi: 10.48550/arXiv.2602.19260

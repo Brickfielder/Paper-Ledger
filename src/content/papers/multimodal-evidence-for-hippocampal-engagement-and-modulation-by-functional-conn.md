@@ -51,6 +51,7 @@ authors:
   - Matthew A. Howard
   - Aaron D. Boes
   - Jing Jiang
+theme: "Neurotechnology, Intervention & Preservation"
 sourceUrl: 'https://www.nature.com/articles/s41467-026-70346-x'
 sourceHost: nature.com
 doi: 10.1038/s41467-026-70346-x

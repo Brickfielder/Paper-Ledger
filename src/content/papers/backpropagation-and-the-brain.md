@@ -36,6 +36,7 @@ authors:
   - Demis Hassabis
   - Daniel Yamins
   - Christopher J. C. Eliasmith
+theme: "Biological Learning & Neural Computation"
 sourceUrl: "https://doi.org/10.1038/s41583-020-0277-3"
 sourceHost: doi.org
 doi: "10.1038/s41583-020-0277-3"

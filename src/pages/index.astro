@@ -42,8 +42,6 @@ const searchablePapers = papers.map((paper) => ({
     .toLowerCase(),
 }));
 
-const featuredHingePaper = papers.find((paper) => paper.slug === "spiking-the-mind-rethinking-the-role-of-cortical-feedback-in-visual-mental-imagery");
-const latestPaper = papers[0];
 ---
 
 <BaseLayout
@@ -53,20 +51,6 @@ const latestPaper = papers[0];
   <section class="landing-intro">
     <h1 class="page-title">Paper Ledger</h1>
     <p class="page-intro">A reading archive for papers worth keeping.</p>
-    {featuredHingePaper && (
-      <p class="page-intro">
-        New:{" "}
-        <a href={`${basePath}hinges/`}>Hinges</a>{" "}
-        now features <a href={`${basePath}papers/${featuredHingePaper.slug}/`}>{featuredHingePaper.data.title}</a>, a conceptual pivot that reinterprets visual imagery as modulatory feedback-driven reshaping instead of weak replayed perception.
-      </p>
-    )}
-
-    {latestPaper && (
-      <p class="page-intro">
-        Latest paper: <a href={`${basePath}papers/${latestPaper.slug}/`}>{latestPaper.data.title}</a> — {excerptSummary(latestPaper.data.summary)}
-      </p>
-    )}
-
     {papers.length > 0 && (
       <div class="search-panel" role="search">
         <label class="search-label" for="paper-search">Search the archive</label>

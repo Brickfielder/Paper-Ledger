@@ -18,6 +18,7 @@ authors:
   - Leo Kozachkov
   - Jean-Jacques Slotine
   - Dmitry Krotov
+theme: "Biological Learning & Neural Computation"
 sourceUrl: https://pmc.ncbi.nlm.nih.gov/articles/PMC12130835/
 sourceHost: pmc.ncbi.nlm.nih.gov
 doi: 10.1073/pnas.2417788122

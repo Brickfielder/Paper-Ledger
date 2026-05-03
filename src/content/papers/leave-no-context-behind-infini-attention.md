@@ -18,6 +18,7 @@ authors:
   - Tsendsuren Munkhdalai
   - Manaal Faruqui
   - Siddharth Gopal
+theme: "AI Agents, Reasoning & Machine Cognition"
 sourceUrl: https://arxiv.org/html/2404.07143v2
 sourceHost: arxiv.org
 doi: 10.48550/arXiv.2404.07143

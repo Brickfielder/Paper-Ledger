@@ -4,20 +4,20 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 const papers = await getCollection("papers", ({ data }) => !data.draft);
 
-const hingeEntries = [
+const highlightEntries = [
   {
-    slug: "spiking-the-mind-rethinking-the-role-of-cortical-feedback-in-visual-mental-imagery",
+    slug: "hierarchical-x-ray-microscopy-and-mesoscopic-diffusion-mri-in-the-same-brain-reveal-the-human-connectome-across-scales",
     summary:
-      "This hinge paper reframes visual imagery as spontaneous-activity reshaping in early visual cortex, arguing that top-down feedback is usually modulatory rather than spike-driving and explaining why imagery is weaker, slower, and more priming-like than perception.",
+      "A standout cross-scale connectomics paper: the same human hemisphere is followed from MRI-scale tractography through hierarchical X-ray microscopy, micro-CT, and electron microscopy, creating a bridge between whole-brain maps and microscopic axonal anatomy.",
   },
   {
-    slug: "backpropagation-and-the-brain",
+    slug: "functional-recovery-of-the-adult-murine-hippocampus-after-cryopreservation-by-vi",
     summary:
-      "This hinge paper reframes the backprop debate from a literal yes/no question to a functional one, arguing that cortical feedback may encode activity differences (NGRAD) that approximate gradient-like credit assignment without requiring textbook backprop in cortex.",
+      "A striking preservation result: adult mouse hippocampal tissue is vitrified, rewarmed, and shown to recover short-term structure, metabolism, excitability, synaptic transmission, and long-term potentiation after molecular mobility had effectively stopped.",
   },
 ];
 
-const hingePapers = hingeEntries
+const highlightPapers = highlightEntries
   .map((entry) => {
     const paper = papers.find((item) => item.slug === entry.slug);
     return paper ? { paper, summary: entry.summary } : null;
@@ -30,21 +30,20 @@ const basePath = import.meta.env.BASE_URL.endsWith("/")
 ---
 
 <BaseLayout
-  title="Hinges | Paper Ledger"
-  description="Conceptual hinge papers that change how we frame a field."
+  title="Highlights | Paper Ledger"
+  description="Selected papers worth foregrounding from the archive."
 >
   <section class="landing-intro">
-    <p class="eyebrow">Hinges</p>
-    <h1 class="page-title">Hinge Papers</h1>
+    <p class="eyebrow">Highlights</p>
+    <h1 class="page-title">Highlights</h1>
     <p class="page-intro">
-      Papers that act as conceptual pivots: not just new data points, but new
-      organizing lenses.
+      Selected papers worth keeping close at hand.
     </p>
   </section>
 
   <section class="section">
-    {hingePapers.length > 0 ? (
-      hingePapers.map(({ paper, summary }) => (
+    {highlightPapers.length > 0 ? (
+      highlightPapers.map(({ paper, summary }) => (
         <article class="paper-item">
           <div class="paper-item__top">
             <a href={`${basePath}papers/${paper.slug}/`}>
@@ -62,7 +61,7 @@ const basePath = import.meta.env.BASE_URL.endsWith("/")
         </article>
       ))
     ) : (
-      <p class="page-intro">No hinge papers have been pinned yet.</p>
+      <p class="page-intro">No highlights have been pinned yet.</p>
     )}
   </section>
 </BaseLayout>

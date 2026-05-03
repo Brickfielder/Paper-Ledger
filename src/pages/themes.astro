@@ -1,0 +1,132 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const papers = await getCollection("papers", ({ data }) => !data.draft);
+
+const themeSummaries = [
+  {
+    name: "Brain Maps & Connectomes",
+    summary:
+      "High-resolution attempts to measure, model, or compare brain structure and connectivity across scales, from laminar diffusion MRI and subcortical pathways to whole-connectome statistics and development.",
+  },
+  {
+    name: "Cognition, Prediction & Mental Experience",
+    summary:
+      "Work on how brains construct perception, imagination, memory, dreams, meaning, social understanding, and predictions about the world.",
+  },
+  {
+    name: "Biological Learning & Neural Computation",
+    summary:
+      "Papers that connect biological systems to learning, credit assignment, associative memory, architecture, and broader computational principles.",
+  },
+  {
+    name: "Neurotechnology, Intervention & Preservation",
+    summary:
+      "Practical and translational work on brain interfaces, stimulation, tissue preservation, simulation timelines, and biological manipulation.",
+  },
+  {
+    name: "AI Agents, Reasoning & Machine Cognition",
+    summary:
+      "Modern AI systems viewed through reasoning, memory, self-improvement, affect-like internal representations, and structured action planning.",
+  },
+  {
+    name: "Frontier Physical Systems & Enabling Technologies",
+    summary:
+      "Useful outliers that point to new technical possibilities beyond the main neuroscience and AI clusters.",
+  },
+];
+
+const basePath = import.meta.env.BASE_URL.endsWith("/")
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+
+const papersByTheme = new Map<string, typeof papers>();
+
+for (const paper of papers) {
+  const theme = paper.data.theme || "Uncategorized";
+  papersByTheme.set(theme, [...(papersByTheme.get(theme) || []), paper]);
+}
+
+for (const themePapers of papersByTheme.values()) {
+  themePapers.sort((a, b) => a.data.title.localeCompare(b.data.title));
+}
+
+const paperCountLabel = (count: number) => `${count} ${count === 1 ? "paper" : "papers"}`;
+
+const formatMeta = (paper: (typeof papers)[number]) =>
+  [paper.data.year, paper.data.journal].filter(Boolean).join(" · ");
+
+const themeSlug = (name: string) =>
+  name.toLowerCase().replaceAll(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
+const visibleThemes = themeSummaries
+  .map((theme) => ({
+    ...theme,
+    slug: themeSlug(theme.name),
+    papers: papersByTheme.get(theme.name) || [],
+  }))
+  .filter((theme) => theme.papers.length > 0);
+
+const totalThemedPapers = visibleThemes.reduce((total, theme) => total + theme.papers.length, 0);
+---
+
+<BaseLayout
+  title="Themes | Paper Ledger"
+  description="Macro-themes across the Paper Ledger archive."
+>
+  <section class="landing-intro">
+    <p class="eyebrow">Themes</p>
+    <h1 class="page-title">Themes</h1>
+    <p class="page-intro">
+      A high-level map of the archive, grouped by the big questions the papers
+      keep circling back to.
+    </p>
+  </section>
+
+  <section class="theme-overview" aria-label="Theme overview">
+    <div class="theme-overview__summary">
+      <span>{paperCountLabel(totalThemedPapers)}</span>
+      <p>
+        The archive currently clusters around {visibleThemes.length} macro-themes,
+        from cross-scale brain mapping to AI agents and practical neurotechnology.
+      </p>
+    </div>
+
+    <nav class="theme-jump-list" aria-label="Theme sections">
+      {visibleThemes.map((theme) => (
+        <a href={`#${theme.slug}`}>
+          <span>{paperCountLabel(theme.papers.length)}</span>
+          {theme.name}
+        </a>
+      ))}
+    </nav>
+  </section>
+
+  <section class="section theme-list">
+    {visibleThemes.map((theme, index) => (
+      <article class="theme-block" id={theme.slug}>
+        <div class="theme-block__header">
+          <div class="theme-block__title">
+            <p class="section-kicker">{paperCountLabel(theme.papers.length)}</p>
+            <h2>{theme.name}</h2>
+          </div>
+          <div class="theme-block__summary">
+            <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+            <p>{theme.summary}</p>
+          </div>
+        </div>
+
+        <ol class="paper-list theme-paper-list">
+          {theme.papers.map((paper, paperIndex) => (
+            <li class="theme-paper">
+              <span class="theme-paper__index">{String(paperIndex + 1).padStart(2, "0")}</span>
+              <a href={`${basePath}papers/${paper.slug}/`}>{paper.data.title}</a>
+              {formatMeta(paper) && <span>{formatMeta(paper)}</span>}
+            </li>
+          ))}
+        </ol>
+      </article>
+    ))}
+  </section>
+</BaseLayout>

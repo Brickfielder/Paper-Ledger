@@ -34,6 +34,7 @@ authors:
   - Michele Bellesi
   - Giulio Bernardi
   - Giacomo Handjaras
+theme: "Cognition, Prediction & Mental Experience"
 sourceUrl: https://www.nature.com/articles/s44271-026-00447-2
 sourceHost: nature.com
 doi: 10.1038/s44271-026-00447-2

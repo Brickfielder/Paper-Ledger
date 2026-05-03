@@ -27,6 +27,7 @@ authors:
   - Xiangrui Zeng
   - Lucas Jacob Deden Binder
   - Bruce Fischl
+theme: "Brain Maps & Connectomes"
 sourceUrl: https://doi.org/10.1038/s42003-026-09887-2
 sourceHost: doi.org
 doi: 10.1038/s42003-026-09887-2

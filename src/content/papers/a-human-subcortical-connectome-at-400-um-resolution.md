@@ -35,6 +35,7 @@ authors:
   - Robert M. Richardson
   - Suzanne N. Haber
   - Anastasia Yendiki
+theme: "Brain Maps & Connectomes"
 sourceUrl: https://www.biorxiv.org/content/10.64898/2026.03.31.715699v1.full
 sourceHost: www.biorxiv.org
 doi: 10.64898/2026.03.31.715699

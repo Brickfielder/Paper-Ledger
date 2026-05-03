@@ -53,6 +53,7 @@ authors:
   - Jeff W. Lichtman
   - Anastasia Yendiki
   - Claire L. Walsh
+theme: "Brain Maps & Connectomes"
 sourceUrl: https://www.biorxiv.org/content/10.64898/2026.04.02.716198v1.full
 sourceHost: www.biorxiv.org
 doi: 10.64898/2026.04.02.716198

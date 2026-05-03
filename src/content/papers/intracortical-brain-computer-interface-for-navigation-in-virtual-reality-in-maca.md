@@ -49,6 +49,7 @@ authors:
   - Jesus Garcia Ramirez
   - Thomas Decramer
   - Peter Janssen
+theme: "Neurotechnology, Intervention & Preservation"
 sourceUrl: 'https://doi.org/10.1126/sciadv.adw3876'
 sourceHost: doi.org
 doi: 10.1126/sciadv.adw3876

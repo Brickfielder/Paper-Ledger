@@ -40,6 +40,7 @@ authors:
   - Tianjia Zhu
   - Shufang Tan
   - Minhui Ouyang
+theme: "Brain Maps & Connectomes"
 sourceUrl: 'https://doi.org/10.1016/j.dcn.2026.101704'
 sourceHost: doi.org
 doi: 10.1016/j.dcn.2026.101704

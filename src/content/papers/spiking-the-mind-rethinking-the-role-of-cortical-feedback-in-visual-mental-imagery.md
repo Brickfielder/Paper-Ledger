@@ -26,6 +26,7 @@ limitations: >-
   regimes, but does not fully specify how that switching is controlled across
   contexts.
 authors: []
+theme: "Cognition, Prediction & Mental Experience"
 sourceUrl: 'https://doi.org/10.1037/rev0000621'
 sourceHost: doi.org
 doi: 10.1037/rev0000621

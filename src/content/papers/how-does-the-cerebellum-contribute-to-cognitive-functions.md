@@ -19,6 +19,7 @@ limitations: >-
 authors:
   - Jörn Diedrichsen
   - Samuel D. McDougle
+theme: "Cognition, Prediction & Mental Experience"
 sourceUrl: https://doi.org/10.1371/journal.pbio.3003688
 sourceHost: doi.org
 doi: 10.1371/journal.pbio.3003688

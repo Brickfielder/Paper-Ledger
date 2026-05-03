@@ -55,6 +55,7 @@ tags:
   - mouse
   - reproduction
   - serial cloning
+theme: "Neurotechnology, Intervention & Preservation"
 sourceUrl: 'https://www.nature.com/articles/s41467-026-69765-7'
 sourceHost: nature.com
 doi: 10.1038/s41467-026-69765-7

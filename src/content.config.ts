@@ -12,6 +12,7 @@ const papers = defineCollection({
     doi: z.string().optional(),
     year: z.number().int().optional(),
     journal: z.string().optional(),
+    theme: z.string().optional(),
     sourceContext: z.enum(["fulltext", "abstract-only", "metadata-only"]).optional(),
     capturedAt: z.coerce.date(),
     draft: z.boolean().default(false),

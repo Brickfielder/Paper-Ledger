@@ -27,6 +27,7 @@ limitations: >-
   architectural (rollback, versioning, commit control) rather than stress-tested
   against long-run drift, reward hacking, or subtle regressions.
 authors: []
+theme: "AI Agents, Reasoning & Machine Cognition"
 sourceUrl: 'https://arxiv.org/abs/2604.15034'
 sourceHost: arxiv.org
 doi: 10.48550/arXiv.2604.15034

@@ -21,6 +21,7 @@ limitations: >-
   operationalizations are promising but still early (especially LOGS validation).
 authors:
   - Garri Hovhannisyan
+theme: "Cognition, Prediction & Mental Experience"
 sourceUrl: "https://journals.sagepub.com/doi/10.1177/00221678261422777"
 sourceHost: journals.sagepub.com
 doi: "10.1177/00221678261422777"

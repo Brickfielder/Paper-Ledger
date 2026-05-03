@@ -26,6 +26,7 @@ tags:
   - allostasis
   - interoception
   - theory
+theme: "Cognition, Prediction & Mental Experience"
 sourceUrl: 'https://doi.org/10.31234/osf.io/bu4sn_v1'
 sourceHost: doi.org
 doi: '10.31234/osf.io/bu4sn_v1'

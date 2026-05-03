@@ -46,6 +46,7 @@ limitations: >-
   and learning are defined and operationalized.
 authors:
   - Ido Kanter
+theme: "Biological Learning & Neural Computation"
 sourceUrl: 'https://doi.org/10.1016/j.physa.2026.131534'
 sourceHost: doi.org
 doi: 10.1016/j.physa.2026.131534

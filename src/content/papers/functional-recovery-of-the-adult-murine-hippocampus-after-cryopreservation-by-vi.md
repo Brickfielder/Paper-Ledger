@@ -54,6 +54,7 @@ tags:
   - mouse brain
   - synaptic plasticity
   - vitrification
+theme: "Neurotechnology, Intervention & Preservation"
 sourceUrl: 'https://doi.org/10.1073/pnas.2516848123'
 sourceHost: doi.org
 doi: 10.1073/pnas.2516848123

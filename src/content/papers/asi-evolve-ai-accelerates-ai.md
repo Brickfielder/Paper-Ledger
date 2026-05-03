@@ -26,6 +26,7 @@ limitations: >-
   priors, so "AI accelerates AI" should be read as assisted, iterative
   acceleration rather than fully independent AI science.
 authors: []
+theme: "AI Agents, Reasoning & Machine Cognition"
 sourceUrl: 'https://arxiv.org/abs/2603.29640'
 sourceHost: arxiv.org
 doi: 10.48550/arXiv.2603.29640

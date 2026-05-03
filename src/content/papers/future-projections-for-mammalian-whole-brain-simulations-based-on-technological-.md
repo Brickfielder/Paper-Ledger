@@ -47,6 +47,7 @@ tags:
   - brain simulation
   - supercomputing
   - whole-brain simulation
+theme: "Neurotechnology, Intervention & Preservation"
 sourceUrl: 'https://doi.org/10.1016/j.neures.2024.11.005'
 sourceHost: doi.org
 doi: 10.1016/j.neures.2024.11.005

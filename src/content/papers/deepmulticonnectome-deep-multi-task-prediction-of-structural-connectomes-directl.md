@@ -53,6 +53,7 @@ sourceHost: doi.org
 doi: 10.1016/j.neuroimage.2026.121765
 year: 2026
 journal: NeuroImage
+theme: "Brain Maps & Connectomes"
 sourceContext: fulltext
 capturedAt: '2026-04-02T16:09:56.973Z'
 draft: false
