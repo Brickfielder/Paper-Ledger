@@ -446,9 +446,19 @@ main {
   align-items: start;
 }
 
+.paper-grid > * {
+  min-width: 0;
+}
+
 .lede {
   font-size: 1.08rem;
   margin: 1rem 0 0;
+}
+
+.paper-header h1,
+.prose,
+.meta-list {
+  overflow-wrap: anywhere;
 }
 
 .prose h2 {
