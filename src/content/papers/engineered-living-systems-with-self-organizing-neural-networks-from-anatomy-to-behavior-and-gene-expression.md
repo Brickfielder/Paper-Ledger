@@ -34,7 +34,7 @@ authors:
   - Patrick Erickson
   - Tiffany Lin
   - Michael Levin
-theme: "Neural Interfaces & Living Systems"
+theme: "Neurotechnology, Intervention & Preservation"
 sourceUrl: 'https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202508967'
 sourceHost: advanced.onlinelibrary.wiley.com
 doi: 10.1002/advs.202508967

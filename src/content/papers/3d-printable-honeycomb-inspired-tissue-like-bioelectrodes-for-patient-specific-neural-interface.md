@@ -39,7 +39,7 @@ authors:
   - Nanyin Zhang
   - Sulin Zhang
   - Tao Zhou
-theme: "Neural Interfaces & Living Systems"
+theme: "Neurotechnology, Intervention & Preservation"
 sourceUrl: 'https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202516291'
 sourceHost: advanced.onlinelibrary.wiley.com
 doi: 10.1002/adma.202516291
