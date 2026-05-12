@@ -1,0 +1,46 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const tools = [
+  {
+    name: "Abstract Screening Tool",
+    url: "https://brickfielder.github.io/QoL-cardiac-arrest/screening-ui/",
+    description:
+      "A browser-based screening interface for reviewing abstracts in the cardiac-arrest quality-of-life review workflow.",
+  },
+  {
+    name: "Emergency Response Video Vignettes",
+    url: "https://emergency-response-video-vignettes.vercel.app/",
+    description:
+      "A public collection of emergency-response video vignettes for training, reflection, and discussion.",
+  },
+];
+---
+
+<BaseLayout
+  title="Tools | Paper Ledger"
+  description="Tools and public resources made available from Brickfielder."
+>
+  <section class="landing-intro">
+    <p class="eyebrow">Tools</p>
+    <h1 class="page-title">Tools</h1>
+    <p class="page-intro">
+      Practical tools and resources that may be useful to collaborators,
+      reviewers, and readers.
+    </p>
+  </section>
+
+  <section class="section tool-list" aria-label="Available tools">
+    {tools.map((tool, index) => (
+      <article class="tool-item">
+        <span class="tool-item__index">{String(index + 1).padStart(2, "0")}</span>
+        <div>
+          <h2>
+            <a href={tool.url} target="_blank" rel="noreferrer">{tool.name}</a>
+          </h2>
+          <p>{tool.description}</p>
+        </div>
+      </article>
+    ))}
+  </section>
+</BaseLayout>

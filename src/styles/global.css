@@ -420,6 +420,8 @@ main {
 
 .paper-item p,
 .lede,
+.prose-page p,
+.tool-item p,
 .prose p,
 .prose li {
   color: var(--muted);
@@ -488,6 +490,58 @@ main {
   color: var(--muted);
 }
 
+.prose-page {
+  max-width: 46rem;
+}
+
+.prose-page p {
+  margin: 1.15rem 0 0;
+  font-size: clamp(1.08rem, 2vw, 1.24rem);
+}
+
+.tool-list {
+  display: grid;
+  gap: 0;
+}
+
+.tool-item {
+  display: grid;
+  grid-template-columns: 2.4rem minmax(0, 1fr);
+  gap: 1rem;
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--line);
+}
+
+.tool-item:first-child {
+  border-top: none;
+}
+
+.tool-item__index {
+  color: rgba(90, 87, 79, 0.72);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.tool-item h2 {
+  margin: 0;
+  font: 600 clamp(1.35rem, 2.4vw, 1.9rem)/1.12 var(--serif);
+}
+
+.tool-item a {
+  text-decoration: none;
+}
+
+.tool-item a:hover,
+.tool-item a:focus-visible {
+  color: var(--accent);
+}
+
+.tool-item p {
+  margin: 0.65rem 0 0;
+  max-width: 44rem;
+}
+
 .footer {
   padding: 1.4rem 0 3rem;
   border-top: 1px solid var(--line);
@@ -538,6 +592,11 @@ main {
 
   .theme-paper {
     gap: 0.35rem;
+  }
+
+  .tool-item {
+    grid-template-columns: 1fr;
+    gap: 0.45rem;
   }
 
   .theme-paper span,
