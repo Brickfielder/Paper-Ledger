@@ -1,0 +1,622 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const papers = await getCollection("papers", ({ data }) => !data.draft);
+
+const basePath = import.meta.env.BASE_URL.endsWith("/")
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+
+const themeSummaries = [
+  {
+    name: "Brain Maps & Connectomes",
+    color: "#2f6faa",
+    summary:
+      "High-resolution attempts to measure, model, or compare brain structure and connectivity across scales.",
+    concepts: [
+      { name: "Connectome mapping", keywords: ["connectome", "connectivity", "tract", "pathway", "gradient"] },
+      { name: "Brain atlases", keywords: ["atlas", "subcortical", "whole-brain", "population", "cohort"] },
+      { name: "Neural imaging", keywords: ["mri", "diffusion", "x-ray", "microscopy", "laminar"] },
+      { name: "Developmental circuitry", keywords: ["development", "fetal", "childhood", "lifespan", "emergence"] },
+    ],
+  },
+  {
+    name: "Cognition, Prediction & Mental Experience",
+    color: "#6b54ad",
+    summary:
+      "Work on how brains construct perception, imagination, memory, dreams, meaning, social understanding, and predictions.",
+    concepts: [
+      { name: "Memory organisation", keywords: ["memory", "hippocamp", "episodic", "schemas", "consolidation"] },
+      { name: "Prediction and allostasis", keywords: ["prediction", "allostasis", "meaning", "bias", "resilience"] },
+      { name: "Imagination and dreams", keywords: ["imagination", "reality", "dream", "mental imagery", "feedback"] },
+      { name: "Language and social mind", keywords: ["language", "theory of mind", "social", "concept", "emotion"] },
+    ],
+  },
+  {
+    name: "Biological Learning & Neural Computation",
+    color: "#62895f",
+    summary:
+      "Papers that connect biological systems to learning, credit assignment, associative memory, architecture, and computation.",
+    concepts: [
+      { name: "Biological learning", keywords: ["learning", "backpropagation", "associative", "credit", "nested"] },
+      { name: "Synaptic plasticity", keywords: ["synaptic", "plasticity", "astrocyte", "neuron", "circuit"] },
+      { name: "Neural coding", keywords: ["coding", "encode", "prior", "statistics", "synchron"] },
+      { name: "Cortex-aligned architectures", keywords: ["architecture", "cortex", "cortical", "de novo", "computation"] },
+    ],
+  },
+  {
+    name: "Neurotechnology, Intervention & Preservation",
+    color: "#b98627",
+    summary:
+      "Practical and translational work on brain interfaces, stimulation, tissue preservation, simulation timelines, and manipulation.",
+    concepts: [
+      { name: "Brain-computer interfaces", keywords: ["interface", "brain-computer", "bci", "electrode", "navigation"] },
+      { name: "Neuromodulation", keywords: ["modulation", "stimulation", "selective hearing", "anaesthetized", "plasticity"] },
+      { name: "Neural preservation", keywords: ["cryopreservation", "vitrified", "preservation", "functional recovery"] },
+      { name: "Whole-brain simulation", keywords: ["simulation", "whole-brain", "future projections", "mammalian"] },
+    ],
+  },
+  {
+    name: "AI Agents, Reasoning & Machine Cognition",
+    color: "#2b8892",
+    summary:
+      "Modern AI systems viewed through reasoning, memory, self-improvement, affect-like representations, and action planning.",
+    concepts: [
+      { name: "Agent memory", keywords: ["agent", "memory", "retrieval", "context", "llm"] },
+      { name: "Reasoning chains", keywords: ["reasoning", "chain-of-thought", "structured", "long", "inference"] },
+      { name: "Self-improving systems", keywords: ["self-evolving", "evolve", "accelerates", "autogenesis", "improvement"] },
+      { name: "Embodiment and agency", keywords: ["embodied", "embodiment", "agency", "grip", "world models"] },
+    ],
+  },
+  {
+    name: "Frontier Physical Systems & Enabling Technologies",
+    color: "#61758e",
+    summary:
+      "Useful outliers that point to new technical possibilities beyond the main neuroscience and AI clusters.",
+    concepts: [
+      { name: "Advanced materials", keywords: ["materials", "honeycomb", "printable", "bioelectrodes", "metajets"] },
+      { name: "Quantum and optical systems", keywords: ["quantum", "optical", "propulsion", "levitation", "metajets"] },
+      { name: "Robotic substrates", keywords: ["robot", "navigation", "virtual reality", "embodied"] },
+      { name: "Enabling instrumentation", keywords: ["gradient", "ultra-high", "microscopy", "sensing", "instrument"] },
+    ],
+  },
+];
+
+const themeByName = new Map(themeSummaries.map((theme) => [theme.name, theme]));
+const themeSlug = (name: string) =>
+  name.toLowerCase().replaceAll(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
+const sentenceSegmenter = new Intl.Segmenter("en", { granularity: "sentence" });
+const firstSentence = (text: string) => {
+  const sentence = [...sentenceSegmenter.segment(text)].map((segment) => segment.segment.trim()).find(Boolean);
+  return sentence || text;
+};
+
+const paperRecords = papers
+  .map((paper) => {
+    const theme = paper.data.theme || "Uncategorized";
+    return {
+      id: paper.slug,
+      title: paper.data.title,
+      year: paper.data.year || null,
+      source: paper.data.journal || paper.data.sourceHost,
+      host: paper.data.sourceHost,
+      theme,
+      authors: paper.data.authors,
+      summary: paper.data.summary,
+      gist: firstSentence(paper.data.summary),
+      relevance: firstSentence(paper.data.whyItMatters),
+      url: `${basePath}papers/${paper.slug}/`,
+      searchText: [
+        paper.data.title,
+        paper.data.summary,
+        paper.data.whyItMatters,
+        paper.data.limitations || "",
+        paper.data.authors.join(" "),
+        paper.data.journal || "",
+        paper.data.sourceHost,
+        theme,
+      ]
+        .join(" ")
+        .toLowerCase(),
+    };
+  })
+  .sort((a, b) => (b.year || 0) - (a.year || 0) || a.title.localeCompare(b.title));
+
+const scoreConcept = (searchText: string, keywords: string[]) =>
+  keywords.reduce((score, keyword) => score + (searchText.includes(keyword.toLowerCase()) ? 1 : 0), 0);
+
+const paperConcepts = new Map<string, string[]>();
+const conceptRecords = themeSummaries.flatMap((theme) =>
+  theme.concepts.map((concept) => ({
+    id: themeSlug(`${theme.name}-${concept.name}`),
+    name: concept.name,
+    theme: theme.name,
+    color: theme.color,
+    keywords: concept.keywords,
+    description: `A cluster for papers where ${concept.name.toLowerCase()} is one of the recurring ideas inside ${theme.name.toLowerCase()}.`,
+    papers: [] as string[],
+    bridgedThemes: new Set<string>(),
+  })),
+);
+
+const conceptsByTheme = new Map<string, typeof conceptRecords>();
+for (const concept of conceptRecords) {
+  conceptsByTheme.set(concept.theme, [...(conceptsByTheme.get(concept.theme) || []), concept]);
+}
+
+for (const paper of paperRecords) {
+  const localConcepts = conceptsByTheme.get(paper.theme) || [];
+  const scored = localConcepts
+    .map((concept) => ({ concept, score: scoreConcept(paper.searchText, concept.keywords) }))
+    .sort((a, b) => b.score - a.score || a.concept.name.localeCompare(b.concept.name));
+  const selected = scored.filter((item) => item.score > 0).slice(0, 2);
+  const fallback = scored[0] ? [scored[0]] : [];
+  const assigned = (selected.length > 0 ? selected : fallback).map((item) => item.concept);
+
+  const bridge = conceptRecords
+    .filter((concept) => concept.theme !== paper.theme && scoreConcept(paper.searchText, concept.keywords) > 1)
+    .slice(0, 1);
+
+  const conceptIds = [...assigned, ...bridge].map((concept) => concept.id);
+  paperConcepts.set(paper.id, conceptIds);
+
+  for (const concept of [...assigned, ...bridge]) {
+    concept.papers.push(paper.id);
+    concept.bridgedThemes.add(paper.theme);
+  }
+}
+
+const papersByTheme = new Map<string, typeof paperRecords>();
+for (const paper of paperRecords) {
+  papersByTheme.set(paper.theme, [...(papersByTheme.get(paper.theme) || []), paper]);
+}
+
+const atlasThemes = themeSummaries.map((theme) => {
+  const themePapers = papersByTheme.get(theme.name) || [];
+  return {
+    id: themeSlug(theme.name),
+    name: theme.name,
+    color: theme.color,
+    summary: theme.summary,
+    count: themePapers.length,
+    recentPapers: themePapers.slice(0, 4).map((paper) => paper.id),
+    concepts: (conceptsByTheme.get(theme.name) || []).map((concept) => concept.id),
+  };
+});
+
+const atlasConcepts = conceptRecords.map((concept) => ({
+  id: concept.id,
+  name: concept.name,
+  theme: concept.theme,
+  color: concept.color,
+  count: concept.papers.length,
+  paperIds: concept.papers,
+  description: concept.description,
+  relatedConcepts: conceptRecords
+    .filter((candidate) => candidate.id !== concept.id)
+    .map((candidate) => ({
+      id: candidate.id,
+      score:
+        (candidate.theme === concept.theme ? 1 : 0) +
+        candidate.papers.filter((paperId) => concept.papers.includes(paperId)).length,
+    }))
+    .filter((candidate) => candidate.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 4)
+    .map((candidate) => candidate.id),
+  bridgedThemes: [...concept.bridgedThemes],
+}));
+
+const yearValues = [...new Set(paperRecords.map((paper) => paper.year).filter((year): year is number => Boolean(year)))].sort(
+  (a, b) => b - a,
+);
+
+const timelineCells = atlasThemes.flatMap((theme) =>
+  yearValues
+    .map((year) => ({
+      themeId: theme.id,
+      theme: theme.name,
+      color: theme.color,
+      year,
+      paperIds: paperRecords
+        .filter((paper) => paper.theme === theme.name && paper.year === year)
+        .map((paper) => paper.id),
+    }))
+    .filter((cell) => cell.paperIds.length > 0),
+);
+
+const atlasData = {
+  basePath,
+  themes: atlasThemes,
+  concepts: atlasConcepts,
+  papers: paperRecords.map(({ searchText, ...paper }) => ({ ...paper, concepts: paperConcepts.get(paper.id) || [] })),
+  years: yearValues,
+  timelineCells,
+};
+---
+
+<BaseLayout
+  title="Conceptual Atlas | Paper Ledger"
+  description="A progressive visual map of themes, concepts, and papers in the Paper Ledger."
+>
+  <section class="landing-intro atlas-intro">
+    <p class="eyebrow">Atlas</p>
+    <h1 class="page-title">Conceptual Atlas</h1>
+    <p class="page-intro">
+      A visual map of the themes and ideas emerging from the Paper Ledger. Start with the territories, then open the clusters and papers only when you need them.
+    </p>
+  </section>
+
+  <section class="atlas-shell" data-atlas>
+    <div class="atlas-toolbar" aria-label="Atlas controls">
+      <div class="atlas-tabs" role="tablist" aria-label="Atlas views">
+        <button class="atlas-tab is-active" type="button" data-view-tab="theme" role="tab" aria-selected="true">Theme View</button>
+        <button class="atlas-tab" type="button" data-view-tab="concept" role="tab" aria-selected="false">Concept View</button>
+        <button class="atlas-tab" type="button" data-view-tab="timeline" role="tab" aria-selected="false">Timeline View</button>
+      </div>
+
+      <div class="atlas-filters">
+        <label class="atlas-search">
+          <span>Search</span>
+          <input type="search" placeholder="Search papers, concepts, authors..." data-atlas-search />
+        </label>
+        <label class="atlas-select">
+          <span>Theme</span>
+          <select data-atlas-theme-filter>
+            <option value="all">All themes</option>
+            {atlasThemes.map((theme) => <option value={theme.id}>{theme.name}</option>)}
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <div class="atlas-workspace">
+      <div class="atlas-map" data-atlas-map>
+        <section class="atlas-view atlas-view--theme is-active" data-view="theme" aria-label="Theme map">
+          <div class="atlas-network">
+            <button class="atlas-core" type="button" data-select-type="overview" data-select-id="archive">
+              <span>Paper Ledger</span>
+              <small>{paperRecords.length} papers</small>
+            </button>
+            {atlasThemes.map((theme, index) => (
+              <article
+                class={`atlas-territory atlas-territory--${index + 1}`}
+                data-theme-card={theme.id}
+                data-search={`${theme.name} ${theme.summary}`.toLowerCase()}
+                style={`--theme-color: ${theme.color}`}
+              >
+                <button class="atlas-territory__header" type="button" data-select-type="theme" data-select-id={theme.id}>
+                  <span class="atlas-territory__index">{String(index + 1).padStart(2, "0")}</span>
+                  <span>{theme.name}</span>
+                  <small>{theme.count} papers</small>
+                </button>
+                <div class="atlas-concept-chips">
+                  {theme.concepts.map((conceptId) => {
+                    const concept = atlasConcepts.find((item) => item.id === conceptId);
+                    return concept ? (
+                      <button
+                        class="atlas-concept-chip"
+                        type="button"
+                        data-select-type="concept"
+                        data-select-id={concept.id}
+                        data-theme-id={theme.id}
+                        data-search={`${concept.name} ${concept.description}`.toLowerCase()}
+                      >
+                        {concept.name}
+                        <span>{concept.count}</span>
+                      </button>
+                    ) : null;
+                  })}
+                </div>
+                <div class="atlas-revealed-papers" data-revealed-papers={theme.id}></div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section class="atlas-view atlas-view--concept" data-view="concept" aria-label="Concept map">
+          <div class="concept-map-grid">
+            {atlasConcepts.map((concept) => {
+              const theme = atlasThemes.find((item) => item.name === concept.theme);
+              return (
+                <button
+                  class="concept-node"
+                  type="button"
+                  data-select-type="concept"
+                  data-select-id={concept.id}
+                  data-theme-card={theme?.id}
+                  data-search={`${concept.name} ${concept.description} ${concept.theme}`.toLowerCase()}
+                  style={`--theme-color: ${concept.color}`}
+                >
+                  <span>{concept.name}</span>
+                  <small>{concept.count} papers</small>
+                  <em>{concept.bridgedThemes.length > 1 ? `${concept.bridgedThemes.length} theme bridge` : concept.theme}</em>
+                </button>
+              );
+            })}
+          </div>
+        </section>
+
+        <section class="atlas-view atlas-view--timeline" data-view="timeline" aria-label="Timeline map">
+          <div class="timeline-grid" style={`--timeline-cols: ${Math.max(yearValues.length, 1)}`}>
+            <div class="timeline-corner">Theme</div>
+            {yearValues.map((year) => <div class="timeline-year">{year}</div>)}
+            {atlasThemes.map((theme) => (
+              <>
+                <div class="timeline-theme" style={`--theme-color: ${theme.color}`}>{theme.name}</div>
+                {yearValues.map((year) => {
+                  const cell = timelineCells.find((item) => item.themeId === theme.id && item.year === year);
+                  return cell ? (
+                    <button
+                      class="timeline-cell has-papers"
+                      type="button"
+                      data-select-type="timeline"
+                      data-select-id={`${theme.id}__${year}`}
+                      data-theme-card={theme.id}
+                      data-paper-ids={cell.paperIds.join(",")}
+                      data-search={`${theme.name} ${year}`.toLowerCase()}
+                      style={`--theme-color: ${theme.color}; --cell-weight: ${Math.min(cell.paperIds.length, 5)}`}
+                    >
+                      {cell.paperIds.length}
+                    </button>
+                  ) : (
+                    <span class="timeline-cell" data-theme-card={theme.id}></span>
+                  );
+                })}
+              </>
+            ))}
+          </div>
+        </section>
+      </div>
+
+      <aside class="atlas-panel" data-atlas-panel aria-live="polite"></aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<script type="application/json" id="atlas-data" set:html={JSON.stringify(atlasData)} />
+
+<script is:inline>
+  const atlasDataNode = document.getElementById("atlas-data");
+  const atlas = atlasDataNode ? JSON.parse(atlasDataNode.textContent || "{}") : {};
+  const root = document.querySelector("[data-atlas]");
+  const panel = document.querySelector("[data-atlas-panel]");
+  const searchInput = document.querySelector("[data-atlas-search]");
+  const themeFilter = document.querySelector("[data-atlas-theme-filter]");
+  const tabs = [...document.querySelectorAll("[data-view-tab]")];
+  const views = [...document.querySelectorAll("[data-view]")];
+  const selectable = [...document.querySelectorAll("[data-select-type]")];
+  const themeCards = [...document.querySelectorAll("[data-theme-card]")];
+  const revealedPanels = [...document.querySelectorAll("[data-revealed-papers]")];
+
+  const state = {
+    view: "theme",
+    selectedType: "overview",
+    selectedId: "archive",
+    query: "",
+    theme: "all",
+  };
+
+  const byId = (items) => new Map((items || []).map((item) => [item.id, item]));
+  const themes = byId(atlas.themes);
+  const concepts = byId(atlas.concepts);
+  const papers = byId(atlas.papers);
+  const paperList = atlas.papers || [];
+
+  const escapeHtml = (value) =>
+    String(value || "").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
+
+  const paperCard = (paperId) => {
+    const paper = papers.get(paperId);
+    if (!paper) return "";
+    const meta = [paper.year, paper.source].filter(Boolean).join(" · ");
+    return `
+      <a class="atlas-paper-card" href="${paper.url}" data-select-type="paper" data-select-id="${paper.id}">
+        <span>${escapeHtml(paper.title)}</span>
+        <small>${escapeHtml(meta || paper.host)}</small>
+      </a>
+    `;
+  };
+
+  const paperMiniList = (paperIds) =>
+    paperIds && paperIds.length
+      ? `<div class="atlas-paper-stack">${paperIds.map(paperCard).join("")}</div>`
+      : `<p class="atlas-muted">No linked papers in the current filter.</p>`;
+
+  const setPanel = (html) => {
+    if (panel) panel.innerHTML = html;
+  };
+
+  const overviewPanel = () => {
+    const totalConcepts = (atlas.concepts || []).length;
+    const years = atlas.years || [];
+    const yearRange = years.length ? `${Math.min(...years)}-${Math.max(...years)}` : "No dated papers yet";
+    return `
+      <p class="atlas-panel__kicker">Archive overview</p>
+      <h2>Paper Ledger</h2>
+      <dl class="atlas-stats">
+        <div><dt>Papers</dt><dd>${paperList.length}</dd></div>
+        <div><dt>Themes</dt><dd>${(atlas.themes || []).length}</dd></div>
+        <div><dt>Concepts</dt><dd>${totalConcepts}</dd></div>
+        <div><dt>Years</dt><dd>${yearRange}</dd></div>
+      </dl>
+      <p>The atlas keeps the individual paper entries canonical, then adds a navigable conceptual layer on top of their metadata.</p>
+      <h3>Macro-themes</h3>
+      <div class="atlas-tag-list">
+        ${(atlas.themes || []).map((theme) => `<button type="button" data-select-type="theme" data-select-id="${theme.id}">${escapeHtml(theme.name)}</button>`).join("")}
+      </div>
+    `;
+  };
+
+  const themePanel = (themeId) => {
+    const theme = themes.get(themeId);
+    if (!theme) return overviewPanel();
+    const conceptButtons = theme.concepts
+      .map((id) => concepts.get(id))
+      .filter(Boolean)
+      .map((concept) => `<button type="button" data-select-type="concept" data-select-id="${concept.id}">${escapeHtml(concept.name)} <span>${concept.count}</span></button>`)
+      .join("");
+    return `
+      <p class="atlas-panel__kicker">Theme</p>
+      <h2>${escapeHtml(theme.name)}</h2>
+      <dl class="atlas-stats">
+        <div><dt>Papers</dt><dd>${theme.count}</dd></div>
+        <div><dt>Concepts</dt><dd>${theme.concepts.length}</dd></div>
+      </dl>
+      <p>${escapeHtml(theme.summary)}</p>
+      <h3>Concept clusters</h3>
+      <div class="atlas-tag-list">${conceptButtons}</div>
+      <h3>Recent papers</h3>
+      ${paperMiniList(theme.recentPapers)}
+    `;
+  };
+
+  const conceptPanel = (conceptId) => {
+    const concept = concepts.get(conceptId);
+    if (!concept) return overviewPanel();
+    const related = concept.relatedConcepts
+      .map((id) => concepts.get(id))
+      .filter(Boolean)
+      .map((item) => `<button type="button" data-select-type="concept" data-select-id="${item.id}">${escapeHtml(item.name)}</button>`)
+      .join("");
+    const badges = concept.bridgedThemes
+      .map((themeName) => `<span>${escapeHtml(themeName)}</span>`)
+      .join("");
+    return `
+      <p class="atlas-panel__kicker">Concept</p>
+      <h2>${escapeHtml(concept.name)}</h2>
+      <dl class="atlas-stats">
+        <div><dt>Primary theme</dt><dd>${escapeHtml(concept.theme)}</dd></div>
+        <div><dt>Papers</dt><dd>${concept.count}</dd></div>
+      </dl>
+      <p>${escapeHtml(concept.description)}</p>
+      <div class="atlas-theme-badges">${badges}</div>
+      <h3>Representative papers</h3>
+      ${paperMiniList(concept.paperIds.slice(0, 6))}
+      <h3>Related concepts</h3>
+      <div class="atlas-tag-list">${related || "<span>None yet</span>"}</div>
+    `;
+  };
+
+  const paperPanel = (paperId) => {
+    const paper = papers.get(paperId);
+    if (!paper) return overviewPanel();
+    return `
+      <p class="atlas-panel__kicker">Paper</p>
+      <h2>${escapeHtml(paper.title)}</h2>
+      <dl class="atlas-stats">
+        <div><dt>Year</dt><dd>${paper.year || "Undated"}</dd></div>
+        <div><dt>Source</dt><dd>${escapeHtml(paper.source || paper.host)}</dd></div>
+      </dl>
+      <p>${escapeHtml(paper.gist)}</p>
+      <h3>Relevance note</h3>
+      <p>${escapeHtml(paper.relevance)}</p>
+      <a class="atlas-panel__link" href="${paper.url}">Open full ledger entry</a>
+    `;
+  };
+
+  const timelinePanel = (cellId) => {
+    const [themeId, year] = cellId.split("__");
+    const theme = themes.get(themeId);
+    const cell = (atlas.timelineCells || []).find((item) => item.themeId === themeId && String(item.year) === year);
+    if (!theme || !cell) return overviewPanel();
+    return `
+      <p class="atlas-panel__kicker">Timeline</p>
+      <h2>${escapeHtml(year)} · ${escapeHtml(theme.name)}</h2>
+      <p>${cell.paperIds.length} ${cell.paperIds.length === 1 ? "paper" : "papers"} in this year/theme cell.</p>
+      ${paperMiniList(cell.paperIds)}
+    `;
+  };
+
+  const renderPanel = () => {
+    if (state.selectedType === "theme") setPanel(themePanel(state.selectedId));
+    else if (state.selectedType === "concept") setPanel(conceptPanel(state.selectedId));
+    else if (state.selectedType === "paper") setPanel(paperPanel(state.selectedId));
+    else if (state.selectedType === "timeline") setPanel(timelinePanel(state.selectedId));
+    else setPanel(overviewPanel());
+  };
+
+  const revealConceptPapers = () => {
+    for (const container of revealedPanels) {
+      container.innerHTML = "";
+    }
+
+    if (state.selectedType !== "concept") return;
+
+    const concept = concepts.get(state.selectedId);
+    if (!concept) return;
+    const theme = [...themes.values()].find((item) => item.name === concept.theme);
+    const container = theme ? document.querySelector(`[data-revealed-papers="${theme.id}"]`) : null;
+    if (container) {
+      container.innerHTML = `<p>${concept.count} linked papers</p>${paperMiniList(concept.paperIds.slice(0, 4))}`;
+    }
+  };
+
+  const updateActiveSelection = () => {
+    for (const item of selectable) {
+      const active = item.dataset.selectType === state.selectedType && item.dataset.selectId === state.selectedId;
+      item.classList.toggle("is-selected", active);
+      if (item instanceof HTMLButtonElement) item.setAttribute("aria-pressed", String(active));
+    }
+  };
+
+  const applyFilters = () => {
+    const query = state.query.toLowerCase();
+    for (const item of themeCards) {
+      const itemTheme = item.dataset.themeCard || "";
+      const matchesTheme = state.theme === "all" || itemTheme === state.theme;
+      const haystack = item.dataset.search || item.textContent?.toLowerCase() || "";
+      const matchesQuery = !query || haystack.includes(query);
+      item.classList.toggle("is-filtered-out", !matchesTheme || !matchesQuery);
+    }
+  };
+
+  const setView = (view) => {
+    state.view = view;
+    for (const tab of tabs) {
+      const active = tab.dataset.viewTab === view;
+      tab.classList.toggle("is-active", active);
+      tab.setAttribute("aria-selected", String(active));
+    }
+    for (const viewNode of views) {
+      viewNode.classList.toggle("is-active", viewNode.dataset.view === view);
+    }
+  };
+
+  const selectItem = (type, id) => {
+    state.selectedType = type;
+    state.selectedId = id;
+    renderPanel();
+    revealConceptPapers();
+    updateActiveSelection();
+  };
+
+  root?.addEventListener("click", (event) => {
+    const target = event.target instanceof Element ? event.target.closest("[data-select-type]") : null;
+    if (!target) return;
+    const type = target.dataset.selectType;
+    const id = target.dataset.selectId;
+    if (type && id) selectItem(type, id);
+  });
+
+  for (const tab of tabs) {
+    tab.addEventListener("click", () => setView(tab.dataset.viewTab || "theme"));
+  }
+
+  searchInput?.addEventListener("input", () => {
+    state.query = searchInput.value.trim();
+    applyFilters();
+  });
+
+  themeFilter?.addEventListener("change", () => {
+    state.theme = themeFilter.value;
+    applyFilters();
+  });
+
+  setView("theme");
+  renderPanel();
+  updateActiveSelection();
+  applyFilters();
+</script>
