@@ -1,0 +1,58 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const entries = [
+  {
+    phrase: "I'm/We're cooking",
+    definition:
+      "Things are going well; the plan is working and momentum has arrived.",
+    translation: "We're on a roll. Do not disturb the flow state.",
+  },
+  {
+    phrase: "Peak",
+    definition:
+      "Cool, great, top-notch, or the highest available setting of approval.",
+    translation: "Mint, class, excellent, or genuinely rather good.",
+  },
+  {
+    phrase: "Touch grass",
+    definition:
+      "Step away from the internet and reacquaint yourself with offline reality.",
+    translation: "Log off, go outside, and have a small word with yourself.",
+  },
+  {
+    phrase: "Huzz",
+    definition:
+      "A jokey term for girls or potential romantic attention, usually deployed with more confidence than judgement.",
+    translation: "The people someone is trying, perhaps too visibly, to impress.",
+  },
+];
+---
+
+<BaseLayout
+  title="Dictionary | Paper Ledger"
+  description="A small translation guide for Gen Z and Gen Alpha expressions."
+>
+  <section class="landing-intro">
+    <p class="eyebrow">Dictionary</p>
+    <h1 class="page-title">Dictionary</h1>
+    <p class="page-intro">
+      A field guide for translating Gen Z and Gen Alpha expressions into
+      language that will not make Gen X and Millennials stare quietly at a
+      Slack message.
+    </p>
+  </section>
+
+  <section class="section tool-list" aria-label="Dictionary entries">
+    {entries.map((entry, index) => (
+      <article class="tool-item">
+        <span class="tool-item__index">{String(index + 1).padStart(2, "0")}</span>
+        <div>
+          <h2>{entry.phrase}</h2>
+          <p>{entry.definition}</p>
+          <p><strong>Translation:</strong> {entry.translation}</p>
+        </div>
+      </article>
+    ))}
+  </section>
+</BaseLayout>
