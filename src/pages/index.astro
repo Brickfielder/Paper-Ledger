@@ -36,11 +36,33 @@ const searchablePapers = papers.map((paper) => ({
     paper.data.authors.join(" "),
     paper.data.journal || "",
     paper.data.doi || "",
+    paper.data.theme || "",
     paper.data.sourceHost,
   ]
     .join(" ")
     .toLowerCase(),
 }));
+
+const themeCounts = Array.from(
+  papers.reduce((counts, paper) => {
+    const theme = paper.data.theme || "Uncategorized";
+    counts.set(theme, (counts.get(theme) || 0) + 1);
+    return counts;
+  }, new Map<string, number>()),
+)
+  .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+  .slice(0, 8);
+
+const sourceCount = new Set(papers.map((paper) => paper.data.sourceHost)).size;
+const years = papers
+  .map((paper) => paper.data.year)
+  .filter((year): year is number => typeof year === "number")
+  .sort((a, b) => a - b);
+const yearRange =
+  years.length > 1 ? `${years[0]}-${years[years.length - 1]}` : years[0]?.toString() || "Current";
+
+const themeSlug = (name: string) =>
+  name.toLowerCase().replaceAll(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
 ---
 
@@ -48,57 +70,116 @@ const searchablePapers = papers.map((paper) => ({
   title="Paper Ledger"
   description="A portable scientific reading archive with instant search."
 >
-  <section class="landing-intro">
-    <h1 class="page-title">Paper Ledger</h1>
-    <p class="page-intro">A reading archive for papers worth keeping.</p>
+  <div class="ledger-home">
+    <div class="ledger-main">
+      <section class="landing-intro landing-intro--home">
+        <p class="eyebrow">Paper Ledger</p>
+        <h1 class="page-title">A reading archive for papers worth keeping.</h1>
+        {papers.length > 0 && (
+          <div class="search-panel" role="search">
+            <label class="search-label" for="paper-search">Search the archive</label>
+            <div class="search-field">
+              <input
+                id="paper-search"
+                class="search-input"
+                type="search"
+                name="q"
+                placeholder="Search title, author, DOI, or theme"
+                autocomplete="off"
+                data-paper-search
+              />
+              <span class="search-key" aria-hidden="true">Ctrl K</span>
+            </div>
+            <p class="search-status" data-search-status aria-live="polite">{papers.length} papers in the archive.</p>
+          </div>
+        )}
+      </section>
+
+      <section class="section">
+        {papers.length === 0 ? (
+          <p class="page-intro">No paper summaries yet. Add a DOI or article URL to `inbox/` and run the processor.</p>
+        ) : (
+          <>
+            <div class="section-heading">
+              <h2>Recent summaries</h2>
+              <p class="search-empty" data-search-empty hidden aria-live="polite">
+                No papers match that search yet.
+              </p>
+            </div>
+
+            <ol class="paper-list paper-list--landing" data-paper-results>
+              {searchablePapers.map(({ paper, searchText }, index) => (
+                <li class="paper-item paper-item--landing" data-paper-card data-search={searchText}>
+                  <a class="paper-item__link" href={`${basePath}papers/${paper.slug}/`}>
+                    <span class="paper-item__index">{String(index + 1).padStart(2, "0")}</span>
+                    <span class="paper-item__body">
+                      <span class="paper-item__top">
+                        <h3>{paper.data.title}</h3>
+                        <span class="paper-item__date">{formatDate(paper.data.capturedAt)}</span>
+                      </span>
+                      <span class="paper-summary">{excerptSummary(paper.data.summary)}</span>
+                      <span class="paper-meta paper-meta--landing">
+                        {paper.data.year && <span>{paper.data.year}</span>}
+                        {paper.data.journal && <span>{paper.data.journal}</span>}
+                        {paper.data.theme && <span>{paper.data.theme}</span>}
+                        <span>{paper.data.sourceHost}</span>
+                      </span>
+                    </span>
+                    <span class="paper-item__action">Paper Details</span>
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </>
+        )}
+      </section>
+    </div>
+
     {papers.length > 0 && (
-      <div class="search-panel" role="search">
-        <label class="search-label" for="paper-search">Search the archive</label>
-        <input
-          id="paper-search"
-          class="search-input"
-          type="search"
-          name="q"
-          placeholder="Search by title, summary, author, journal, or DOI"
-          autocomplete="off"
-          data-paper-search
-        />
-        <p class="search-hint">Search works instantly across titles, summaries, authors, journals, DOI, and source.</p>
-        <p class="search-status" data-search-status aria-live="polite">{papers.length} papers in the archive.</p>
-      </div>
-    )}
-  </section>
-
-  <section class="section">
-    {papers.length === 0 ? (
-      <p class="page-intro">No paper summaries yet. Add a DOI or article URL to `inbox/` and run the processor.</p>
-    ) : (
-      <>
-        <p class="search-empty" data-search-empty hidden aria-live="polite">
-          No papers match that search yet.
-        </p>
-
-        <ol class="paper-list paper-list--landing" data-paper-results>
-          {searchablePapers.map(({ paper, searchText }) => (
-            <li class="paper-item paper-item--landing" data-paper-card data-search={searchText}>
-            <div class="paper-item__top">
-              <a href={`${basePath}papers/${paper.slug}/`}>
-                <h3>{paper.data.title}</h3>
-              </a>
-              <span class="paper-item__date">{formatDate(paper.data.capturedAt)}</span>
+      <aside class="ledger-sidebar" aria-label="Archive overview">
+        <section class="sidebar-panel sidebar-panel--count">
+          <p class="sidebar-count">{papers.length} papers</p>
+          <dl class="sidebar-stats">
+            <div>
+              <dt>Summaries</dt>
+              <dd>{papers.length}</dd>
             </div>
-            <p class="paper-summary">{excerptSummary(paper.data.summary)}</p>
-            <div class="paper-meta paper-meta--landing">
-              {paper.data.year && <span>{paper.data.year}</span>}
-              {paper.data.journal && <span>{paper.data.journal}</span>}
-              <span>{paper.data.sourceHost}</span>
+            <div>
+              <dt>Themes</dt>
+              <dd>{themeCounts.length}</dd>
             </div>
-          </li>
-          ))}
-        </ol>
-      </>
+            <div>
+              <dt>Sources</dt>
+              <dd>{sourceCount}</dd>
+            </div>
+            <div>
+              <dt>Years</dt>
+              <dd>{yearRange}</dd>
+            </div>
+          </dl>
+        </section>
+
+        {themeCounts.length > 0 && (
+          <section class="sidebar-panel">
+            <h2>Themes</h2>
+            <ul class="theme-chip-list">
+              {themeCounts.map(([theme, count]) => (
+                <li>
+                  <a href={`${basePath}themes/#${themeSlug(theme)}`}>{theme}</a>
+                  <span>{count}</span>
+                </li>
+              ))}
+            </ul>
+            <a class="sidebar-link" href={`${basePath}themes/`}>View all themes</a>
+          </section>
+        )}
+
+        <section class="sidebar-panel sidebar-quote">
+          <p>Good papers deepen understanding. Great ones change how we think.</p>
+        </section>
+      </aside>
     )}
-  </section>
+  </div>
 </BaseLayout>
 
 <script is:inline>
@@ -149,6 +230,12 @@ const searchablePapers = papers.map((paper) => ({
     };
 
     input.addEventListener("input", updateSearch);
+    document.addEventListener("keydown", (event) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        input.focus();
+      }
+    });
     updateSearch();
   }
 </script>

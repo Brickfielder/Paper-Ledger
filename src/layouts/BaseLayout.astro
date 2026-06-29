@@ -14,6 +14,20 @@ const {
 const basePath = import.meta.env.BASE_URL.endsWith("/")
   ? import.meta.env.BASE_URL
   : `${import.meta.env.BASE_URL}/`;
+
+const currentPath = Astro.url.pathname.replace(basePath, "/");
+const normalizedPath = currentPath.endsWith("/") ? currentPath : `${currentPath}/`;
+const navItems = [
+  { label: "Latest", href: basePath, path: "/" },
+  { label: "Highlights", href: `${basePath}hinges/`, path: "/hinges/" },
+  { label: "Themes", href: `${basePath}themes/`, path: "/themes/" },
+  { label: "Dictionary", href: `${basePath}dictionary/`, path: "/dictionary/" },
+  { label: "Tools", href: `${basePath}tools/`, path: "/tools/" },
+  { label: "About", href: `${basePath}about/`, path: "/about/" },
+];
+
+const isActive = (path: string) =>
+  path === "/" ? normalizedPath === "/" : normalizedPath.startsWith(path);
 ---
 
 <!doctype html>
@@ -28,17 +42,16 @@ const basePath = import.meta.env.BASE_URL.endsWith("/")
     <header class="site-header">
       <div class="shell site-header__row">
         <a class="brand" href={basePath}>
-          <span class="brand__mark">Research</span>
+          <span class="brand__mark" aria-hidden="true">PL</span>
           <span class="brand__name">Paper Ledger</span>
         </a>
 
         <nav class="site-nav" aria-label="Primary">
-          <a href={basePath}>Latest</a>
-          <a href={`${basePath}hinges/`}>Highlights</a>
-          <a href={`${basePath}themes/`}>Themes</a>
-          <a href={`${basePath}dictionary/`}>Dictionary</a>
-          <a href={`${basePath}tools/`}>Tools</a>
-          <a href={`${basePath}about/`}>About</a>
+          {navItems.map((item) => (
+            <a href={item.href} aria-current={isActive(item.path) ? "page" : undefined}>
+              {item.label}
+            </a>
+          ))}
         </nav>
       </div>
     </header>
