@@ -6,14 +6,14 @@ const papers = await getCollection("papers", ({ data }) => !data.draft);
 
 const highlightEntries = [
   {
-    slug: "hierarchical-x-ray-microscopy-and-mesoscopic-diffusion-mri-in-the-same-brain-reveal-the-human-connectome-across-scales",
+    slug: "geometric-constraints-on-the-architecture-of-mammalian-cortical-connectomes",
     summary:
-      "A standout cross-scale connectomics paper: the same human hemisphere is followed from MRI-scale tractography through hierarchical X-ray microscopy, micro-CT, and electron microscopy, creating a bridge between whole-brain maps and microscopic axonal anatomy.",
+      "A cross-species connectome model: cortical geometry and resonant eigenmodes reproduce key wiring features in humans, chimpanzees, macaques, marmosets, and mice, pointing to a conserved physical constraint on mammalian cortical architecture.",
   },
   {
-    slug: "functional-recovery-of-the-adult-murine-hippocampus-after-cryopreservation-by-vi",
+    slug: "discovering-equations-from-data-symbolic-regression-in-dynamical-systems",
     summary:
-      "A striking preservation result: adult mouse hippocampal tissue is vitrified, rewarmed, and shown to recover short-term structure, metabolism, excitability, synaptic transmission, and long-term potentiation after molecular mobility had effectively stopped.",
+      "A practical symbolic-regression benchmark: five open-source methods are tested across nine dynamical systems, with PySR standing out for recovering governing-equation structure and matching several original trajectories.",
   },
   {
     slug: "delta-mem-efficient-online-memory-for-large-language-models",
@@ -21,9 +21,14 @@ const highlightEntries = [
       "A compact-memory architecture paper: delta-mem attaches an online associative-memory state to a frozen Transformer, using small learned state updates to steer attention without replaying all prior context as text.",
   },
   {
-    slug: "discovering-equations-from-data-symbolic-regression-in-dynamical-systems",
+    slug: "functional-recovery-of-the-adult-murine-hippocampus-after-cryopreservation-by-vi",
     summary:
-      "A practical symbolic-regression benchmark: five open-source methods are tested across nine dynamical systems, with PySR standing out for recovering governing-equation structure and matching several original trajectories.",
+      "A striking preservation result: adult mouse hippocampal tissue is vitrified, rewarmed, and shown to recover short-term structure, metabolism, excitability, synaptic transmission, and long-term potentiation after molecular mobility had effectively stopped.",
+  },
+  {
+    slug: "hierarchical-x-ray-microscopy-and-mesoscopic-diffusion-mri-in-the-same-brain-reveal-the-human-connectome-across-scales",
+    summary:
+      "A standout cross-scale connectomics paper: the same human hemisphere is followed from MRI-scale tractography through hierarchical X-ray microscopy, micro-CT, and electron microscopy, creating a bridge between whole-brain maps and microscopic axonal anatomy.",
   },
 ];
 
