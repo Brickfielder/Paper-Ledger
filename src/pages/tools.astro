@@ -1,6 +1,10 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 
+const basePath = import.meta.env.BASE_URL.endsWith("/")
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+
 const tools = [
   {
     name: "Abstract Screening Tool",
@@ -16,7 +20,7 @@ const tools = [
   },
   {
     name: "Paper to LinkedIn PowerPoint Cards Skill",
-    url: `${import.meta.env.BASE_URL}tools/paper-to-linkedin-powerpoint-cards.md`,
+    url: `${basePath}tools/paper-to-linkedin-powerpoint-cards.md`,
     description:
       "A reusable Codex skill for turning academic papers into editable, reader-friendly LinkedIn PowerPoint card decks.",
   },
