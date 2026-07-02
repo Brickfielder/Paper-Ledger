@@ -1,0 +1,70 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Simple input-output dependencies explain neuronal activity | Paper Ledger</title><meta name="description" content="This Nature Physics article argues that much of neuronal activity can be explained by direct dependencies between an output neuron and its individual inputs, without needing explicit interaction terms between combinations of inputs. Lynn builds maximum-entropy models that match each measured input-output dependency separately and are equivalent to logistic artificial neurons. Across mouse hippocampus, mouse visual cortex and C. elegans recordings, relatively sparse sets of direct inputs explain most of the variability in neuronal activity, predict many higher-order and time-delayed correlations, and recover network features such as sparse, heavy-tailed, balanced and directed weights."><link rel="stylesheet" href="/_astro/about.EcnrdiM7.css"></head> <body> <header class="site-header"> <div class="shell site-header__row"> <a class="brand" href="/"> <span class="brand__mark" aria-hidden="true">PL</span> <span class="brand__name">Paper Ledger</span> </a> <nav class="site-nav" aria-label="Primary"> <a href="/"> Latest </a><a href="/hinges/"> Highlights </a><a href="/themes/"> Themes </a><a href="/dictionary/"> Dictionary </a><a href="/tools/"> Tools </a><a href="/about/"> About </a> </nav> </div> </header> <main class="shell">  <section class="section"> <div class="paper-grid"> <article class="paper-header"> <p class="eyebrow">Paper Summary</p> <h1>Simple input-output dependencies explain neuronal activity</h1> <div class="paper-meta"> <span>May 18, 2026</span> <span>2026</span> <span>Nature Physics</span> </div> <div class="prose"> <h2 id="summary">Summary</h2>
+<p>This article asks whether neuronal activity needs complex interactions between
+inputs to be explained, or whether the simplest direct input-output
+dependencies can already account for most of what is observed. The starting
+point is a binary view of a neuron: inputs are active or silent, and the output
+neuron either spikes or does not. Lynn then asks what follows if a model is
+constrained only to match how the output depends on each input individually,
+while remaining maximally random about combinations of inputs.</p>
+<p>The resulting maximum-entropy model is equivalent to a logistic artificial
+neuron with a bias, linear input weights and a logistic activation. The paper
+then applies this framework to large recordings from mouse hippocampus, mouse
+visual cortex and C. elegans. For each output neuron, an efficient greedy
+algorithm selects a compact set of inputs that best reduces uncertainty about
+the output.</p>
+<p>Across systems, the direct-dependency models explain a large fraction of
+neuronal variability with relatively sparse input sets. In the hippocampal
+recording, the paper reports that complete models explain over 90% of a
+neuron’s entropy, leaving less than 10% for higher-order dependencies,
+time-delayed dependencies and latent stochasticity combined. The models also
+predict most higher-order co-activity patterns and many time-delayed
+correlations, even though those structures were not directly fitted.</p>
+<p>The inferred weights have features associated with biological synaptic
+connectivity: sparsity, heavy tails, a balance between positive and negative
+weights, and strong directionality. The paper therefore argues that simple
+direct dependencies can capture both activity patterns and some network-level
+structure in real neuronal populations.</p>
+<h2 id="why-this-matters">Why This Matters</h2>
+<p>The paper is interesting because it turns a familiar artificial-neuron model
+back toward biology. Instead of using neural networks only as inspiration from
+brains to machines, it asks whether real neurons often behave like simple
+logistic units once the right inputs are chosen.</p>
+<p>That does not make neurons biologically simple. It does suggest that much of the
+observable complexity in population activity may be explainable from sparse
+direct dependencies. This is useful for computational neuroscience because it
+sets a strong baseline: before invoking richer dendritic interactions,
+higher-order logic or latent dynamics, one can ask how far direct dependencies
+already go.</p>
+<h2 id="caveats-and-limitations">Caveats and Limitations</h2>
+<ul>
+<li>The inferred weights are functional associations, not direct causal synapses.</li>
+<li>Calcium-imaging recordings and binarization simplify the underlying spike
+dynamics.</li>
+<li>Unobserved inputs and latent variables may contribute to the apparent direct
+dependencies.</li>
+<li>The framework leaves a residual fraction of variability for nonlinear,
+delayed and stochastic mechanisms.</li>
+<li>The results should be tested against electrophysiological recordings and
+increasingly complete connectomic data.</li>
+</ul>
+<h2 id="key-takeaways">Key Takeaways</h2>
+<ul>
+<li>Direct input-output dependencies explain most neuronal activity variability
+across the systems tested.</li>
+<li>The fitted maximum-entropy models are equivalent to logistic artificial
+neurons.</li>
+<li>Sparse optimal input sets can predict higher-order and time-delayed
+correlations that were not explicitly fitted.</li>
+<li>The inferred networks recover biologically familiar features such as sparse,
+heavy-tailed, balanced and directed weights.</li>
+<li>The paper provides a strong simple-model baseline for theories of neural
+computation.</li>
+</ul>
+<h2 id="source">Source</h2>
+<ul>
+<li>DOI: <a href="https://doi.org/10.1038/s41567-026-03306-3">10.1038/s41567-026-03306-3</a></li>
+<li>URL: <a href="https://www.nature.com/articles/s41567-026-03306-3">https://www.nature.com/articles/s41567-026-03306-3</a></li>
+<li>Full text used: Nature open-access article page.</li>
+</ul> </div> </article> <aside class="meta-panel"> <h2>Paper Details</h2> <ul class="meta-list"> <li> <span class="meta-label">Authors</span> <span>Christopher W. Lynn</span> </li> <li> <span class="meta-label">Source</span> <a href="https://www.nature.com/articles/s41567-026-03306-3" target="_blank" rel="noreferrer"> www.nature.com </a> </li> <li> <span class="meta-label">DOI</span> <a href="https://doi.org/10.1038/s41567-026-03306-3" target="_blank" rel="noreferrer"> 10.1038/s41567-026-03306-3 </a> </li> </ul> </aside> </div> </section>  </main> <footer class="shell footer">
+Built for low-friction capture: drop a DOI or article URL into `inbox/` and let automation do the rest.
+</footer> </body></html>

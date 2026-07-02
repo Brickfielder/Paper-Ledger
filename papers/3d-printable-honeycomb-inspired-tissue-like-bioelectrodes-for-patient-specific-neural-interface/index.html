@@ -1,0 +1,48 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>3D-Printable, Honeycomb-Inspired Tissue-Like Bioelectrodes for Patient-Specific Neural Interface | Paper Ledger</title><meta name="description" content="This paper presents a patient-specific electrocorticography interface called HiPGE, a honeycomb-inspired printable gel electrode designed to match the folded, individually variable surface of the brain. The platform combines MRI reconstruction, finite-element modelling, and direct-ink-writing 3D printing to make soft hydrogel electrode arrays tailored to a person's gyral anatomy. In simulations, the honeycomb architecture reduced bending stiffness, improved cortical contact, and avoided signal gaps compared with stiffer control designs. In bench tests, the PEDOT:PSS/polyurethane hydrogel electrode showed low impedance, high charge storage and injection capacity, and stable electrochemical performance during 28-day in vitro ageing tests. In awake rat recordings, personalized HiPGE devices recorded visual evoked potentials with stronger signal-to-noise than a conventional contralateral electrode array, especially at edge channels where rigid arrays usually lose contact."><link rel="stylesheet" href="/_astro/about.EcnrdiM7.css"></head> <body> <header class="site-header"> <div class="shell site-header__row"> <a class="brand" href="/"> <span class="brand__mark" aria-hidden="true">PL</span> <span class="brand__name">Paper Ledger</span> </a> <nav class="site-nav" aria-label="Primary"> <a href="/"> Latest </a><a href="/hinges/"> Highlights </a><a href="/themes/"> Themes </a><a href="/dictionary/"> Dictionary </a><a href="/tools/"> Tools </a><a href="/about/"> About </a> </nav> </div> </header> <main class="shell">  <section class="section"> <div class="paper-grid"> <article class="paper-header"> <p class="eyebrow">Paper Summary</p> <h1>3D-Printable, Honeycomb-Inspired Tissue-Like Bioelectrodes for Patient-Specific Neural Interface</h1> <div class="paper-meta"> <span>May 5, 2026</span> <span>2026</span> <span>Advanced Materials</span> </div> <div class="prose"> <h2 id="summary">Summary</h2>
+<p>This paper is about making brain-surface electrodes that fit the brain in front of them, rather than forcing a standard flat array onto a highly folded and individually variable cortex.</p>
+<p>The authors call their device a <strong>honeycomb-inspired printable gel electrode</strong>, or <strong>HiPGE</strong>. It is a soft electrocorticography (ECoG) interface made from printed PDMS encapsulation layers and a conductive PEDOT:PSS/polyurethane hydrogel electrode layer. The important design move is that the device is not just soft. It is shaped around the patient’s own cortical anatomy.</p>
+<p>The workflow has three linked parts:</p>
+<ul>
+<li>MRI scans are used to reconstruct individual cortical geometry.</li>
+<li>Finite-element analysis is used to tune the layout, softness, contact, and predicted strain.</li>
+<li>Direct ink writing is used to print a honeycomb electrode array matched to the target surface.</li>
+</ul>
+<p>In the paper, the team reconstructed 21 human brain models from the OASIS database and used these to show how much gyral patterns vary between individuals. They then selected five reconstructed models and designed personalized HiPGE layouts for sensorimotor regions. The honeycomb lattice is meant to give the array flexibility, mechanical robustness, open space for fluid exchange, and more conformal contact with curved cortical folds.</p>
+<h2 id="what-they-built">What They Built</h2>
+<p>HiPGE is a multilayer printed device with:</p>
+<ul>
+<li>a soft PDMS bottom encapsulation layer;</li>
+<li>a conductive hydrogel electrode layer;</li>
+<li>a PDMS top encapsulation layer;</li>
+<li>an interface region, an interconnect region, and an input/output region.</li>
+</ul>
+<p>The electrode layer uses a PEDOT:PSS/polyurethane hydrogel. This matters because neural tissue communicates through ions, while electronics conduct electrons. Hydrogels can support ionic contact with tissue, while conducting polymers support electronic transport, reducing the impedance penalty at the tissue-device interface.</p>
+<p>The honeycomb structure is doing mechanical work. It makes the array easier to bend and stretch without abandoning coverage. It also leaves open pores rather than forming a sealed sheet over the cortex.</p>
+<h2 id="main-findings">Main Findings</h2>
+<p>The modelling results support the mechanical premise. The authors report that HiPGE more closely matched the low stiffness of brain tissue than non-porous or stiffer control materials. Under simulated settling onto cortical tissue, HiPGE had closer average contact with the brain surface than PDMS and SBS controls. The same modelling predicted better electrode connectivity because the personalized array stayed nearer to the cortical surface.</p>
+<p>The electrical results were also favourable. Across tested frequencies from 1 Hz to 100,000 Hz, HiPGE had impedance below 10 kOhm, while platinum and stainless-steel controls were much higher. Cyclic voltammetry suggested higher charge storage and charge injection capacity than the metal controls. The authors attribute this to the porous, hydrated conducting-polymer hydrogel, which increases effective interface area and supports both capacitive and pseudocapacitive charge transfer.</p>
+<p>The stability tests are useful but still early-stage. HiPGE electrodes were aged in PBS for 28 days at 50 C, which the authors interpret as equivalent to about 69 days at physiological temperature. They also tested devices in artificial cerebrospinal fluid at 37 C under dynamic agitation for 28 days. Impedance, charge storage, and charge injection remained stable across those in vitro tests.</p>
+<p>The in vivo functional test used awake rats. Each animal carried a personalized HiPGE over one visual cortex and a conventional array over the contralateral cortex. The authors collected hundreds of visual evoked potential trials. Waveform timing and amplitude variance were broadly comparable, but HiPGE showed higher signal-to-noise, especially at edge channels where contact is usually more vulnerable.</p>
+<h2 id="why-this-matters">Why This Matters</h2>
+<p>The paper’s central argument is that neural interfaces should be personalized at the level of mechanical fit. Brain folds are not a nuisance detail. They determine where electrodes actually touch tissue, how much the implant deforms tissue, and how stable the signal is likely to be.</p>
+<p>This makes the paper interesting beyond the specific hydrogel chemistry. It is a manufacturing and design framework: MRI to model, model to patient-specific layout, layout to printed soft electrode. If that loop can be made reliable clinically, it could reduce the mismatch between individualized neuroanatomy and standardized electrode arrays.</p>
+<p>The honeycomb design is also a neat compromise. A very soft sheet can conform, but may be hard to handle or may block fluid movement. A rigid grid is easier to handle but often loses contact. HiPGE tries to sit between those extremes: soft, porous, stretchable, printable, and shaped to the patient.</p>
+<h2 id="caveats">Caveats</h2>
+<ul>
+<li>The human-personalized part is anatomical and manufacturing validation, not human implantation.</li>
+<li>The live recording validation is in rats, so translation to human neurosurgical use remains open.</li>
+<li>Four-week histology is reassuring but does not settle long-term chronic implantation risk.</li>
+<li>The device was compared with a conventional printed-control style array in rats, not the full range of clinically used ECoG devices.</li>
+<li>The modelling excludes some viscoelastic effects that may matter under chronic or cyclic loading.</li>
+<li>The data availability statement says the data are available from the corresponding author on reasonable request.</li>
+</ul>
+<h2 id="bottom-line">Bottom Line</h2>
+<p>This is a strong engineering proof-of-concept for patient-specific, soft ECoG arrays. The most important contribution is not merely that the electrode is flexible, but that it combines conformal mechanics, low-impedance hydrogel electrodes, and anatomy-specific 3D printing into one coherent neural-interface workflow.</p>
+<h2 id="source">Source</h2>
+<ul>
+<li>DOI: <a href="https://doi.org/10.1002/adma.202516291">10.1002/adma.202516291</a></li>
+<li>URL: <a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202516291">https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202516291</a></li>
+<li>Full text used: <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC13016203/">PubMed Central author manuscript</a></li>
+</ul> </div> </article> <aside class="meta-panel"> <h2>Paper Details</h2> <ul class="meta-list"> <li> <span class="meta-label">Authors</span> <span>Marzia Momin, Luyi Feng, Xiaoai Chen, Salahuddin Ahmed, Basma AlMahmood, Li-Pang Huang, Jiashu Ren, Xinyi Wang, Hyunjin Lee, Samuel R. Cramer, Nanyin Zhang, Sulin Zhang, Tao Zhou</span> </li> <li> <span class="meta-label">Source</span> <a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202516291" target="_blank" rel="noreferrer"> advanced.onlinelibrary.wiley.com </a> </li> <li> <span class="meta-label">DOI</span> <a href="https://doi.org/10.1002/adma.202516291" target="_blank" rel="noreferrer"> 10.1002/adma.202516291 </a> </li> </ul> </aside> </div> </section>  </main> <footer class="shell footer">
+Built for low-friction capture: drop a DOI or article URL into `inbox/` and let automation do the rest.
+</footer> </body></html>

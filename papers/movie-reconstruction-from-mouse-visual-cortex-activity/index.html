@@ -1,0 +1,55 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Movie reconstruction from mouse visual cortex activity | Paper Ledger</title><meta name="description" content="Bauer, Margrie and Clopath reconstruct natural movies from mouse visual cortex activity recorded with two-photon calcium imaging. Instead of training a direct decoder, they optimize video inputs through a state-of-the-art dynamic neural encoding model so that model-predicted neural responses match recorded activity. The method reconstructs 10-second movies at 30 Hz and reaches a reported pixel-level correlation of 0.57 for single-trial reconstructions, substantially above prior static-image reconstructions from awake mouse V1. Performance depends strongly on the number of recorded neurons and on model ensembling."><link rel="stylesheet" href="/_astro/about.EcnrdiM7.css"></head> <body> <header class="site-header"> <div class="shell site-header__row"> <a class="brand" href="/"> <span class="brand__mark" aria-hidden="true">PL</span> <span class="brand__name">Paper Ledger</span> </a> <nav class="site-nav" aria-label="Primary"> <a href="/"> Latest </a><a href="/hinges/"> Highlights </a><a href="/themes/"> Themes </a><a href="/dictionary/"> Dictionary </a><a href="/tools/"> Tools </a><a href="/about/"> About </a> </nav> </div> </header> <main class="shell">  <section class="section"> <div class="paper-grid"> <article class="paper-header"> <p class="eyebrow">Paper Summary</p> <h1>Movie reconstruction from mouse visual cortex activity</h1> <div class="paper-meta"> <span>June 29, 2026</span> <span>2026</span> <span>eLife</span> </div> <div class="prose"> <h2 id="summary">Summary</h2>
+<p>This eLife reviewed preprint asks whether natural movies can be reconstructed
+from mouse visual cortex activity. Human fMRI studies have made visual
+reconstruction familiar, but fMRI is indirect and coarse. Here the authors use
+single-cell-level two-photon calcium imaging from mouse visual cortex, aiming to
+recover dynamic visual input from neural population responses.</p>
+<p>The method inverts a dynamic neural encoding model. The authors start from
+recorded visual-cortex activity and optimize candidate movie frames so that the
+encoding model’s predicted neural responses match the measured responses. In
+effect, the encoding model supplies a differentiable bridge from video input to
+neural activity, and reconstruction is performed by backpropagating through that
+model.</p>
+<p>The reconstructions are 10-second natural movies at 30 Hz. The reported
+single-trial reconstructions reach a pixel-level correlation of 0.57 with the
+ground-truth movies. The authors compare this with earlier awake-mouse V1
+reconstructions from static images, which reached a pixel-level correlation of
+0.24 over a similar retinotopic area.</p>
+<p>Two ingredients are especially important. More recorded neurons improve
+reconstruction quality, and model ensembling helps produce higher-quality
+movies. The result is not just a decoder benchmark: it provides a tool for
+asking what aspects of dynamic visual scenes are present in population activity.</p>
+<h2 id="why-this-matters">Why This Matters</h2>
+<p>Movie reconstruction makes neural population coding easier to inspect. Instead
+of only asking which features a model predicts, researchers can look at the
+visual content recoverable from recorded activity and compare it with the actual
+stimulus.</p>
+<p>The work is also useful because it brings this approach to mouse visual cortex,
+where genetic tools, circuit perturbations and large-scale cellular recordings
+can be combined in ways that are not possible in human fMRI studies.</p>
+<h2 id="caveats-and-limitations">Caveats and Limitations</h2>
+<p>The reconstruction is mediated by an encoding model, so its failures and priors
+shape the output. A good reconstruction shows that the recorded activity plus
+model contain stimulus information; it does not mean the animal experienced the
+reconstructed movie in a human-like way.</p>
+<p>Performance also depends on dense recordings and model ensembling. Smaller
+neural populations, different visual areas, different movie statistics or
+behavioral state changes may reduce reconstruction quality.</p>
+<h2 id="key-takeaways">Key Takeaways</h2>
+<ul>
+<li>Natural movies were reconstructed from mouse visual cortex calcium imaging.</li>
+<li>The method optimizes video through a dynamic neural encoding model.</li>
+<li>Reconstructions covered 10-second movies at 30 Hz.</li>
+<li>Single-trial reconstructions reached a reported pixel-level correlation of
+0.57.</li>
+<li>More neurons and model ensembling were critical for high-quality
+reconstruction.</li>
+</ul>
+<h2 id="source">Source</h2>
+<ul>
+<li>DOI: <a href="https://doi.org/10.7554/eLife.105081">10.7554/eLife.105081</a></li>
+<li>URL: <a href="https://elifesciences.org/reviewed-preprints/105081">https://elifesciences.org/reviewed-preprints/105081</a></li>
+<li>Full text used: eLife XML <code>https://cdn.elifesciences.org/articles/105081/elife-105081-v1.xml</code></li>
+</ul> </div> </article> <aside class="meta-panel"> <h2>Paper Details</h2> <ul class="meta-list"> <li> <span class="meta-label">Authors</span> <span>Joel Bauer, Troy W Margrie, Claudia Clopath</span> </li> <li> <span class="meta-label">Source</span> <a href="https://elifesciences.org/reviewed-preprints/105081" target="_blank" rel="noreferrer"> elifesciences.org </a> </li> <li> <span class="meta-label">DOI</span> <a href="https://doi.org/10.7554/eLife.105081" target="_blank" rel="noreferrer"> 10.7554/eLife.105081 </a> </li> </ul> </aside> </div> </section>  </main> <footer class="shell footer">
+Built for low-friction capture: drop a DOI or article URL into `inbox/` and let automation do the rest.
+</footer> </body></html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Discovering Symbolic Models from Deep Learning with Inductive Biases | Paper Ledger</title><meta name="description" content="Cranmer and colleagues propose a way to extract symbolic equations from deep models by building in strong inductive biases before applying symbolic regression. They train graph neural networks on physical systems, encourage sparse internal representations, then fit symbolic expressions to the learned message, node or Hamiltonian components. The method recovers known force laws and Hamiltonians in particle simulations, and in a cosmology application it distills a graph network trained on dark-matter halo simulations into a compact analytic expression for predicting halo concentration from nearby mass structure."><link rel="stylesheet" href="/_astro/about.EcnrdiM7.css"></head> <body> <header class="site-header"> <div class="shell site-header__row"> <a class="brand" href="/"> <span class="brand__mark" aria-hidden="true">PL</span> <span class="brand__name">Paper Ledger</span> </a> <nav class="site-nav" aria-label="Primary"> <a href="/"> Latest </a><a href="/hinges/"> Highlights </a><a href="/themes/"> Themes </a><a href="/dictionary/"> Dictionary </a><a href="/tools/"> Tools </a><a href="/about/"> About </a> </nav> </div> </header> <main class="shell">  <section class="section"> <div class="paper-grid"> <article class="paper-header"> <p class="eyebrow">Paper Summary</p> <h1>Discovering Symbolic Models from Deep Learning with Inductive Biases</h1> <div class="paper-meta"> <span>June 29, 2026</span> <span>2020</span> <span>NeurIPS</span> </div> <div class="prose"> <h2 id="summary">Summary</h2>
+<p>This NeurIPS paper develops a framework for extracting symbolic scientific
+models from trained deep networks. The authors focus on graph neural networks
+because their structure naturally matches interacting systems: edge functions
+can represent pairwise interactions, node functions can represent particle
+updates, and global functions can represent system-level quantities.</p>
+<p>The workflow is simple in outline. First, choose a neural architecture whose
+internal pieces line up with the structure of the problem. Second, train it
+end-to-end on data. Third, encourage compact latent representations, for example
+with sparsity penalties. Fourth, apply symbolic regression to the learned
+internal functions rather than to the full high-dimensional raw dataset.</p>
+<p>The paper demonstrates the approach on Newtonian dynamics. Graph-network
+messages learn low-dimensional representations that are approximately rotated
+versions of true force components. Symbolic regression can then recover compact
+force laws for several simulated particle systems, including inverse-distance,
+inverse-square, spring, charge and discontinuous interactions. A Hamiltonian
+variant similarly recovers potential-energy structure.</p>
+<p>The final case study applies the same idea to cosmology. A graph network trained
+on dark-matter halo simulations learns a low-dimensional interaction summary.
+Symbolic regression then distills this model into an analytic expression that
+predicts halo concentration from nearby mass distribution, producing a compact
+candidate formula rather than only a neural-network predictor.</p>
+<h2 id="why-this-matters">Why This Matters</h2>
+<p>The paper is a clean example of using neural networks as scaffolding for
+scientific discovery. Symbolic regression alone can become intractable when the
+input space is large. A well-designed neural model can compress and factor the
+problem before the symbolic search begins.</p>
+<p>That makes interpretability productive rather than decorative. The goal is not
+just to explain a trained model after the fact, but to extract equations that
+can be inspected, simulated and tested outside the original network.</p>
+<h2 id="caveats-and-limitations">Caveats and Limitations</h2>
+<p>The method works best when the inductive bias is well matched to the domain.
+For particle systems, graph networks are a natural choice. In domains without a
+clear decomposition into interacting entities, choosing the right structure may
+be much harder.</p>
+<p>Symbolic regression also remains sensitive to the search space, allowed
+operators, noise, and the quality of learned internal representations. The
+cosmology example is promising, but new analytic formulas still need domain
+validation beyond model fit.</p>
+<h2 id="key-takeaways">Key Takeaways</h2>
+<ul>
+<li>Structured neural networks can make symbolic regression tractable on harder
+scientific datasets.</li>
+<li>Sparse graph-network messages can align with physical force components.</li>
+<li>The method recovers known force laws and Hamiltonian structure in simulations.</li>
+<li>It also distills a dark-matter halo graph network into an analytic expression.</li>
+<li>Success depends on choosing a useful inductive bias before training.</li>
+</ul>
+<h2 id="source">Source</h2>
+<ul>
+<li>DOI: <a href="https://doi.org/10.48550/arXiv.2006.11287">10.48550/arXiv.2006.11287</a></li>
+<li>URL: <a href="https://arxiv.org/abs/2006.11287">https://arxiv.org/abs/2006.11287</a></li>
+<li>Full text used: arXiv PDF <code>https://arxiv.org/pdf/2006.11287v2</code></li>
+</ul> </div> </article> <aside class="meta-panel"> <h2>Paper Details</h2> <ul class="meta-list"> <li> <span class="meta-label">Authors</span> <span>Miles Cranmer, Alvaro Sanchez-Gonzalez, Peter Battaglia, Rui Xu, Kyle Cranmer, David Spergel, Shirley Ho</span> </li> <li> <span class="meta-label">Source</span> <a href="https://arxiv.org/abs/2006.11287" target="_blank" rel="noreferrer"> arxiv.org </a> </li> <li> <span class="meta-label">DOI</span> <a href="https://doi.org/10.48550/arXiv.2006.11287" target="_blank" rel="noreferrer"> 10.48550/arXiv.2006.11287 </a> </li> </ul> </aside> </div> </section>  </main> <footer class="shell footer">
+Built for low-friction capture: drop a DOI or article URL into `inbox/` and let automation do the rest.
+</footer> </body></html>

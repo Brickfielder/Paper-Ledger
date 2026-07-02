@@ -1,0 +1,70 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Network geometry of the Drosophila brain | Paper Ledger</title><meta name="description" content="Sulyok, Balogh and Palla study the latent geometry of the adult Drosophila connectome using network embeddings derived from synaptic connectivity rather than physical neuron positions. They compare a two-dimensional hyperbolic embedding produced with CLOVE, Euclidean Node2vec embeddings from two to 512 dimensions, and the neurons' original three-dimensional anatomical coordinates. Across multiple measures of structural preservation, link prediction and greedy routing, the two-dimensional hyperbolic map outperforms low-dimensional Euclidean representations and the physical coordinates. Higher-dimensional Euclidean embeddings eventually surpass it on many metrics, generally peaking around tens of dimensions."><link rel="stylesheet" href="/_astro/about.EcnrdiM7.css"></head> <body> <header class="site-header"> <div class="shell site-header__row"> <a class="brand" href="/"> <span class="brand__mark" aria-hidden="true">PL</span> <span class="brand__name">Paper Ledger</span> </a> <nav class="site-nav" aria-label="Primary"> <a href="/"> Latest </a><a href="/hinges/"> Highlights </a><a href="/themes/"> Themes </a><a href="/dictionary/"> Dictionary </a><a href="/tools/"> Tools </a><a href="/about/"> About </a> </nav> </div> </header> <main class="shell">  <section class="section"> <div class="paper-grid"> <article class="paper-header"> <p class="eyebrow">Paper Summary</p> <h1>Network geometry of the Drosophila brain</h1> <div class="paper-meta"> <span>June 6, 2026</span> <span>2026</span> <span>arXiv preprint</span> </div> <div class="prose"> <h2 id="summary">Summary</h2>
+<p>The reconstruction of the adult female Drosophila brain provides a graph of
+139,255 neurons connected by roughly 50 million chemical synapses. This paper
+asks what kind of geometric space best represents that wiring diagram when
+coordinates are inferred from connectivity rather than taken from physical
+anatomy.</p>
+<p>The authors first use CLOVE, a scalable network-embedding method, to place the
+connectome in a two-dimensional hyperbolic disk. Hyperbolic space expands
+exponentially with distance, making it well suited to scale-free, small-world
+and hierarchical networks. Hubs occupy more central positions in the disk,
+while lower-degree neurons lie nearer its edge. Major neuronal superclasses
+retain distinct angular regions, suggesting that the embedding preserves
+biologically meaningful organization.</p>
+<p>They compare this map with the neurons’ original three-dimensional physical
+coordinates and with Euclidean Node2vec embeddings ranging from two to 512
+dimensions. Evaluation includes correlations between graph and geometric
+distance, reconstruction and link-prediction metrics, and greedy-routing
+performance.</p>
+<p>The two-dimensional hyperbolic embedding scores better than the physical
+three-dimensional arrangement and the two- or three-dimensional Node2vec maps
+across the reported metrics. It is especially effective for greedy navigation.
+Euclidean embeddings improve as dimensions are added and surpass the hyperbolic
+baseline on many metrics at moderate dimensionality, with their strongest
+performance generally between 32 and 128 dimensions before declining at very
+high dimensions.</p>
+<p>The result is therefore not that hyperbolic geometry beats every possible
+Euclidean representation. Rather, hyperbolic space captures much of the
+connectome’s hierarchical and modular structure in only two dimensions, whereas
+Euclidean methods need substantially more dimensions to achieve comparable or
+better fidelity.</p>
+<h2 id="why-this-matters">Why This Matters</h2>
+<p>Connectomes are often displayed in anatomical space, but physical proximity is
+not the same thing as network proximity. A compact latent map can reveal which
+neurons occupy similar structural roles even when their bodies are not adjacent.</p>
+<p>Hyperbolic geometry is particularly attractive because trees, hierarchies,
+communities and hubs fit naturally within it. A useful two-dimensional map could
+support exploratory visualization and become an input to downstream tasks such
+as missing-link prediction, community detection, neuron classification or
+network navigation.</p>
+<h2 id="caveats-and-limitations">Caveats and Limitations</h2>
+<p>This is a structural embedding analysis of one adult female fly connectome. It
+does not test neural activity, synaptic dynamics or behavior, and geometric
+congruence should not be interpreted as proof that the fly brain literally
+computes in hyperbolic coordinates.</p>
+<p>Results also depend on the algorithms, parameters and evaluation metrics chosen.
+CLOVE currently provides a two-dimensional hyperbolic embedding, while
+Node2vec can use hundreds of Euclidean dimensions. The authors appropriately
+note that high-dimensional comparisons are nuanced because extra dimensions
+give Euclidean models more freedom. Future work will need to test whether these
+coordinates improve specific biological prediction tasks and replicate across
+other connectomes.</p>
+<h2 id="key-takeaways">Key Takeaways</h2>
+<ul>
+<li>The study embeds the full adult female Drosophila connectome from synaptic
+connectivity.</li>
+<li>A two-dimensional hyperbolic map preserves network structure better than
+low-dimensional Euclidean maps and physical neuron coordinates.</li>
+<li>Neuronal superclasses remain spatially organized in the inferred embeddings.</li>
+<li>Higher-dimensional Euclidean embeddings eventually match or exceed many
+hyperbolic quality scores.</li>
+<li>Hyperbolic geometry offers a compact representation of the connectome’s
+hierarchical and modular organization.</li>
+</ul>
+<h2 id="source">Source</h2>
+<ul>
+<li>arXiv: <a href="https://arxiv.org/abs/2602.16417">2602.16417</a></li>
+<li>PDF: <a href="https://arxiv.org/pdf/2602.16417">https://arxiv.org/pdf/2602.16417</a></li>
+</ul> </div> </article> <aside class="meta-panel"> <h2>Paper Details</h2> <ul class="meta-list"> <li> <span class="meta-label">Authors</span> <span>Bendeguz Sulyok, Samuel G. Balogh, Gergely Palla</span> </li> <li> <span class="meta-label">Source</span> <a href="https://arxiv.org/abs/2602.16417" target="_blank" rel="noreferrer"> arxiv.org </a> </li> <li> <span class="meta-label">DOI</span> <span>Not available</span> </li> </ul> </aside> </div> </section>  </main> <footer class="shell footer">
+Built for low-friction capture: drop a DOI or article URL into `inbox/` and let automation do the rest.
+</footer> </body></html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>From Entropy to Epiplexity: Rethinking Information for Computationally Bounded Intelligence | Paper Ledger</title><meta name="description" content="Finzi, Qiu and colleagues argue that standard Shannon entropy and Kolmogorov complexity miss a key question for learning systems: what useful structure can a computationally bounded learner extract from data? They introduce epiplexity as a measure of learnable structural information under compute limits, separating it from time-bounded entropy, the unpredictable component exemplified by pseudorandomness and chaos. The paper uses theoretical examples and empirical estimates across cellular automata, induction, chess, OpenWebText and CIFAR-style settings to show that epiplexity tracks useful data structure and can reflect transformations or orderings that improve downstream learning."><link rel="stylesheet" href="/_astro/about.EcnrdiM7.css"></head> <body> <header class="site-header"> <div class="shell site-header__row"> <a class="brand" href="/"> <span class="brand__mark" aria-hidden="true">PL</span> <span class="brand__name">Paper Ledger</span> </a> <nav class="site-nav" aria-label="Primary"> <a href="/"> Latest </a><a href="/hinges/"> Highlights </a><a href="/themes/"> Themes </a><a href="/dictionary/"> Dictionary </a><a href="/tools/"> Tools </a><a href="/about/"> About </a> </nav> </div> </header> <main class="shell">  <section class="section"> <div class="paper-grid"> <article class="paper-header"> <p class="eyebrow">Paper Summary</p> <h1>From Entropy to Epiplexity: Rethinking Information for Computationally Bounded Intelligence</h1> <div class="paper-meta"> <span>June 17, 2026</span> <span>2026</span>  </div> <div class="prose"> <h2 id="summary">Summary</h2>
+<p>This arXiv paper asks whether conventional information measures are the right
+tools for modern learning systems. Shannon information and Kolmogorov
+complexity are powerful, but they treat the observer as computationally
+unbounded or focus on distributional description rather than useful learnable
+structure. That makes them awkward for questions such as whether a deterministic
+transformation can create useful information for a learner, whether data order
+matters, and whether likelihood modeling can extract structure beyond the
+apparent data-generating process.</p>
+<p>The authors introduce epiplexity to capture information available to
+computationally bounded intelligence. In this framing, useful information is the
+structural content a learner can exploit under a compute budget. Time-bounded
+entropy is the complementary unpredictable component: content that remains hard
+to learn within the available computation, such as pseudorandom or chaotic
+signals.</p>
+<p>The paper develops the idea through theory and experiments. It gives formal
+arguments around deterministic transformations, pseudorandom generators,
+factorization dependence and compute-bounded coding. It also describes practical
+estimation procedures based on prequential and requential coding, then applies
+them to elementary cellular automata, induction tasks, chess, OpenWebText and
+image-data settings.</p>
+<p>The empirical message is that epiplexity can respond to structure that matters
+for learning. It can distinguish data sources, reflect order or transformation
+effects, and track interventions that improve out-of-distribution
+generalization. The paper therefore positions epiplexity as a foundation for
+data selection rather than just model selection.</p>
+<h2 id="why-this-matters">Why This Matters</h2>
+<p>For machine learning, not all bits are equally useful. Random-looking data can
+have high entropy while teaching a bounded learner very little, and a
+deterministic transformation can make structure easier to exploit even if it
+does not create Shannon information in the classical sense.</p>
+<p>Epiplexity is interesting because it makes compute part of the definition. That
+fits the practical reality of AI systems: what matters is not only what exists
+in the data, but what a finite learner can extract from it.</p>
+<h2 id="caveats-and-limitations">Caveats and Limitations</h2>
+<p>The framework is mathematically ambitious and its estimates are not parameter
+free. Results can depend on the chosen coding scheme, model family, optimization
+procedure and compute budget. The paper gives experiments across several
+settings, but epiplexity is not yet a standardized metric that can be applied
+uniformly across all datasets.</p>
+<p>The concept is also best read as a foundation for evaluating data and
+transformations, not as a complete recipe for building better datasets in every
+domain.</p>
+<h2 id="key-takeaways">Key Takeaways</h2>
+<ul>
+<li>Epiplexity measures learnable structural information for bounded learners.</li>
+<li>Time-bounded entropy captures content that remains unpredictable under a
+compute budget.</li>
+<li>The paper argues that deterministic transformations and data order can matter
+for useful information.</li>
+<li>Practical estimates use compute-bounded coding procedures.</li>
+<li>The framework is aimed at data selection and data transformation, not only
+model selection.</li>
+</ul>
+<h2 id="source">Source</h2>
+<ul>
+<li>DOI: <a href="https://doi.org/10.48550/arXiv.2601.03220">10.48550/arXiv.2601.03220</a></li>
+<li>URL: <a href="https://arxiv.org/abs/2601.03220">https://arxiv.org/abs/2601.03220</a></li>
+<li>Full text used: <a href="https://arxiv.org/html/2601.03220v2">https://arxiv.org/html/2601.03220v2</a></li>
+</ul> </div> </article> <aside class="meta-panel"> <h2>Paper Details</h2> <ul class="meta-list"> <li> <span class="meta-label">Authors</span> <span>Marc Finzi, Shikai Qiu, Yiding Jiang, Pavel Izmailov, J. Zico Kolter, Andrew Gordon Wilson</span> </li> <li> <span class="meta-label">Source</span> <a href="https://arxiv.org/abs/2601.03220" target="_blank" rel="noreferrer"> arxiv.org </a> </li> <li> <span class="meta-label">DOI</span> <a href="https://doi.org/10.48550/arXiv.2601.03220" target="_blank" rel="noreferrer"> 10.48550/arXiv.2601.03220 </a> </li> </ul> </aside> </div> </section>  </main> <footer class="shell footer">
+Built for low-friction capture: drop a DOI or article URL into `inbox/` and let automation do the rest.
+</footer> </body></html>

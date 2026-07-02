@@ -1,0 +1,68 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>SkillOpt: Executive Strategy for Self-Evolving Agent Skills | Paper Ledger</title><meta name="description" content="SkillOpt treats a natural-language agent skill as trainable external state while keeping the target model fixed. A separate optimizer model examines scored trajectories and proposes bounded additions, deletions, or replacements to a skill document. Candidate edits are accepted only when they improve a held-out validation split; rejected edits become feedback for later rounds. Across six benchmarks, seven target models, and direct-chat, Codex, and Claude Code harnesses, the authors report SkillOpt as best or tied-best in all 52 evaluated model-benchmark-harness cells. On GPT-5.5, average gains over no skill were 23.5 percentage points in direct chat, 24.8 in Codex, and 19.1 in Claude Code."><link rel="stylesheet" href="/_astro/about.EcnrdiM7.css"></head> <body> <header class="site-header"> <div class="shell site-header__row"> <a class="brand" href="/"> <span class="brand__mark" aria-hidden="true">PL</span> <span class="brand__name">Paper Ledger</span> </a> <nav class="site-nav" aria-label="Primary"> <a href="/"> Latest </a><a href="/hinges/"> Highlights </a><a href="/themes/"> Themes </a><a href="/dictionary/"> Dictionary </a><a href="/tools/"> Tools </a><a href="/about/"> About </a> </nav> </div> </header> <main class="shell">  <section class="section"> <div class="paper-grid"> <article class="paper-header"> <p class="eyebrow">Paper Summary</p> <h1>SkillOpt: Executive Strategy for Self-Evolving Agent Skills</h1> <div class="paper-meta"> <span>June 15, 2026</span> <span>2026</span> <span>arXiv</span> </div> <div class="prose"> <h2 id="summary">Summary</h2>
+<p>SkillOpt is a method for improving an AI agent by optimizing a reusable
+natural-language skill document rather than changing the model’s weights. The
+target model remains frozen. A separate optimizer model reviews successful and
+failed task trajectories and proposes structured additions, deletions, or
+replacements to the skill.</p>
+<p>The method borrows controls from conventional optimization. A textual learning
+rate limits the size of each revision. Rollouts are grouped into batches and
+reflection minibatches. Candidate changes are evaluated on a held-out selection
+split and accepted only when the score strictly improves. Rejected edits are
+stored as negative feedback, while a slower epoch-level update preserves useful
+directions across rounds.</p>
+<p>The final deployed artifact is a compact <code>best_skill.md</code>, typically around
+300-2,000 tokens and assembled through only one to four accepted revisions. The
+optimization process uses additional model calls, but deployment does not:
+the target agent simply receives the optimized skill as part of its normal
+instructions.</p>
+<p>The experiments span six benchmarks involving factual search, spreadsheets,
+office documents, visual document reasoning, mathematics, and embodied
+decision-making. Seven target models and three execution settings are included:
+direct chat, a Codex agent loop, and Claude Code.</p>
+<p>The authors report that SkillOpt was best or tied-best in all 52 evaluated
+model-benchmark-harness combinations. For GPT-5.5, the six-benchmark direct-chat
+average rose from 58.8 without a skill to 82.3 with SkillOpt. Gains were also
+reported inside Codex and Claude Code. Comparisons included human-written and
+one-shot generated skills, trajectory distillation, prompt optimizers, and an
+evolutionary skill baseline.</p>
+<p>Transfer tests suggest that some learned procedures remain useful across model
+sizes, execution harnesses, and a related mathematics benchmark. Ablations
+support the role of bounded edits, held-out gating, rejected-edit feedback, and
+the slow update in preventing unstable or harmful revisions.</p>
+<h2 id="why-this-matters">Why This Matters</h2>
+<p>The paper presents skills as a lightweight domain-adaptation layer. This is
+especially relevant where model fine-tuning is unavailable, costly, or
+undesirable. Unlike hidden weight changes, the optimized artifact can be read,
+audited, versioned, and reused.</p>
+<p>The strongest practical idea is not simply automated prompt rewriting. It is
+the use of execution evidence, constrained edits, and independent validation to
+decide whether a procedural instruction should survive. That gives skill
+development a more reproducible structure.</p>
+<h2 id="caveats-and-limitations">Caveats and Limitations</h2>
+<p>SkillOpt requires trustworthy feedback. Exact-match tasks, executable outputs,
+and automated verifiers fit naturally; subjective or open-ended work requires
+human judgement or model-based evaluation that may itself be noisy or biased.</p>
+<p>Training a skill consumes additional rollouts and calls to a strong optimizer
+model. The cost can be amortized when a skill is reused frequently, but may be
+poor value for one-off tasks. Optimizing one compact skill may also be
+insufficient for domains containing many unrelated workflows.</p>
+<p>The headline result is broad within the selected evaluation matrix but remains
+a benchmark result from an arXiv preprint. Transfer was tested across related
+settings, not arbitrary real-world deployments. A skill may encode assumptions
+from its training distribution, so substantial changes in model, harness,
+tools, or task should trigger fresh validation.</p>
+<h2 id="key-takeaways">Key Takeaways</h2>
+<ul>
+<li>SkillOpt optimizes a text skill while leaving the task model unchanged.</li>
+<li>Bounded edits and held-out acceptance make revision more controlled.</li>
+<li>Rejected edits are retained as useful negative feedback.</li>
+<li>The reported benchmark gains were consistent across several models and harnesses.</li>
+<li>Final skills were compact and sometimes transferred to related settings.</li>
+</ul>
+<h2 id="source">Source</h2>
+<ul>
+<li>DOI: <a href="https://doi.org/10.48550/arXiv.2605.23904">10.48550/arXiv.2605.23904</a></li>
+<li>URL: <a href="https://arxiv.org/html/2605.23904v2">https://arxiv.org/html/2605.23904v2</a></li>
+</ul> </div> </article> <aside class="meta-panel"> <h2>Paper Details</h2> <ul class="meta-list"> <li> <span class="meta-label">Authors</span> <span>Yifan Yang, Ziyang Gong, Weiquan Huang, Qihao Yang, Ziwei Zhou, Zisu Huang, Yan Li, Xuemei Gao, Qi Dai, Bei Liu, Kai Qiu, Yuqing Yang, Dongdong Chen, Xue Yang, Chong Luo</span> </li> <li> <span class="meta-label">Source</span> <a href="https://arxiv.org/html/2605.23904v2" target="_blank" rel="noreferrer"> arxiv.org </a> </li> <li> <span class="meta-label">DOI</span> <a href="https://doi.org/10.48550/arXiv.2605.23904" target="_blank" rel="noreferrer"> 10.48550/arXiv.2605.23904 </a> </li> </ul> </aside> </div> </section>  </main> <footer class="shell footer">
+Built for low-friction capture: drop a DOI or article URL into `inbox/` and let automation do the rest.
+</footer> </body></html>

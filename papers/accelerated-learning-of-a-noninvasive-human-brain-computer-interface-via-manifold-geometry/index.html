@@ -1,0 +1,86 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Accelerated learning of a noninvasive human brain-computer interface via manifold geometry | Paper Ledger</title><meta name="description" content="This bioRxiv preprint tests whether a brain-computer interface becomes easier to learn when its control mapping follows the intrinsic low-dimensional geometry of a person's brain activity. Eighteen healthy young adults used real-time fMRI activity from navigation-related regions to steer an avatar in virtual reality. Participants rapidly learned an intuitive mapping and more gradually learned a new mapping that remained within their individual neural manifold. They did not learn an outside-manifold mapping within the same training period. Successful on-manifold learning was accompanied by greater alignment of neural activity with the trained control dimension, and this realignment predicted behavioural learning for the within-manifold perturbation."><link rel="stylesheet" href="/_astro/about.EcnrdiM7.css"></head> <body> <header class="site-header"> <div class="shell site-header__row"> <a class="brand" href="/"> <span class="brand__mark" aria-hidden="true">PL</span> <span class="brand__name">Paper Ledger</span> </a> <nav class="site-nav" aria-label="Primary"> <a href="/"> Latest </a><a href="/hinges/"> Highlights </a><a href="/themes/"> Themes </a><a href="/dictionary/"> Dictionary </a><a href="/tools/"> Tools </a><a href="/about/"> About </a> </nav> </div> </header> <main class="shell">  <section class="section"> <div class="paper-grid"> <article class="paper-header"> <p class="eyebrow">Paper Summary</p> <h1>Accelerated learning of a noninvasive human brain-computer interface via manifold geometry</h1> <div class="paper-meta"> <span>June 15, 2026</span> <span>2025</span> <span>bioRxiv</span> </div> <div class="prose"> <h2 id="summary">Summary</h2>
+<p>Brain-computer interfaces depend not only on decoding neural activity but also
+on users learning to produce activity patterns that the interface can
+recognize. This study asks whether that learning can be accelerated by matching
+the interface to the intrinsic manifold: the lower-dimensional geometric
+structure within which a person’s brain activity naturally varies.</p>
+<p>Twenty healthy young adults were recruited, and 18 were included in the
+neurofeedback analyses after one participant repeatedly fell asleep and another
+experienced a scanner malfunction. Participants were aged 19-35 and completed
+four or five MRI sessions over no more than seven days.</p>
+<p>In the first session, participants navigated an avatar through a virtual arena
+with a joystick. The researchers used activity from a distributed network of
+navigation-related brain regions to construct an individual neural manifold
+with T-PHATE, a nonlinear diffusion-based dimensionality-reduction method. A
+manifold-regularized autoencoder then projected new fMRI samples into this
+space during real-time neurofeedback.</p>
+<p>Participants subsequently controlled the avatar using brain activity under
+three mappings:</p>
+<ol>
+<li>An intuitive mapping based on the strongest task-related component of the
+participant’s manifold.</li>
+<li>A within-manifold perturbation using a different component that still lay
+within the learned manifold.</li>
+<li>An outside-manifold perturbation using a control dimension that the
+participant’s existing activity explained poorly.</li>
+</ol>
+<p>Control was introduced through an adaptive staircase. At lower levels, the
+avatar received more assistance toward the goal; as performance improved, a
+larger proportion of its movement direction came from decoded brain activity.
+The resulting Brain Control measure therefore represented how much unassisted
+control a participant had earned.</p>
+<p>Participants learned the intuitive mapping quickly, with improvement emerging
+after approximately four trials. They learned the within-manifold perturbation
+more slowly, reaching reliable improvement at around 30 trials. Across sessions,
+mean Brain Control increased by 49.3 percentage points for the intuitive
+mapping and 16.4 points for the within-manifold perturbation. It did not
+increase for the outside-manifold perturbation.</p>
+<p>Successful learning was accompanied by neural realignment. The trained
+component explained a greater proportion of fMRI variance after intuitive and
+within-manifold training, but not after outside-manifold training. For the
+within-manifold perturbation, participants showing more neural realignment also
+showed greater improvement in BCI control. Exploratory whole-brain analyses
+additionally suggested improved task decoding in motor and prefrontal regions
+after within-manifold learning.</p>
+<h2 id="why-this-matters">Why This Matters</h2>
+<p>Previous work in nonhuman primates showed that invasive motor BCIs are easier
+to learn when new control mappings respect existing neural manifolds. This
+paper extends that principle to noninvasive human fMRI and to distributed brain
+regions supporting navigation and goal-directed cognition.</p>
+<p>The practical implication is that neurofeedback targets need not be selected
+without regard to the user’s existing neural organization. Personalized
+manifold mapping could identify control dimensions that are immediately
+accessible and provide incremental routes toward more difficult activity
+patterns.</p>
+<h2 id="caveats-and-limitations">Caveats and Limitations</h2>
+<p>This is an early bioRxiv preprint rather than a peer-reviewed clinical study.
+The final analysis included only 18 healthy young adults from one local
+community. There was no separate human control group; comparisons were
+within-participant, supplemented by simulated null fMRI datasets designed to
+test the processing and staircase pipeline.</p>
+<p>The adaptive staircase intentionally assisted avatar movement, especially
+early in training. Brain Control is therefore a useful internal learning
+measure but not equivalent to fully independent real-world device operation.
+Participants also received only one session under each perturbation. The
+outside-manifold result shows that it was harder to learn within that training
+window, not that outside-manifold activity can never be acquired.</p>
+<p>Real-time fMRI offers broad spatial coverage but is costly, slow, physically
+restrictive, and not a practical everyday BCI platform. Whether the approach
+improves wearable or invasive interfaces, communication, rehabilitation,
+assistive-device control, or clinical neurofeedback remains unknown. Longer
+follow-up is also needed to establish durability and transfer.</p>
+<h2 id="key-takeaways">Key Takeaways</h2>
+<ul>
+<li>Individual neural manifolds were estimated from fMRI during joystick navigation.</li>
+<li>Participants learned intuitive and within-manifold BCI mappings.</li>
+<li>They did not learn the outside-manifold mapping within the same training period.</li>
+<li>On-manifold learning was accompanied by selective neural realignment.</li>
+<li>Personalized manifold geometry may help design more learnable BCI control mappings.</li>
+</ul>
+<h2 id="source">Source</h2>
+<ul>
+<li>DOI: <a href="https://doi.org/10.1101/2025.03.29.646109">10.1101/2025.03.29.646109</a></li>
+<li>URL: <a href="https://www.biorxiv.org/content/10.1101/2025.03.29.646109v1">https://www.biorxiv.org/content/10.1101/2025.03.29.646109v1</a></li>
+</ul> </div> </article> <aside class="meta-panel"> <h2>Paper Details</h2> <ul class="meta-list"> <li> <span class="meta-label">Authors</span> <span>Erica L. Busch, E. Chandra Fincke, Guillaume Lajoie, Smita Krishnaswamy, Nicholas B. Turk-Browne</span> </li> <li> <span class="meta-label">Source</span> <a href="https://www.biorxiv.org/content/10.1101/2025.03.29.646109v1" target="_blank" rel="noreferrer"> biorxiv.org </a> </li> <li> <span class="meta-label">DOI</span> <a href="https://doi.org/10.1101/2025.03.29.646109" target="_blank" rel="noreferrer"> 10.1101/2025.03.29.646109 </a> </li> </ul> </aside> </div> </section>  </main> <footer class="shell footer">
+Built for low-friction capture: drop a DOI or article URL into `inbox/` and let automation do the rest.
+</footer> </body></html>
