@@ -150,10 +150,25 @@ main {
 
 .landing-intro--home {
   max-width: 56rem;
-  padding-top: 1.7rem;
+  padding-top: 0.85rem;
   padding-bottom: 1.75rem;
   margin-bottom: 0;
   border-bottom: 0;
+}
+
+.home-banner {
+  overflow: hidden;
+  aspect-ratio: 1983 / 793;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  background: var(--ink);
+  box-shadow: var(--shadow);
+}
+
+.home-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .page-title {
@@ -908,6 +923,10 @@ main {
 
   .page-title {
     font-size: 2.05rem;
+  }
+
+  .home-banner {
+    aspect-ratio: 4 / 3;
   }
 
   .search-input {
