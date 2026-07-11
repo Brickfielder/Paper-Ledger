@@ -158,7 +158,7 @@ main {
 
 .home-banner {
   overflow: hidden;
-  aspect-ratio: 1983 / 793;
+  aspect-ratio: 1280 / 382;
   border: 1px solid var(--line-strong);
   border-radius: 6px;
   background: var(--ink);
@@ -923,10 +923,6 @@ main {
 
   .page-title {
     font-size: 2.05rem;
-  }
-
-  .home-banner {
-    aspect-ratio: 4 / 3;
   }
 
   .search-input {
