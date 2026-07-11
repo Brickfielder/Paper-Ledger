@@ -1,0 +1,42 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Surgical Robot Transformer (SRT): Imitation Learning for Surgical Tasks | Paper Ledger</title><meta name="description" content="This paper shows that imitation-learning policies can perform tissue lifting, needle handover and knot tying on the da Vinci Research Kit despite unreliable forward kinematics. The key is to predict relative rather than absolute tool motions from endoscopic and wrist-camera views, allowing the robot to use approximate kinematic demonstration data without correction."><link rel="stylesheet" href="/Paper-Ledger/_astro/about.CRA4vgMu.css"></head> <body> <header class="site-header"> <div class="shell site-header__row"> <a class="brand" href="/Paper-Ledger/"> <span class="brand__mark" aria-hidden="true">PL</span> <span class="brand__name">Paper Ledger</span> </a> <nav class="site-nav" aria-label="Primary"> <a href="/Paper-Ledger/"> Latest </a><a href="/Paper-Ledger/hinges/"> Highlights </a><a href="/Paper-Ledger/themes/"> Themes </a><a href="/Paper-Ledger/dictionary/"> Dictionary </a><a href="/Paper-Ledger/tools/"> Tools </a><a href="/Paper-Ledger/about/"> About </a> </nav> </div> </header> <main class="shell">  <section class="section"> <div class="paper-grid"> <article class="paper-header"> <p class="eyebrow">Paper Summary</p> <h1>Surgical Robot Transformer (SRT): Imitation Learning for Surgical Tasks</h1> <div class="paper-meta"> <span>July 11, 2026</span> <span>2024</span> <span>arXiv</span> </div> <div class="prose"> <h2 id="summary">Summary</h2>
+<p>The da Vinci Research Kit has noisy and inconsistent forward kinematics, caused
+by imprecise joint measurements, mechanical flexibility and hysteresis. This
+makes a standard policy that predicts absolute end-effector poses unreliable:
+small kinematic errors can stop it from reaching the intended target.</p>
+<p>Kim and colleagues instead formulate actions as relative motion. Their
+best-performing hybrid representation describes translation relative to the
+fixed endoscope-tip frame and rotation relative to each tool frame. This reduces
+the effect of kinematic error while avoiding the need to infer all translations
+from a moving tool orientation.</p>
+<p>Using transformer action chunking and image-only inputs from endoscopic and
+wrist cameras, the authors test tissue lifting, needle pickup and handover, and
+knot tying. Relative-action policies succeeded where camera-centric,
+absolute-pose policies failed. Wrist cameras further improved performance on
+tasks requiring precise depth perception, and the system showed limited
+generalization to altered workspace settings and animal-tissue backgrounds.</p>
+<h2 id="why-this-matters">Why This Matters</h2>
+<p>Rather than waiting for perfectly calibrated kinematics, the paper adapts the
+learning problem to the data that surgical systems already produce. It is a
+useful example of a robust action representation turning an engineering
+limitation into a tractable learning problem.</p>
+<h2 id="caveats-and-limitations">Caveats and Limitations</h2>
+<ul>
+<li>The work remains preclinical and does not demonstrate safe autonomous surgery.</li>
+<li>Training and evaluation cover a small number of tasks with a single research platform.</li>
+<li>Generalization beyond the tested backgrounds and configurations is limited.</li>
+<li>Clinically deployable wrist cameras, human oversight and instruction following remain open problems.</li>
+</ul>
+<h2 id="key-takeaways">Key Takeaways</h2>
+<ul>
+<li>Approximate da Vinci kinematics can support imitation learning when actions are relative.</li>
+<li>Hybrid relative actions outperformed absolute, camera-centric pose prediction.</li>
+<li>Wrist-camera views improve fine manipulation and out-of-distribution performance.</li>
+<li>The approach could make large stores of recorded surgical demonstrations more useful for robot learning.</li>
+</ul>
+<h2 id="source">Source</h2>
+<ul>
+<li>DOI: <a href="https://doi.org/10.48550/arXiv.2407.12998">10.48550/arXiv.2407.12998</a></li>
+<li>URL: <a href="https://arxiv.org/html/2407.12998v1">https://arxiv.org/html/2407.12998v1</a></li>
+</ul> </div> </article> <aside class="meta-panel"> <h2>Paper Details</h2> <ul class="meta-list"> <li> <span class="meta-label">Authors</span> <span>Ji Woong Kim, Tony Z. Zhao, Samuel Schmidgall, Anton Deguet, Marin Kobilarov, Chelsea Finn, Axel Krieger</span> </li> <li> <span class="meta-label">Source</span> <a href="https://arxiv.org/html/2407.12998v1" target="_blank" rel="noreferrer"> arxiv.org </a> </li> <li> <span class="meta-label">DOI</span> <a href="https://doi.org/10.48550/arXiv.2407.12998" target="_blank" rel="noreferrer"> 10.48550/arXiv.2407.12998 </a> </li> </ul> </aside> </div> </section>  </main> <footer class="shell footer">
+Built for low-friction capture: drop a DOI or article URL into `inbox/` and let automation do the rest.
+</footer> </body></html>
