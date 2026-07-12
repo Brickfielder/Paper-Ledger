@@ -1,0 +1,50 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Health system learning enables generalist neuroimaging models | Paper Ledger</title><meta name="description" content="This study introduces NeuroVFM, a generalist neuroimaging foundation model trained with a self-supervised volumetric predictive objective on 5.24 million clinical MRI and CT volumes from routine care. The model learns a shared neuroanatomical representation across modalities and achieves strong results on diagnosis, cross-cohort transfer, radiology report generation and prospective triage, supporting health system learning as a route to clinical AI models grounded in real-world imaging."><link rel="stylesheet" href="/Paper-Ledger/_astro/about.BxMVzlZE.css"></head> <body> <header class="site-header"> <div class="shell site-header__row"> <a class="brand" href="/Paper-Ledger/"> <span class="brand__mark" aria-hidden="true">PL</span> <span class="brand__name">Paper Ledger</span> </a> <nav class="site-nav" aria-label="Primary"> <a href="/Paper-Ledger/"> Latest </a><a href="/Paper-Ledger/hinges/"> Highlights </a><a href="/Paper-Ledger/themes/"> Themes </a><a href="/Paper-Ledger/dictionary/"> Dictionary </a><a href="/Paper-Ledger/tools/"> Tools </a><a href="/Paper-Ledger/about/"> About </a> </nav> </div> </header> <main class="shell">  <section class="section"> <div class="paper-grid"> <article class="paper-header"> <p class="eyebrow">Paper Summary</p> <h1>Health system learning enables generalist neuroimaging models</h1> <div class="paper-meta"> <span>July 12, 2026</span> <span>2026</span> <span>Nature Medicine</span> </div> <div class="prose"> <h2 id="summary">Summary</h2>
+<p>The authors propose health system learning: training medical foundation models
+directly on the uncurated data generated during routine clinical care. Their
+demonstration model, NeuroVFM, uses Vol-JEPA, a self-supervised volumetric
+joint-embedding predictive architecture, to learn from 5.24 million three-
+dimensional MRI and CT volumes across 566,915 studies collected at Michigan
+Medicine over more than two decades.</p>
+<p>NeuroVFM learns a shared latent space for CT and MRI that captures brain
+anatomy, pathology and imaging variation without requiring voxel-level
+reconstruction or paired radiology reports during pretraining. On 156
+diagnostic tasks, it outperformed several health-system and internet-scale
+baselines and required fewer labelled positive examples to reach equivalent
+performance. The representation also transferred to external cohorts and
+cross-modality tasks, including Alzheimer disease classification and pathology
+retrieval.</p>
+<p>The model was then paired with an open-source language model to generate
+structured radiology findings. In blinded expert evaluation, NeuroVFM-generated
+reports had fewer key-finding errors, hallucinations and laterality errors than
+the tested frontier-model comparator. In a silent one-week prospective study of
+1,155 routine head, brain, face and neck scans, the NeuroVFM arm achieved higher
+balanced triage accuracy, although it still missed 21 of 155 patients with a
+critical finding.</p>
+<h2 id="why-this-matters">Why This Matters</h2>
+<p>Public web data contain little authentic clinical imaging, while real health
+systems hold large, heterogeneous streams of scans that reflect the full long
+tail of clinical practice. This work offers a concrete model for learning
+neuroanatomy and pathology from that environment and combining the resulting
+visual representations with general-purpose reasoning systems.</p>
+<h2 id="caveats-and-limitations">Caveats and Limitations</h2>
+<ul>
+<li>NeuroVFM is not FDA approved and should be treated as a research tool.</li>
+<li>Raw patient MRI and CT data are restricted by institutional and privacy agreements.</li>
+<li>The model may inherit biases from the training health system, cohort and objectives.</li>
+<li>The prospective triage system had 86.5% sensitivity for critical findings and is not an autonomous safety layer.</li>
+<li>Multicentre clinical validation, uncertainty estimation and impact on patient care remain open.</li>
+</ul>
+<h2 id="key-takeaways">Key Takeaways</h2>
+<ul>
+<li>Health system learning uses routine clinical imaging as foundation-model training data.</li>
+<li>NeuroVFM learns a shared, modality-agnostic neuroanatomical representation from MRI and CT.</li>
+<li>Large-scale self-supervised pretraining improved diagnosis, transfer and report-generation performance.</li>
+<li>Grounded visual modules may complement general-purpose language-model reasoning in clinical workflows.</li>
+</ul>
+<h2 id="source">Source</h2>
+<ul>
+<li>DOI: <a href="https://doi.org/10.1038/s41591-026-04497-1">10.1038/s41591-026-04497-1</a></li>
+<li>URL: <a href="https://www.nature.com/articles/s41591-026-04497-1">https://www.nature.com/articles/s41591-026-04497-1</a></li>
+</ul> </div> </article> <aside class="meta-panel"> <h2>Paper Details</h2> <ul class="meta-list"> <li> <span class="meta-label">Authors</span> <span>Akhil Kondepudi, Akshay Rao, Chenhui Zhao, Yiwei Lyu, Samir Harake, Soumyanil Banerjee, Jacob Ogle, Rushikesh Joshi, Anna-Katharina Meissner, Xinhai Hou, Cheng Jiang, Asadur Chowdury, Ashok Srinivasan, Brian Athey, Vikas Gulani, Aditya Pandey, Honglak Lee, Todd Hollon</span> </li> <li> <span class="meta-label">Source</span> <a href="https://www.nature.com/articles/s41591-026-04497-1" target="_blank" rel="noreferrer"> nature.com </a> </li> <li> <span class="meta-label">DOI</span> <a href="https://doi.org/10.1038/s41591-026-04497-1" target="_blank" rel="noreferrer"> 10.1038/s41591-026-04497-1 </a> </li> </ul> </aside> </div> </section>  </main> <footer class="shell footer">
+Built for low-friction capture: drop a DOI or article URL into `inbox/` and let automation do the rest.
+</footer> </body></html>
