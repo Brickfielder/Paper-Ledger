@@ -1,0 +1,43 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const basePath = import.meta.env.BASE_URL.endsWith("/")
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout
+  title="Conference notes | Paper Ledger"
+  description="Conference notes and presentation summaries from meetings attended."
+>
+  <section class="landing-intro">
+    <p class="eyebrow">Paper Ledger</p>
+    <h1 class="page-title">Conference notes</h1>
+    <p class="page-intro">
+      Searchable notes from talks, keynotes, and research presentations.
+    </p>
+  </section>
+
+  <section class="section conference-index" aria-label="Available conference notes">
+    <article class="conference-index__item">
+      <span class="conference-index__date">19–20 Jul<br />2026</span>
+      <div class="conference-index__body">
+        <h2>
+          <a href={`${basePath}conference-notes/nr-sig-wfnr-2026/`}>
+            23rd NR-SIG-WFNR Conference
+          </a>
+        </h2>
+        <p>
+          Belfast · 29 presentation summaries covering cognitive rehabilitation,
+          adjustment, communication, peer support, and clinical practice.
+        </p>
+        <span class="conference-index__meta">Searchable · Collapsible · Two conference days</span>
+      </div>
+      <a
+        class="conference-index__action"
+        href={`${basePath}conference-notes/nr-sig-wfnr-2026/`}
+        aria-label="Read notes from the 23rd NR-SIG-WFNR Conference"
+      >Read notes</a>
+    </article>
+  </section>
+</BaseLayout>

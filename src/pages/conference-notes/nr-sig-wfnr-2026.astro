@@ -1,0 +1,102 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import notesSource from "../../data/nr-sig-wfnr-2026-conference-notes.html?raw";
+
+const notesStart = notesSource.indexOf('<section class="day-section"');
+const notesEnd = notesSource.indexOf('<div class="empty-state"', notesStart);
+
+if (notesStart === -1 || notesEnd === -1) {
+  throw new Error("Could not find the conference day sections in the source notes.");
+}
+
+const notesMarkup = notesSource.slice(notesStart, notesEnd);
+---
+
+<BaseLayout
+  title="23rd NR-SIG-WFNR Conference Notes | Paper Ledger"
+  description="Searchable notes from the 23rd NR-SIG-WFNR meeting in Belfast."
+>
+  <article class="conference-notes">
+    <header class="conference-notes__hero">
+      <p class="eyebrow">23rd NR-SIG-WFNR Conference · Belfast</p>
+      <h1 class="page-title">Conference notes</h1>
+      <p class="page-intro">
+        Notes from presentations attended on 19–20 July 2026. Presenter names,
+        programme titles, and scheduled times have been reconciled against the
+        official conference programme.
+      </p>
+      <dl class="conference-notes__stats">
+        <div><dt>Presentations</dt><dd>29</dd></div>
+        <div><dt>Conference days</dt><dd>2</dd></div>
+        <div><dt>Format</dt><dd>Searchable notes</dd></div>
+      </dl>
+    </header>
+
+    <div class="conference-toolbar" role="search">
+      <label class="conference-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"></circle>
+          <path d="m20 20-3.7-3.7"></path>
+        </svg>
+        <input
+          id="searchInput"
+          type="search"
+          placeholder="Search speakers, topics, or notes"
+          aria-label="Search conference notes"
+        />
+      </label>
+      <button id="expandAll" type="button">Expand all</button>
+      <button id="collapseAll" type="button">Collapse all</button>
+    </div>
+
+    <p class="conference-notes__notice">
+      <strong>Editorial note.</strong> The substance of the downloaded notes has
+      been preserved. Explicit presenter-name errors and a small number of obvious
+      programme spellings were corrected, then entries were organised in programme order.
+    </p>
+
+    <div class="conference-days" set:html={notesMarkup} />
+    <p class="conference-empty" id="emptyState" hidden>No presentations match that search.</p>
+  </article>
+</BaseLayout>
+
+<script is:inline>
+  const notes = [...document.querySelectorAll(".note-card")];
+  const sections = [...document.querySelectorAll(".day-section")];
+  const input = document.getElementById("searchInput");
+  const empty = document.getElementById("emptyState");
+
+  const applySearch = () => {
+    const query = input.value.trim().toLowerCase();
+    let visible = 0;
+
+    for (const note of notes) {
+      const show = !query || note.dataset.search.includes(query);
+      note.hidden = !show;
+      if (show) visible += 1;
+    }
+
+    for (const section of sections) {
+      section.hidden = ![...section.querySelectorAll(".note-card")].some((note) => !note.hidden);
+    }
+
+    empty.hidden = visible !== 0;
+  };
+
+  input.addEventListener("input", applySearch);
+  document.getElementById("expandAll").addEventListener("click", () => {
+    notes.filter((note) => !note.hidden).forEach((note) => (note.open = true));
+  });
+  document.getElementById("collapseAll").addEventListener("click", () => {
+    notes.forEach((note) => (note.open = false));
+  });
+
+  let printState = [];
+  window.addEventListener("beforeprint", () => {
+    printState = notes.map((note) => note.open);
+    notes.forEach((note) => (note.open = true));
+  });
+  window.addEventListener("afterprint", () => {
+    notes.forEach((note, index) => (note.open = printState[index]));
+  });
+</script>
