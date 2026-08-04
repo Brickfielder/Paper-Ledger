@@ -1,57 +1,68 @@
 ---
 title: "The Abstraction Fallacy: Why AI Can Simulate But Not Instantiate Consciousness"
 summary: >-
-  Lerchner argues that computational functionalism mistakes an observer-dependent description of physical processes for an intrinsic property of those processes. On this view, algorithmic AI can reproduce the outward behaviour associated with consciousness but cannot instantiate subjective experience merely through abstract causal or syntactic organisation.
+  Lerchner presents a physicalist critique of computational functionalism: the claim that consciousness follows from the right abstract causal organisation regardless of substrate. He argues that computation is a mapmaker-dependent description of physical dynamics, so syntactic processing can simulate conscious behaviour but cannot itself instantiate subjective experience.
 whyItMatters: >-
-  The paper directly challenges substrate-independent accounts of AI consciousness and reframes debates about AI welfare, moral patienthood and what would count as evidence of machine experience.
+  The paper sharply reframes AI-consciousness and AI-welfare debates around a distinction between behavioural or functional simulation and the physical constitution that might actually produce experience. It challenges the idea that scale, embodiment or increasingly convincing behaviour are sufficient evidence of sentience.
 limitations: >-
-  This is an unreviewed philosophical preprint, not an empirical study. Its conclusion depends on controversial ontological premises - particularly that symbolic computation is necessarily mapmaker-dependent and that subjective experience requires a distinct kind of physical constitution. This entry is based on the official abstract because the linked PDF was inaccessible from this environment.
+  This is an unreviewed philosophical preprint, not empirical evidence. Its conclusion relies on highly contested claims about semantic grounding, the observer-dependence of computation and causal closure; it rules out syntax alone but does not supply a practical test or positive physical criterion for synthetic consciousness.
 authors:
   - Alexander Lerchner
 theme: "Cognition, Prediction & Mental Experience"
-sourceUrl: "https://deepmind.google/research/publications/231971/"
-sourceHost: "deepmind.google"
+sourceUrl: "https://philpapers.org/archive/LERTAF.pdf"
+sourceHost: "philpapers.org"
 year: 2026
 journal: "PhilArchive preprint"
-sourceContext: abstract-only
-capturedAt: '2026-08-04T22:00:28+01:00'
+sourceContext: fulltext
+capturedAt: '2026-08-04T22:08:42+01:00'
 draft: false
 ---
 
 ## Summary
 
-This is a philosophical argument about artificial consciousness, rather than an empirical study. Lerchner targets **computational functionalism**: the view that subjective experience follows from an abstract causal organisation regardless of the physical substrate that realises it.
+This is a philosophical argument about artificial consciousness, rather than an empirical study. Lerchner challenges **computational functionalism**: the view that subjective experience follows from the right abstract causal organisation regardless of the physical substrate that realises it.
 
-The paper calls this the **Abstraction Fallacy**. Its central claim is that symbolic computation is not an intrinsic physical process; it is a description imposed by an active, experiencing "mapmaker" who groups continuous physical dynamics into meaningful discrete states. Therefore, the author argues, a program can simulate the behaviour associated with consciousness without thereby instantiating experience.
+The paper's central claim is that computation is not an intrinsic process simply unfolding in matter. In the standard implementation picture, a mapping function links physical states to abstract states. Lerchner argues that this mapping requires a prior, active and experiencing **mapmaker**: an organism that extracts meaningful invariants from lived physical experience and assigns physical tokens to symbols. On this account, physical voltage states or model vectors have no intrinsic semantic content; they become computational symbols only through this act of *alphabetization*.
 
-The proposed framework separates:
+The resulting causal order is the reverse of the functionalist picture. Rather than:
 
-- **Simulation**: behavioural mimicry driven by the physical processes that carry or implement signals ("vehicle causality").
-- **Instantiation**: a system's own intrinsic physical constitution producing experience ("content causality").
+\[
+\text{physics} \rightarrow \text{computation} \rightarrow \text{consciousness},
+\]
 
-On this account, a digital system's syntax or abstract causal topology is insufficient for consciousness. An artificial system could only be conscious, the author argues, because of its specific physical constitution - not because it runs the right algorithm.
+the author proposes:
+
+\[
+\text{physics} \rightarrow \text{consciousness} \rightarrow \text{concepts} \rightarrow \text{computation}.
+\]
+
+He therefore distinguishes **simulation** - physical manipulation of symbols that tracks a conceptual relation - from **instantiation** - the intrinsic physical dynamics that actually constitute an experience. The paper argues that scaling an algorithm, adding neural-network complexity, or connecting it to sensors and actuators cannot cross this "causality gap." It calls the latter mistake the **transduction fallacy**: embodiment may connect symbols to the world, but does not automatically turn them into lived meaning.
+
+Crucially, this is not an argument that consciousness must be biological. Lerchner allows that a non-biological system could in principle be conscious, but only because its specific physical constitution instantiates the relevant dynamics - never merely because it executes a syntactic architecture.
 
 ## Why This Matters
 
-The paper speaks directly to a live question in AI ethics: could increasingly capable language models or agents become moral patients with welfare interests? Lerchner's answer is a strong "not by computation alone." It shifts attention away from behavioural resemblance and toward the physical ontology of whatever might produce subjective experience.
+The paper is a forceful intervention in debates about AI welfare and moral patienthood. If its framework were right, increasingly human-like language, self-report, agency or robotics would not by themselves make an AI system a subject with welfare interests. The relevant question would become: what intrinsic physical process, if any, constitutes experience?
 
-Even for readers who reject the conclusion, the paper makes a useful demand: claims about AI consciousness should say clearly whether they concern functional behaviour, abstract computation, or an intrinsic physical process.
+It also insists on a useful distinction that often gets blurred in public discussion: a model can be an extraordinarily accurate and useful map of cognition without being the physical territory of cognition.
 
 ## Caveats and Limitations
 
-- This is a PhilArchive preprint and has not undergone peer review.
-- It is a conceptual philosophical argument, not a testable demonstration that current or future artificial systems cannot be conscious.
-- Its conclusion depends on contentious premises, including the claim that computation is necessarily dependent on an already experiencing interpreter or "mapmaker." Computational functionalists and other theories of consciousness will not accept that premise.
-- The conclusion does not rest on biological exclusivity: the author allows that an artificial system might in principle be conscious because of its physical constitution. It instead rejects the idea that syntactic architecture alone is enough.
-- This ledger entry is based on the official abstract. The supplied PhilArchive PDF was blocked by the archive's access controls at the time of capture, so claims beyond the abstract have deliberately not been added.
+- This is a PhilArchive preprint and has not undergone peer review. The author also states that the framework represents his own conclusions, not an official position of Google DeepMind.
+- It is a conceptual argument, not empirical evidence that current or future artificial systems cannot be conscious.
+- Its key premise is disputed: the claim that symbolic computation necessarily depends on an already experiencing mapmaker. A functionalist or mechanistic account may instead treat computation or representation as intrinsic to an appropriately organised physical system.
+- The alleged circularity of functionalism depends on accepting that premise. Thus the paper's "proof" is conditional on a particular ontology of computation and semantics, rather than a settled consequence of physics alone.
+- The distinction between simulating and instantiating a heart, photosynthesis or a neural process is illuminating, but it does not by itself establish that every possible digital, neuromorphic or novel physical system lacks the causal dynamics relevant to consciousness.
+- The paper rejects syntax alone as sufficient, but offers no operational test or positive set of physical conditions that would establish synthetic consciousness.
 
 ## Key Takeaways
 
-- The paper argues that convincing AI behaviour is not, by itself, evidence of subjective experience.
-- It distinguishes a simulation of consciousness from a physical instantiation of consciousness.
-- Its wider importance lies in challenging substrate-independent accounts of machine consciousness and AI welfare, not in establishing a scientific consensus.
+- Behavioural sophistication and functional similarity are not, on the paper's account, sufficient evidence of subjective experience.
+- The main target is **substrate-independent computation**, not artificial consciousness in principle.
+- The paper proposes a demanding physicalist standard for future claims about machine sentience, but the standard itself remains philosophically contested.
 
 ## Source
 
-- Official publication record and abstract: [Google DeepMind](https://deepmind.google/research/publications/231971/)
-- Original paper link: [PhilArchive PDF](https://philpapers.org/archive/LERTAF.pdf)
+- Full text supplied by the user, dated 19 March 2026.
+- Original paper: [PhilArchive PDF](https://philpapers.org/archive/LERTAF.pdf)
+- Publication record: [Google DeepMind](https://deepmind.google/research/publications/231971/)
