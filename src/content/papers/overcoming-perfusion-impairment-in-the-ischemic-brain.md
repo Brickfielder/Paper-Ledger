@@ -5,7 +5,7 @@ summary: >-
 whyItMatters: >-
   Uniform delivery of fixative or other preservation solutions is a prerequisite for preserving the ultrastructure needed to reconstruct neural circuits. This review turns a diffuse practical problem into a testable framework: candidate protocols should be judged not only by aggregate flow or vessel filling, but by regional distribution and whether the intervention preserves the cellular architecture that connectomics needs.
 limitations: >-
-  This is an unreviewed Preprints.org version 1 and a narrative review, not a systematic review or a controlled brain-banking study. Much of the evidence comes from animal cardiac-arrest models, other organs, embolming practice or clinical resuscitation rather than ex-vivo human brains evaluated for connectomic quality. Most proposed interventions have not been directly tested for the combination of capillary delivery and ultrastructural preservation. The authors also declare professional roles in brain-preservation, biostasis and tissue-preservation organisations.
+  This is an unreviewed Preprints.org version 1 and a narrative review, not a systematic review or a controlled brain-banking study. Much of the evidence comes from animal cardiac-arrest models, other organs, embalming practice or clinical resuscitation rather than ex-vivo human brains evaluated for connectomic quality. Most proposed interventions have not been directly tested for the combination of capillary delivery and ultrastructural preservation. The authors also declare professional roles in brain-preservation, biostasis and tissue-preservation organisations.
 authors:
   - Andrew T. McKenzie
   - Aschwin de Wolf
