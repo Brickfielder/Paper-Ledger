@@ -1,5 +1,7 @@
 name: Deploy site
 
+# Deployment retriggered after the GitHub Actions incident of 2026-08-06.
+
 on:
   push:
     branches:
