@@ -51,7 +51,7 @@ const highlightPapers = highlightEntries
 
 const basePath = import.meta.env.BASE_URL.endsWith("/")
   ? import.meta.env.BASE_URL
-  : `${basePath}/`;
+  : `${import.meta.env.BASE_URL}/`;
 ---
 
 <BaseLayout
