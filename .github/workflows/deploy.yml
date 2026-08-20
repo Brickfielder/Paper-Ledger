@@ -1,6 +1,7 @@
 name: Deploy site
 
 # Deployment retriggered after the GitHub Actions incident of 2026-08-06.
+# Last manually retriggered on 2026-08-20 after inbox publishing.
 
 on:
   push:
