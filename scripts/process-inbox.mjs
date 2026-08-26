@@ -1,3 +1,4 @@
+// Paper inbox processor.
 import fs from "node:fs/promises";
 import path from "node:path";
 import zlib from "node:zlib";
