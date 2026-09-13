@@ -1,0 +1,97 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import notesSource from "../../data/post-cardiac-arrest-care-2026-notes.html?raw";
+
+---
+
+<BaseLayout
+  title="Post Cardiac Arrest Care 2026 Notes | Paper Ledger"
+  description="Notes from the 6th International Symposium on Post Cardiac Arrest Care, Lund, 10–11 September 2026."
+>
+  <article class="conference-notes">
+    <header class="conference-notes__hero">
+      <p class="eyebrow">6th International Symposium on Post Cardiac Arrest Care · Lund</p>
+      <h1 class="page-title">Conference notes</h1>
+      <p class="page-intro">
+        Notes taken on 10–11 September 2026 at Skåne University Hospital, Lund, Sweden.
+        The programme names the event “Post Cardiac Arrest Care 2026” and gives
+        the overall dates as 9–11 September; these notes cover the two main programme days.
+      </p>
+      <dl class="conference-notes__stats">
+        <div><dt>Notes</dt><dd>12</dd></div>
+        <div><dt>Conference days</dt><dd>2</dd></div>
+        <div><dt>Format</dt><dd>Searchable notes</dd></div>
+      </dl>
+    </header>
+
+    <div class="conference-toolbar" role="search">
+      <label class="conference-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"></circle>
+          <path d="m20 20-3.7-3.7"></path>
+        </svg>
+        <input
+          id="searchInput"
+          type="search"
+          placeholder="Search speakers, topics, or notes"
+          aria-label="Search conference notes"
+        />
+      </label>
+      <button id="expandAll" type="button">Expand all</button>
+      <button id="collapseAll" type="button">Collapse all</button>
+    </div>
+
+    <p class="conference-notes__notice">
+      <strong>About these notes.</strong> Personal presentation summaries, with the original
+      wording and uncertainties retained; findings and clinical suggestions are reported
+      from the talks and have not been independently verified. Entries are ordered by
+      their recorded timestamps, which are not confirmed session times. The supplied
+      programme does not resolve every title or speaker attribution; specific discrepancies
+      are flagged within the relevant notes. These are selected notes, not complete proceedings.
+    </p>
+
+    <div class="conference-days" set:html={notesSource} />
+    <p class="conference-empty" id="emptyState" hidden>No presentations match that search.</p>
+  </article>
+</BaseLayout>
+
+<script is:inline>
+  const notes = [...document.querySelectorAll(".note-card")];
+  const sections = [...document.querySelectorAll(".day-section")];
+  const input = document.getElementById("searchInput");
+  const empty = document.getElementById("emptyState");
+
+  const applySearch = () => {
+    const query = input.value.trim().toLowerCase();
+    let visible = 0;
+
+    for (const note of notes) {
+      const show = !query || note.dataset.search.includes(query);
+      note.hidden = !show;
+      if (show) visible += 1;
+    }
+
+    for (const section of sections) {
+      section.hidden = ![...section.querySelectorAll(".note-card")].some((note) => !note.hidden);
+    }
+
+    empty.hidden = visible !== 0;
+  };
+
+  input.addEventListener("input", applySearch);
+  document.getElementById("expandAll").addEventListener("click", () => {
+    notes.filter((note) => !note.hidden).forEach((note) => (note.open = true));
+  });
+  document.getElementById("collapseAll").addEventListener("click", () => {
+    notes.forEach((note) => (note.open = false));
+  });
+
+  let printState = [];
+  window.addEventListener("beforeprint", () => {
+    printState = notes.map((note) => note.open);
+    notes.forEach((note) => (note.open = true));
+  });
+  window.addEventListener("afterprint", () => {
+    notes.forEach((note, index) => (note.open = printState[index]));
+  });
+</script>
