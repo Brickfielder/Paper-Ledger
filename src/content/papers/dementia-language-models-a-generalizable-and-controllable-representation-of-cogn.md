@@ -57,7 +57,7 @@ sourceHost: doi.org
 doi: 10.64898/2026.09.16.752129
 year: 2026
 journal: bioRxiv (Cold Spring Harbor Laboratory)
-sourceContext: full-text PDF
+sourceContext: fulltext
 capturedAt: '2026-09-27T12:41:17.209Z'
 draft: false
 ---
