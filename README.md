@@ -13,6 +13,12 @@ Paper Ledger is a small, portable research blog that turns DOI or URL captures i
 
 Each paper note includes the DOI when one exists, or the source URL otherwise.
 
+## Conference summaries from Thread
+
+Thread uploads reviewed summaries to `src/data/thread-conferences/<slug>.json` through GitHub's Contents API. The existing Pages workflow publishes them at `conference-notes/from-thread/<slug>/` and adds them to the Conference Notes index. Existing manually authored conference pages remain available.
+
+Version 1 files contain the conference name, dates, location, introduction, programme URL and a list of notes with stable IDs, title, summary, speaker, day, time, session and any attribution uncertainty. The build validates the format and rejects extra fields, duplicate IDs and mismatched filenames. Summary text is escaped before display. Audio and transcripts are not accepted. `public/thread-conference-upload.json` advertises support to the app.
+
 ## Local setup
 
 1. Install dependencies:

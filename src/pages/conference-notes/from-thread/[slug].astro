@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { threadConferences } from '../../../lib/thread-conferences';
+
+export function getStaticPaths() {
+  return threadConferences.map((conference) => ({ params: { slug: conference.slug }, props: { conference } }));
+}
+const { conference } = Astro.props;
+const days = [...new Set(conference.notes.map((note) => note.day || 'Date not confirmed'))];
+---
+<BaseLayout title={`${conference.name} notes | Paper Ledger`} description={conference.description}>
+  <article class="conference-notes">
+    <header class="conference-notes__hero">
+      <p class="eyebrow">{conference.name}{conference.location && ` · ${conference.location}`}</p>
+      <h1 class="page-title">Conference notes</h1>
+      <p class="page-intro">{conference.description}</p>
+      {conference.dates && <p>{conference.dates}</p>}
+      <dl class="conference-notes__stats">
+        <div><dt>Notes</dt><dd>{conference.notes.length}</dd></div>
+        <div><dt>Format</dt><dd>Selected summaries</dd></div>
+      </dl>
+      {conference.programme_url && <p><a href={conference.programme_url} target="_blank" rel="noopener noreferrer">Conference programme</a></p>}
+    </header>
+    <div class="conference-toolbar" role="search">
+      <label class="conference-search">
+        <input id="searchInput" type="search" placeholder="Search speakers, topics, or notes" aria-label="Search conference notes" />
+      </label>
+      <button id="expandAll" type="button">Expand all</button>
+      <button id="collapseAll" type="button">Collapse all</button>
+    </div>
+    <p class="conference-notes__notice">
+      <strong>About these notes.</strong> Selected presentation summaries uploaded from Thread and reviewed before publication.
+      These are personal notes, not complete proceedings. Findings and suggestions are reported from the talks and have not been independently verified.
+      Programme details that remain uncertain are flagged within each note.
+    </p>
+    <div class="conference-days">
+      {days.map((day) => <section class="day-section">
+        <div class="day-heading"><h2>{day}</h2><span>{conference.notes.filter((note) => (note.day || 'Date not confirmed') === day).length} {conference.notes.filter((note) => (note.day || 'Date not confirmed') === day).length === 1 ? 'note' : 'notes'}</span></div>
+        <div class="notes-list">
+          {conference.notes.filter((note) => (note.day || 'Date not confirmed') === day).map((note) =>
+            <details class="note-card" data-search={[note.title, note.summary, note.speaker, note.session, note.verification_note].join(' ').toLowerCase()}>
+              <summary>
+                <span class="time-pill">{note.time || '—'}</span>
+                <span class="summary-main">
+                  {note.speaker && <span class="speaker">{note.speaker}</span>}
+                  <span class="talk-title">{note.title}</span>
+                  {note.session && <span class="summary-meta">{note.session}</span>}
+                </span>
+                <span class="chevron" aria-hidden="true"></span>
+              </summary>
+              <div class="note-content">
+                {note.verification_note && <p class="attribution"><strong>Programme attribution:</strong> {note.verification_note}</p>}
+                <div class="uploaded-summary">{note.summary}</div>
+              </div>
+            </details>)}
+        </div>
+      </section>)}
+    </div>
+    <p class="conference-empty" id="emptyState" hidden>No presentations match that search.</p>
+  </article>
+</BaseLayout>
+<style>
+  .uploaded-summary { white-space: pre-wrap; overflow-wrap: anywhere; }
+</style>
+<script is:inline>
+  const notes = [...document.querySelectorAll('.note-card')];
+  const sections = [...document.querySelectorAll('.day-section')];
+  const input = document.getElementById('searchInput');
+  const empty = document.getElementById('emptyState');
+  input.addEventListener('input', () => {
+    const query = input.value.trim().toLowerCase();
+    notes.forEach((note) => { note.hidden = !!query && !note.dataset.search.includes(query); });
+    sections.forEach((section) => { section.hidden = ![...section.querySelectorAll('.note-card')].some((note) => !note.hidden); });
+    empty.hidden = notes.some((note) => !note.hidden);
+  });
+  document.getElementById('expandAll').addEventListener('click', () => { notes.filter((note) => !note.hidden).forEach((note) => { note.open = true; }); });
+  document.getElementById('collapseAll').addEventListener('click', () => { notes.forEach((note) => { note.open = false; }); });
+  let printState = [];
+  window.addEventListener('beforeprint', () => { printState = notes.map((note) => note.open); notes.forEach((note) => { note.open = true; }); });
+  window.addEventListener('afterprint', () => { notes.forEach((note, index) => { note.open = printState[index]; }); });
+</script>
