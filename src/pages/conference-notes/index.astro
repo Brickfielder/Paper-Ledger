@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { threadConferences } from "../../lib/thread-conferences";
 
 const basePath = import.meta.env.BASE_URL.endsWith("/")
   ? import.meta.env.BASE_URL
@@ -19,6 +20,15 @@ const basePath = import.meta.env.BASE_URL.endsWith("/")
   </section>
 
   <section class="section conference-index" aria-label="Available conference notes">
+    {threadConferences.map((conference) => <article class="conference-index__item">
+      <span class="conference-index__date">{conference.dates || 'Dates not confirmed'}</span>
+      <div class="conference-index__body">
+        <h2><a href={`${basePath}conference-notes/from-thread/${conference.slug}/`}>{conference.name}</a></h2>
+        <p>{conference.location && `${conference.location} · `}{conference.notes.length} selected presentation summaries.</p>
+        <span class="conference-index__meta">Searchable · Collapsible · Uploaded from Thread</span>
+      </div>
+      <a class="conference-index__action" href={`${basePath}conference-notes/from-thread/${conference.slug}/`} aria-label={`Read notes from ${conference.name}`}>Read notes</a>
+    </article>)}
     <article class="conference-index__item">
       <span class="conference-index__date">18–19 Sep<br />2026</span>
       <div class="conference-index__body">
