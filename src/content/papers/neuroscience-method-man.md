@@ -2,25 +2,24 @@
 title: "Neuroscience: Method man"
 summary: >-
   Kerri Smith's Nature News Feature profiles Stanford neuroscientist Karl
-  Deisseroth and his role in developing experimental methods that have changed
-  how researchers investigate the brain. The publisher describes the feature as
-  tracing how Deisseroth has made his mark on brain science “one technique at a
-  time”; its cited work includes foundational optogenetics research. This is a
-  profile of a scientist and a methods-driven research programme, rather than a
-  report of a single new experiment.
+  Deisseroth and the development of optogenetics and CLARITY. It explains how
+  these tools let researchers manipulate selected neurons with light and make
+  brain tissue transparent for molecular and cellular imaging, and describes
+  early applications and the collaborative work behind them.
 whyItMatters: >-
-  The feature is a useful historical pointer to the methodological shift
-  represented by optogenetics: researchers could use light-sensitive proteins
-  to manipulate selected neurons and test their causal contribution to circuit
-  activity and behaviour. It also highlights the influence that new tools can
-  have on the questions neuroscience can ask.
+  The feature shows how new methods can change what neuroscience can ask.
+  Optogenetics joined targeted neural perturbation with recording in behaving
+  animals, while CLARITY made it possible to inspect labelled structures through
+  intact brain tissue. These tools helped researchers move from observing
+  activity toward testing circuit function and mapping tissue in three
+  dimensions.
 limitations: >-
-  This is a short journalistic News Feature, not a primary research paper,
-  systematic review, or technical protocol. The accessible publisher record
-  provides the title, description, and references but not the full article text;
-  this note is therefore a concise contextual summary and does not claim to
-  represent all details of the feature. Published in 2013, it is a historical
-  snapshot of the field.
+  This is a journalistic News Feature, not a primary research paper, systematic
+  review, or technical protocol. Its examples describe early-stage work as of
+  2013 and should not be read as evidence of clinical efficacy. The autism
+  example is a single-brain illustration reported in the feature, not a basis
+  for general conclusions about autism. Later developments are outside its
+  scope.
 authors:
   - Kerri Smith
 theme: "Neurotechnology, Intervention & Preservation"
@@ -29,32 +28,37 @@ sourceHost: "nature.com"
 doi: "10.1038/497550a"
 year: 2013
 journal: Nature
-sourceContext: metadata-only
-capturedAt: "2026-10-06T11:00:00+01:00"
+sourceContext: fulltext
+capturedAt: "2026-10-07T00:00:00Z"
 draft: false
 ---
 
 ## Summary
 
-Nature's News Feature profiles Karl Deisseroth and his contribution to methods that opened new ways of studying the brain. Its subtitle describes his influence as leaving a mark on brain science “one technique at a time.” The reference list includes the early optogenetics work by Boyden and colleagues, as well as studies applying targeted methods to neural circuits and behaviour.
+Nature's News Feature profiles Karl Deisseroth and the methods work that helped transform experimental neuroscience. It covers two approaches: optogenetics, which gives researchers light-based control over selected cells, and CLARITY, which makes tissue transparent while retaining many proteins and other molecules for imaging.
 
-Optogenetics uses genetically targeted, light-sensitive proteins to control the activity of selected cells. This gave researchers a way to perturb defined neural populations and test their causal role, complementing observational recording methods. The feature places Deisseroth's work in this broader methods-led transformation of neuroscience.
+In optogenetics, researchers introduce genes for light-sensitive opsins into selected neurons, often using viruses. An optical fibre delivers light to activate or inhibit those cells, while an electrode can record neural firing; experiments can then relate targeted activity to behaviour. The feature describes applications including studies of fear memories, anxiety-related circuits, depression-like symptoms, and cocaine-seeking in rats.
+
+CLARITY embeds tissue in a hydrogel scaffold and uses detergent to remove light-scattering lipids. The resulting transparent tissue can be stained, imaged in three dimensions, and washed for additional rounds of labelling. The article recounts an early example involving tissue from one child with autism and reports patterns compared with a typical sample; this is an illustrative case, not evidence for a general autism signature.
 
 ## Why This Matters
 
-New experimental tools can reshape a field by making previously inaccessible questions testable. Optogenetics helped move circuit neuroscience toward cell-type-specific perturbations in behaving animals, linking targeted neural activity to behavioural outcomes. This article offers a historical entry point to that change and to Deisseroth's role in it.
+The feature illustrates how tools can open new kinds of questions. Optogenetics paired cell-specific control with recording, helping researchers test whether particular neurons contribute causally to a behaviour. CLARITY offered a way to see labelled cells and structures across larger volumes of intact tissue.
+
+The article also describes the collaborative and practical work behind methods development, including contributions from Kwanghun Chung to CLARITY and efforts to make techniques accessible to other laboratories. Its historical perspective is useful for understanding how methods, teams, and access to tools shape a research field.
 
 ## Caveats and Limitations
 
-- This is a journalistic News Feature, not an empirical study or systematic review.
-- The full feature text was not available in the accessible publisher record used for this entry; the description and bibliographic references support only a concise contextual summary.
-- The article dates from 2013, so it should be read as a historical profile rather than a current account of optogenetics or Deisseroth's later work.
+- This is a journalistic profile, not a primary study, systematic review, or protocol.
+- The research examples and outlook reflect the state of the field in 2013; they do not establish present-day consensus or clinical benefit.
+- Findings from the single autism tissue example described in the feature must not be generalized to autistic people.
+- The feature notes that interpreting large neural circuits remains difficult, even when researchers can manipulate or image them.
 
 ## Key Takeaways
 
-- The feature profiles Karl Deisseroth and his methods-focused influence on neuroscience.
-- Optogenetics enabled targeted manipulation of neural activity, supporting causal circuit experiments.
-- The article is a historical news feature, not a primary research paper.
+- Optogenetics uses genetically targeted light-sensitive proteins to control selected neurons and test their roles in circuit activity and behaviour.
+- CLARITY combines a hydrogel scaffold with lipid removal to enable repeated labelling and three-dimensional imaging of transparent tissue.
+- Both methods emerged through collaborative tool-building and expanded experimental possibilities, while leaving substantial interpretation challenges.
 
 ## Source
 
