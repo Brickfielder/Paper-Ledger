@@ -48,11 +48,13 @@ limitations: >-
 authors:
   - Yiwen Song
   - Yale Song
-  - Tomas Pster
+  - Tomas Pfister
   - Jinsung Yoon
 sourceUrl: 'https://arxiv.org/pdf/2604.05018'
 sourceHost: arxiv.org
-year: 2024
+doi: 10.48550/arXiv.2604.05018
+year: 2026
+journal: arXiv preprint
 sourceContext: fulltext
 capturedAt: '2026-11-17T10:51:50.958Z'
 draft: false
@@ -70,4 +72,5 @@ The evidence is based on a benchmark built from accepted AI papers, so it may no
 - PaperWritingBench is introduced as a benchmark built from 200 accepted AI conference papers.
 - Human evaluations reportedly prefer Paper Orchestra over autonomous baselines on review quality and overall manuscript quality.
 ## Source
+- DOI: [10.48550/arXiv.2604.05018](https://doi.org/10.48550/arXiv.2604.05018)
 - URL: [https://arxiv.org/pdf/2604.05018](https://arxiv.org/pdf/2604.05018)
