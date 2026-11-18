@@ -41,6 +41,7 @@ limitations: >-
   The study also focuses on harness optimization, so it does not show that the
   same approach will help every kind of continual adaptation problem.
 authors:
+  - Xin Yu
   - Fei Xia
   - Jiaqi Pan
   - Youbao Tang
