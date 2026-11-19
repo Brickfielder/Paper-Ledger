@@ -1,5 +1,5 @@
 ---
-title: Brain-IT: Image Reconstruction from fMRI via Brain-Interaction Transformer
+title: "Brain-IT: Image Reconstruction from fMRI via Brain-Interaction Transformer"
 summary: >-
   This paper studies how to reconstruct images that people viewed from their
   fMRI brain activity. The authors argue that recent diffusion-based
