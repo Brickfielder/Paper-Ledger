@@ -1,5 +1,5 @@
 ---
-title: Image Reconstruction from fmri via Brain-Interaction Transformer
+title: Brain-IT: Image Reconstruction from fMRI via Brain-Interaction Transformer
 summary: >-
   This paper studies how to reconstruct images that people viewed from their
   fMRI brain activity. The authors argue that recent diffusion-based
@@ -50,7 +50,7 @@ authors:
   - Michal Irani
 sourceUrl: 'https://arxiv.org/html/2510.25976'
 sourceHost: arxiv.org
-year: 2024
+year: 2025
 sourceContext: fulltext
 capturedAt: '2026-11-19T12:37:36.984Z'
 draft: false
