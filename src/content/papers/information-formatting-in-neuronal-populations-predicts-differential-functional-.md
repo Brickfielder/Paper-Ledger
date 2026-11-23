@@ -51,7 +51,7 @@ authors:
 sourceUrl: 'https://www.nature.com/articles/s41593-026-02514-7'
 sourceHost: nature.com
 doi: 10.1038/s41593-026-02514-7
-year: 2024
+year: 2026
 journal: Nature Neuroscience
 sourceContext: fulltext
 capturedAt: '2026-11-23T22:14:00.464Z'
